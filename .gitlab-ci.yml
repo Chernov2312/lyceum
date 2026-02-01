@@ -1,11 +1,9 @@
 image: Python:3.13.9
 
-stages:
-  - lint
+variables:
+  BUILD_ARM64: 1
 
-flake8:
-  stages: lint
-  image: registry.gitlab.com/pipeline-components/flake8:latest
-  scripts:
-    - pip install pep8-naming
-    - flake8 --verbose
+include:
+  - project: 'pipeline-components/org/config'
+    ref: v2.1.0
+    file: pipeline.yml
