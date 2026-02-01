@@ -17,3 +17,6 @@ tzdata==2025.3"""
 
 with open('requirements.txt', 'w') as f:
     f.write(s)
+    
+with open('requirements.txt') as f:
+    print(f.read())
