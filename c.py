@@ -1,0 +1,19 @@
+s = """asgiref==3.11.0
+black==26.1.0
+click==8.3.1
+colorama==0.4.6
+Django==5.2.10
+flake8==7.3.0
+mccabe==0.7.0
+mypy_extensions==1.1.0
+packaging==26.0
+pathspec==1.0.4
+platformdirs==4.5.1
+pycodestyle==2.14.0
+pyflakes==3.4.0
+pytokens==0.4.1
+sqlparse==0.5.5
+tzdata==2025.3"""
+
+with open('requirements.txt', 'w') as f:
+    f.write(s)
