@@ -4,8 +4,8 @@ stages:
   - lint
 
 flake8:
-  stages: lint
+  stage: lint
   image: registry.gitlab.com/pipeline-components/flake8:latest
-  scripts:
+  script:
     - pip install pep8-naming
     - flake8 --verbose
