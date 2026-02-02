@@ -9,4 +9,9 @@ flake8:
   script:
     - pip install flake8 flake8-quotes pep8-naming flake8-import-order flake8-bugbear black
     - flake8 --verbose
+
+black:
+  stage: lint
+  script:
+    - pip install black
     - black -l 79 --skip-string-normalization ./ --check  --diff
