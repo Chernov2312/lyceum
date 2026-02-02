@@ -7,5 +7,11 @@ flake8:
   stage: lint
   image: registry.gitlab.com/pipeline-components/flake8:latest
   script:
-    - pip install pep8-naming
+    - pip install flake8 flake8-quotes pep8-naming flake8-import-order flake8-bugbear
     - flake8 --verbose
+
+black:
+  stage: lint
+  script:
+    - pip install black
+    - black --check --diff .
