@@ -12,6 +12,7 @@ flake8:
 
 black:
   stage: lint
+  image: Python:3.13.9
   script:
     - pip install black
     - black --check --diff .
