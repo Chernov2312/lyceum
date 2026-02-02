@@ -9,10 +9,5 @@ flake8:
   script:
     - pip install flake8 flake8-quotes pep8-naming flake8-import-order flake8-bugbear
     - flake8 --verbose
-
-black:
-  stage: lint
-  image: Python:3.13.9
-  script:
     - pip install black
     - black --check --diff .
