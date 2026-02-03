@@ -1,19 +1,19 @@
 # Hello tutors!
 ## Lyceum Project
-## Pipeline
+### Pipeline
 https://gitlab.crja72.ru/django/2026/spring/course/students/173126-m.chernov.tchernov-course-1585/-/pipelines
 [![flake8 & black](https://gitlab.crja72.ru/django/2026/spring/course/students/173126-m.chernov.tchernov-course-1585/badges/main/pipeline.svg)](https://gitlab.crja72.ru/django/2026/spring/course/students/173126-m.chernov.tchernov-course-1585/-/pipelines)
 
-## Это учебный проект для специализации по django 
-## Необходимое ПО
+### Это учебный проект для специализации по django 
+### Необходимое ПО
 + Python 3.13
 + git
 
-## Скопировать git репозиторий
+### Скопировать git репозиторий
 ```bash
 git clone https://gitlab.crja72.ru/django/2026/spring/course/students/173126-m.chernov.tchernov-course-1585
 ```
-## Создание виртуального окружения
+### Создание виртуального окружения
 + Linux/macOS
 
 ```bash
@@ -25,7 +25,7 @@ python3 -m venv venv
 python -m venv venv
 ```
 
-## Активация
+### Активация
 + Linux/macOS
 
 ```bash
@@ -37,13 +37,13 @@ source venv/bin/activate
 venv\Scripts\activate
 ```
 
-## Скачивание библиотек
+### Скачивание библиотек
 ```bash
 pip install -r requirements/dev.txt
 pip install -r requirements/prod.txt
 pip install -r requirements/test.txt
 ```
-## Работа с .env
+### Работа с .env
 + Linux/macOS
 ```bash
 cp .env.example .env
@@ -55,7 +55,7 @@ copy .env.example .env
 ```
 Копирование из .env.example примера в .env
 
-## Запуск приложения в dev режиме
+### Запуск приложения в dev режиме
 Переходим в папку, в которой есть manage.py и запускаем
 ```bash
 cd lyceum
@@ -69,5 +69,5 @@ python3 manage.py runserver
 python manage.py runserver
 ```
 
-## Ссылка где доступен сайт
+### Ссылка где доступен сайт
 + http://127.0.0.1:8000/
