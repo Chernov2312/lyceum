@@ -30,8 +30,6 @@ env/
 *.swo
 *~
 
-
-*.sqlite3
 *.log
 media/
 staticfiles/
@@ -40,5 +38,9 @@ staticfiles/
 .env.local
 
 .DS_Store
-Thumbs.db
 EOF
+
+*.db
+*.sqlite3
+*.db3
+!*example_db.sqlite3
