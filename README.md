@@ -1,8 +1,18 @@
 # Hello tutors!
+# Lyceum Project
 # Pipeline
 https://gitlab.crja72.ru/django/2026/spring/course/students/173126-m.chernov.tchernov-course-1585/-/pipelines
-[![Pipeline Status](https://gitlab.crja72.ru/django/2026/spring/course/students/173126-m.chernov.tchernov-course-1585/badges/main/pipeline.svg)](https://gitlab.crja72.ru/django/2026/spring/course/students/173126-m.chernov.tchernov-course-1585/-/pipelines)
+[![flake8 & black](https://gitlab.crja72.ru/django/2026/spring/course/students/173126-m.chernov.tchernov-course-1585/badges/main/pipeline.svg)](https://gitlab.crja72.ru/django/2026/spring/course/students/173126-m.chernov.tchernov-course-1585/-/pipelines)
 
+# Это учебный проект для специализации по django 
+# Необходимое ПО
++ Python 3.13
++ git
+
+# Скопировать git репозиторий
+```bash
+git clone https://gitlab.crja72.ru/django/2026/spring/course/students/173126-m.chernov.tchernov-course-1585
+```
 # Создание виртуального окружения
 + Linux/macOS
 
@@ -47,6 +57,9 @@ copy .env.example .env
 
 # Запуск приложения в dev режиме
 Переходим в папку, в которой есть manage.py и запускаем
+```bash
+cd lyceum
+```
 + Linux/macOS
 ```bash
 python3 manage.py runserver
@@ -55,3 +68,6 @@ python3 manage.py runserver
 ```bash
 python manage.py runserver
 ```
+
+# Ссылка где доступен сайт
++ http://127.0.0.1:8000/
