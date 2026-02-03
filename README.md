@@ -1,3 +1,4 @@
+# Hello tutors!
 # Pipeline
 https://gitlab.crja72.ru/django/2026/spring/course/students/173126-m.chernov.tchernov-course-1585/-/pipelines
 [![Pipeline Status](https://gitlab.crja72.ru/django/2026/spring/course/students/173126-m.chernov.tchernov-course-1585/badges/main/pipeline.svg)](https://gitlab.crja72.ru/django/2026/spring/course/students/173126-m.chernov.tchernov-course-1585/-/pipelines)
@@ -26,21 +27,21 @@ source venv/bin/activate
 venv\Scripts\activate
 ```
 
-Hello world!
-Hello tutors!
-python3 -m venv venv виртуалка
-source venv/bin/activate линукс
-venv\\Scripts\\activate винда
 # Скачивание библиотек
 ```bash
-pip freeze > requirements.txt
 pip install -r requirements/dev.txt
 pip install -r requirements/prod.txt
 pip install -r requirements/test.txt
 ```
 # Работа с .env
++ Linux/macOS
 ```bash
 cp .env.example .env
+```
+
++ Windows
+```bash
+copy .env.example .env
 ```
 Копирование из .env.example примера в .env
 
