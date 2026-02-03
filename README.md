@@ -14,6 +14,11 @@
 ```bash
 git clone https://gitlab.crja72.ru/django/2026/spring/course/students/173126-m.chernov.tchernov-course-1585
 ```
+
+### Переход в скопированную директорию
+```bash
+cd 173126-m.chernov.tchernov-course-1585
+```
 ### Создание виртуального окружения
 + Linux/macOS
 
