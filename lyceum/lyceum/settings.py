@@ -11,7 +11,6 @@ DEBUG = os.getenv('DEBUG', 'False').lower() in {'true', 'yes', 'on', '1', 'y'}
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '*').split(',')
 
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -61,7 +60,6 @@ DATABASES = {
     }
 }
 
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': (
@@ -87,6 +85,7 @@ AUTH_PASSWORD_VALIDATORS = [
         ),
     },
 ]
+
 
 LANGUAGE_CODE = 'en-us'
 
