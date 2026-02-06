@@ -1,8 +1,8 @@
 -r prod.txt
 flake8==7.3.0
 flake8-bugbear==25.11.29
+flake8-isort==7.0.0
 flake8-quotes==3.4.0
 flake8_import_order==0.19.2
-pep8-naming==0.15.1
-flake8-isort==7.0.0
 isort==7.0.0
+pep8-naming==0.15.1
