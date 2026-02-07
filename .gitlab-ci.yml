@@ -5,12 +5,12 @@ stages:
   - dependencies
   - test
 
-dependencies:
+dependencies_test:
   stage: dependencies
   script:
     - pip install -r requirements/test.txt
 
-dependencies_test:
+dependencies_django_test:
   stage: dependencies
   script:
     - pip install -r requirements/prod.txt
@@ -19,17 +19,21 @@ dependencies_test:
 flake8:
   stage: lint
   image: registry.gitlab.com/pipeline-components/flake8:latest
+  needs: ["dependencies_test"]
   script:
     - flake8 --verbose
 
 black:
   stage: lint
   image: registry.gitlab.com/pipeline-components/black:latest
+  needs: ["dependencies_test"]
   script:
     - black --check  --diff .
 
 django_test:
   stage: test
+  needs: ["dependencies_django_test"]
   script:
     - cd lyceum
     - python3 manage.py test
+  
