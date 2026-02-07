@@ -1,11 +1,18 @@
 stages:
   - lint
   - dependencies
+  - test
 
 dependencies:
   stage: dependencies
   script:
     - pip install -r requirements/test.txt
+
+dependencies_test:
+  stage: dependencies
+  script:
+    - pip install -r requirements/dev
+    - pip install -r requirements/prod
 
 flake8:
   stage: lint
@@ -18,3 +25,9 @@ black:
   image: registry.gitlab.com/pipeline-components/black:latest
   script:
     - black --check  --diff .
+
+django_test:
+  stage: test
+  script:
+    - cd lyceum
+    - pyhton3 manage.py test
