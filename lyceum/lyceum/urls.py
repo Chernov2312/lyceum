@@ -1,15 +1,16 @@
-from about.views import description
-
-from catalog.views import item_list, item_detail
-
+import django
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
 
-from homepage.views import home
 urlpatterns = [
-    path('', home),
+    path('', include('homepage.urls')),
     path('admin/', admin.site.urls),
-    path('about/', description),
-    path('catalog/', item_list),
-    path('catalog/<int:item>', item_detail)
+    path('about/', include('about.urls')),
+    path('catalog/', include('catalog.urls')),
+    path('catalog/', include('about.urls')),
 ]
+
+if django.conf.settings.DEBUG:
+    import debug_toolbar
+
+    urlpatterns += (path('__debug__/', include(debug_toolbar.urls)),)

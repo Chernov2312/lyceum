@@ -6,10 +6,17 @@ from dotenv import load_dotenv
 load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.getenv('SECRET_KEY', 'secret')
-DEBUG = os.getenv('DEBUG', 'False').lower() in {'true', 'yes', 'on', '1', 'y'}
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '*').split(',')
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'secret')
+DEBUG = os.getenv('DJANGO_DEBUG', 'False').lower() in {
+    'true',
+    'yes',
+    'on',
+    '1',
+    'y',
+}
+
+ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', '*').split(',')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -21,6 +28,7 @@ INSTALLED_APPS = [
     'about.apps.AboutConfig',
     'catalog.apps.CatalogConfig',
     'homepage.apps.HomepageConfig',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -31,8 +39,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
 ROOT_URLCONF = 'lyceum.urls'
 
 TEMPLATES = [

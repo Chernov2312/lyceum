@@ -2,8 +2,8 @@ import django.http
 
 
 def item_list(request):
-    return django.http.HttpResponse('<body>Список элементов</body>')
+    return django.http.HttpResponse('Список элементов')
 
 
 def item_detail(request, item):
-    return django.http.HttpResponse('<body>Подробно элемент</body>')
+    return django.http.HttpResponse('Подробно элемент')
