@@ -9,23 +9,29 @@ dependencies_test:
   stage: dependencies
   script:
     - pip install -r requirements/test.txt
+  artifacts:
+    paths:
+      - .cache/pip
+    expire_in: 1 hour
 
 dependencies_django_test:
   stage: dependencies
   script:
     - pip install -r requirements/prod.txt
     - pip install -r requirements/dev.txt
+  artifacts:
+    paths:
+      - .cache/pip
+    expire_in: 1 hour
 
 flake8:
   stage: lint
-  image: registry.gitlab.com/pipeline-components/flake8:latest
   needs: ["dependencies_test"]
   script:
     - flake8 --verbose
 
 black:
   stage: lint
-  image: registry.gitlab.com/pipeline-components/black:latest
   needs: ["dependencies_test"]
   script:
     - black --check  --diff .
