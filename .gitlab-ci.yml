@@ -11,8 +11,8 @@ dependencies:
 dependencies_test:
   stage: dependencies
   script:
-    - pip install -r requirements/dev
-    - pip install -r requirements/prod
+    - pip install -r requirements/dev.txt
+    - pip install -r requirements/prod.txt
 
 flake8:
   stage: lint
