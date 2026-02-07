@@ -3,7 +3,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(override=False)
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -16,7 +16,7 @@ DEBUG = os.getenv('DJANGO_DEBUG', 'False').lower() in {
     'y',
 }
 
-ALLOWED_HOSTS = list(os.getenv('DJANGO_ALLOWED_HOSTS', '*'))
+ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', '*').split(',')
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
