@@ -1,5 +1,6 @@
 stages:
   - lint
+  - format
   - test
 
 flake8:
@@ -10,7 +11,7 @@ flake8:
     - flake8 --verbose
 
 black:
-  stage: lint
+  stage: format
   image: registry.gitlab.com/pipeline-components/black:latest
   script:
     - pip install black
@@ -22,4 +23,4 @@ django_test:
     - pip install -r requirements/dev.txt
     - pip install -r requirements/prod.txt
     - cd lyceum
-    - pyhton3 manage.py test
+    - python3 manage.py test
