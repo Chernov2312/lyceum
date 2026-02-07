@@ -1,3 +1,5 @@
+image: python:3.13
+
 stages:
   - lint
   - dependencies
