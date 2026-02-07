@@ -1,24 +1,25 @@
 image: python:3.13
 
 stages:
-  - lint
   - dependencies
+  - lint
   - test
 
-dependencies_test:
-  stage: dependencies
-  script:
-    - pip install -r requirements/test.txt
-  artifacts:
-    paths:
-      - .cache/pip
-    expire_in: 1 hour
+cache:
+  paths:
+    - .cache/pip
+  key: "$CI_COMMIT_REF_SLUG"
 
-dependencies_django_test:
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+install_dependencies:
   stage: dependencies
   script:
+    - pip install --upgrade pip
     - pip install -r requirements/prod.txt
     - pip install -r requirements/dev.txt
+    - pip install -r requirements/test.txt
   artifacts:
     paths:
       - .cache/pip
@@ -26,20 +27,21 @@ dependencies_django_test:
 
 flake8:
   stage: lint
-  needs: ["dependencies_test"]
+  needs: ["install_dependencies"]
   script:
+    - pip install flake8
     - flake8 --verbose
 
 black:
   stage: lint
-  needs: ["dependencies_test"]
+  needs: ["install_dependencies"]
   script:
-    - black --check  --diff .
+    - pip install black
+    - black --check --diff .
 
 django_test:
   stage: test
-  needs: ["dependencies_django_test"]
+  needs: ["install_dependencies"]
   script:
     - cd lyceum
-    - python3 manage.py test
-  
+    - python manage.py test
