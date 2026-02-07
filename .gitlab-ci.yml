@@ -32,4 +32,4 @@ django_test:
   stage: test
   script:
     - cd lyceum
-    - pyhton3 manage.py test
+    - python3 manage.py test

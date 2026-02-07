@@ -5,6 +5,8 @@
 
 [![black](https://gitlab.crja72.ru/django/2026/spring/course/students/173126-m.chernov.tchernov-course-1585/badges/main/pipeline.svg?job=black&key_text=black)](https://gitlab.crja72.ru/django/2026/spring/course/students/173126-m.chernov.tchernov-course-1585/-/pipelines?scope=jobs&ref=main)
 
+[![tests](https://gitlab.crja72.ru/django/2026/spring/course/students/173126-m.chernov.tchernov-course-1585/badges/main/pipeline.svg?job=django_test&key_text=tests)](https://gitlab.crja72.ru/django/2026/spring/course/students/173126-m.chernov.tchernov-course-1585/-/pipelines?scope=jobs&ref=main)
+
 ### Это учебный проект для специализации по django 
 ### Необходимое ПО
 + Python 3.13
@@ -77,3 +79,18 @@ python manage.py runserver
 
 ### Ссылка где доступен сайт
 + http://127.0.0.1:8000/
+
+### Запуск тестов
+Переходим в папку lyceum если ещё не в ней
+```bash
+cd lyceum
+```
+Запускаем
++ Linux/macOS
+```bash
+python3 manage.py test
+```
++ Windows
+```bash
+python manage.py test
+```
