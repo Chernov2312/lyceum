@@ -16,7 +16,7 @@ DEBUG = os.getenv('DJANGO_DEBUG', 'False').lower() in {
     'y',
 }
 
-DJANGO_ALLOWED_HOSTS= os.getenv('DJANGO_ALLOWED_HOSTS', '*').split(',')
+DJANGO_ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', '*').split(',')
 ALLOWED_HOSTS = DJANGO_ALLOWED_HOSTS
 
 INSTALLED_APPS = [
