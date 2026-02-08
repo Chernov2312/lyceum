@@ -11,4 +11,3 @@ def item_detail(request, item):
 
 def get_int_endpoint(request, id):
     return django.http.HttpResponse(f'<body>{id}</body>')
-
