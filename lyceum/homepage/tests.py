@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 import django.test
 
 
@@ -8,7 +10,7 @@ class StaticURLTests(django.test.TestCase):
 
     def test_coffee_endpoint(self):
         response = django.test.Client().get('/coffee/')
-        self.assertEqual(response.status_code, 418)
+        self.assertEqual(response.status_code, HTTPStatus.IM_A_TEAPOT)
 
     def test_coffee_content(self):
         response = self.client.get('/coffee/')

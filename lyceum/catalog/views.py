@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 import django.http
 
 
@@ -15,3 +17,9 @@ def item_detail(request, item):
 
 def get_int_endpoint(request, id):
     return django.http.HttpResponse(f'{id}', content_type='text/plain')
+
+
+def get_int_converter_endpoint(request, id):
+    if id > 0:
+        return django.http.HttpResponse(f'{id}', content_type='text/plain')
+    return django.http.HttpResponse(status=HTTPStatus.NOT_FOUND)
