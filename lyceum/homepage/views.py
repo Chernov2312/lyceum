@@ -1,9 +1,10 @@
 import django.http
+from django.http import HttpResponse
 
 
 def home(request):
-    return django.http.HttpResponse('<body>Главная</body>')
+    return django.http.HttpResponse('Главная', content_type='text/plain')
 
 
 def coffee(request):
-    return django.http.HttpResponse('<body>Я чайник</body>', status=418)
+    return HttpResponse('Я чайник', content_type='text/plain', status=418)
