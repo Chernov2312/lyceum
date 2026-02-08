@@ -1,23 +1,16 @@
 import os
-
 from pathlib import Path
 
 import environ
 
-from dotenv import load_dotenv
-
-load_dotenv(override=False)
-
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 env = environ.Env()
-env_file = BASE_DIR / '.env'
-
-if env_file.exists():
-    environ.Env.read_env(env_file, overwrite=False)
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'), overwrite=False)
 
 
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'secret')
-DEBUG = os.getenv('DJANGO_DEBUG', 'False').lower() in {
+SECRET_KEY = env.str('DJANGO_SECRET_KEY', 'secret')
+DEBUG = env.str('DJANGO_DEBUG', default='False').lower() in {
     'true',
     'yes',
     'on',
