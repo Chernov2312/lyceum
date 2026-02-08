@@ -7,11 +7,19 @@ class StaticURLTests(django.test.TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_item_detail_endpoint(self):
-        response = django.test.Client().get('/catalog/52/')
+        response = django.test.Client().get('/catalog/1/')
         self.assertEqual(response.status_code, 200)
 
     def test_item_converter_posituv_digit_endpoint(self):
         response = django.test.Client().get('/catalog/converter/52/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_item_converter_posituv_digit1_endpoint(self):
+        response = django.test.Client().get('/catalog/converter/1/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_item_converter_posituv_digit2_endpoint(self):
+        response = django.test.Client().get('/catalog/converter/01/')
         self.assertEqual(response.status_code, 200)
 
     def test_item_converter_negative_digit_endpoint(self):
