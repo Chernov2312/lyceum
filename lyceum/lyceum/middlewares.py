@@ -10,7 +10,8 @@ class MiddlewareCounter:
         response = self.get_response(request)
         self.counter += 1
         if self.counter == 10:
-            text = [i[::-1] for i in response.text.split()]
+            content = response.content.decode('utf-8')
+            text = [i[::-1] for i in content.split()]
             self.counter = 0
             response = HttpResponse(
                 ' '.join(text), content_type='text/plain; charset=utf-8'

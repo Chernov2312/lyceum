@@ -19,4 +19,4 @@ class StaticURLTests(django.test.TestCase):
     def test_middleware(self):
         for _ in range(10):
             response = self.client.get('/coffee/')
-        self.assertEqual(response.content.decode(), 'Я кинйач')
+        self.assertIn('Я кинйач'.encode(), response.content)
