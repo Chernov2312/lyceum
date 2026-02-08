@@ -11,6 +11,13 @@ def home(request):
 
 
 def coffee(request):
+    from django.conf import ALLOW_REVERSE
+    if ALLOW_REVERSE:
+        return HttpResponse(
+            'Я чайник Я кинйач',
+            content_type='text/plain; charset=utf-8',
+            status=HTTPStatus.IM_A_TEAPOT,
+        )
     return HttpResponse(
         'Я чайник',
         content_type='text/plain; charset=utf-8',
