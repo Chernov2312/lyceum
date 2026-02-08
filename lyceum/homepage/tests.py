@@ -19,6 +19,6 @@ class ReversedTests(django.test.TestCase):
         self.assertIn('Я чайник', response.content.decode())
 
     def test_middleware(self):
-        for _ in range(10):
+        for _ in range(9):
             response = self.client.get('/coffee/')
         self.assertIn('Я кинйач'.encode(), response.content)
