@@ -6,4 +6,6 @@ class MiddlewareCounter:
     def __call__(self, request):
         response = self.get_response(request)
         self.counter += 1
+        print(self.counter)
+        print(response.text)
         return response
