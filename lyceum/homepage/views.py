@@ -13,6 +13,6 @@ def home(request):
 def coffee(request):
     return HttpResponse(
         'Я чайник',
-        content_type='text/plain',
+        content_type='text/plain; charset=utf-8',
         status=HTTPStatus.IM_A_TEAPOT,
     )
