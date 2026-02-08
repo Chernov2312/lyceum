@@ -6,7 +6,7 @@ import environ
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env()
-environ.Env.read_env(os.path.join(BASE_DIR, './../.env'), overwrite=False)
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'), overwrite=False)
 
 SECRET_KEY = env.str('DJANGO_SECRET_KEY', default='secret')
 DEBUG = env.str('DJANGO_DEBUG', default='False').lower() in {
@@ -46,7 +46,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
-    'lyceum.middlewares.MiddlewareCounter'
+    'lyceum.middlewares.MiddlewareCounter',
 ]
 
 INTERNAL_IPS = [
