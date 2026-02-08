@@ -11,7 +11,7 @@ def home(request):
 
 
 def coffee(request):
-    from django.conf import ALLOW_REVERSE
+    from lyceum.settings import ALLOW_REVERSE
     if ALLOW_REVERSE:
         return HttpResponse(
             'Я чайник Я кинйач',
