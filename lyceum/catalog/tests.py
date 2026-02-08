@@ -15,7 +15,7 @@ class StaticURLTests(django.test.TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_item_converter_posituv_digit1_endpoint(self):
-        response = django.test.Client().get('/catalog/converter/1/')
+        response = django.test.Client().get('/catalog/converter/010/')
         self.assertEqual(response.status_code, 200)
 
     def test_item_converter_posituv_digit2_endpoint(self):
