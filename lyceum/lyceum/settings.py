@@ -122,6 +122,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 if DEBUG:
     INSTALLED_APPS.append('debug_toolbar')
     MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
-    
-if not ALLOW_REVERSE:
+
+if ALLOW_REVERSE:
     MIDDLEWARE.append('lyceum.middlewares.MiddlewareCounter')
