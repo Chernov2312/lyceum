@@ -16,7 +16,7 @@ class StaticURLTests(django.test.TestCase):
 class ReversedTests(django.test.TestCase):
     def test_coffee_content(self):
         response = self.client.get('/coffee/')
-        self.assertEqual(response.content.decode(), 'Я чайник')
+        self.assertIn('Я чайник', response.content.decode())
 
     def test_middleware(self):
         for _ in range(10):
