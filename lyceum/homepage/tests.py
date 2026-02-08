@@ -14,11 +14,12 @@ class StaticURLTests(django.test.TestCase):
 
 
 class ReversedTests(django.test.TestCase):
-    def test_coffee_content(self):
-        response = self.client.get('/coffee/')
-        self.assertIn('Я чайник', response.content.decode())
 
     def test_middleware(self):
         for _ in range(9):
             response = self.client.get('/coffee/')
         self.assertIn('Я кинйач'.encode(), response.content)
+
+    def test_coffee_content(self):
+        response = self.client.get('/coffee/')
+        self.assertIn('Я чайник', response.content.decode())
