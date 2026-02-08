@@ -4,7 +4,7 @@ from .views import get_int_endpoint, item_detail, item_list
 
 urlpatterns = [
     path('<int:item>/', item_detail),
-    path('', item_list), 
+    path('', item_list),
     re_path(r're/(?P<id>\d+)/', get_int_endpoint),
-    path('converter/<int:id>/', get_int_endpoint)
-    ]
+    path('converter/<int:id>/', get_int_endpoint),
+]
