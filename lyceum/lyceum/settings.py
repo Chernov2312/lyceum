@@ -6,7 +6,7 @@ import environ
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env()
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'), overwrite=False)
+environ.Env.read_env(os.path.join(BASE_DIR, './../.env'), overwrite=False)
 
 SECRET_KEY = env.str('DJANGO_SECRET_KEY', default='secret')
 
@@ -18,6 +18,7 @@ DEBUG = env.str('DJANGO_DEBUG', default='False').lower() in {
     'y',
 }
 ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['*'])
+
 ALLOW_REVERSE = env.str('DJANGO_ALLOW_REVERSE', default='True').lower() in {
     'true',
     'yes',
@@ -25,6 +26,7 @@ ALLOW_REVERSE = env.str('DJANGO_ALLOW_REVERSE', default='True').lower() in {
     '1',
     'y',
 }
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -78,6 +80,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
