@@ -7,3 +7,8 @@ def item_list(request):
 
 def item_detail(request, item):
     return django.http.HttpResponse('<body>Подробно элемент</body>')
+
+
+def get_int_endpoint(request, id):
+    return django.http.HttpResponse(f'<body>{id}</body>')
+
