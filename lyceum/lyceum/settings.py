@@ -124,4 +124,4 @@ if DEBUG:
     MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
 
 if ALLOW_REVERSE:
-    MIDDLEWARE.append('lyceum.middlewares.MiddlewareCounter')
+    MIDDLEWARE.append('lyceum.middleware.MiddlewareCounter')

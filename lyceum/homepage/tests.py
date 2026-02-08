@@ -12,6 +12,8 @@ class StaticURLTests(django.test.TestCase):
         response = django.test.Client().get('/coffee/')
         self.assertEqual(response.status_code, HTTPStatus.IM_A_TEAPOT)
 
+
+class ReversedTests(django.test.TestCase):
     def test_coffee_content(self):
         response = self.client.get('/coffee/')
         self.assertEqual(response.content.decode(), 'Я чайник')
