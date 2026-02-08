@@ -17,7 +17,13 @@ DEBUG = env.str('DJANGO_DEBUG', default='False').lower() in {
     'y',
 }
 ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['*'])
-
+ALLOW_REVERSE = env.str('DJANGO_ALLOW_REVERSE', default="False").lower() in {
+    'true',
+    'yes',
+    'on',
+    '1',
+    'y',
+}
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,6 +46,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'lyceum.middlewares.MiddlewareCounter'
 ]
 
 INTERNAL_IPS = [
