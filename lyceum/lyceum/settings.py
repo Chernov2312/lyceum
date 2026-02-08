@@ -9,6 +9,7 @@ env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'), overwrite=False)
 
 SECRET_KEY = env.str('DJANGO_SECRET_KEY', default='secret')
+
 DEBUG = env.str('DJANGO_DEBUG', default='False').lower() in {
     'true',
     'yes',
@@ -34,7 +35,6 @@ INSTALLED_APPS = [
     'about.apps.AboutConfig',
     'catalog.apps.CatalogConfig',
     'homepage.apps.HomepageConfig',
-    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -45,7 +45,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'lyceum.middlewares.MiddlewareCounter',
 ]
 
@@ -121,3 +120,7 @@ STATIC_URL = 'static/'
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+if DEBUG:
+    INSTALLED_APPS.append('debug_toolbar')
+    MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
