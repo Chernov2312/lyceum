@@ -5,7 +5,7 @@ from .views import (
     get_int_converter_endpoint,
     get_int_endpoint,
     item_detail,
-    item_list
+    item_list,
 )
 
 register_converter(PositiveIntegerConverter, 'intpositive')
