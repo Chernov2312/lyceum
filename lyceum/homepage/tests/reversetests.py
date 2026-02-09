@@ -1,5 +1,3 @@
-
-
 import django.test
 from django.test import Client
 
