@@ -7,7 +7,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR, './../.env'), overwrite=False)
-
+counter = 0
 SECRET_KEY = env.str('DJANGO_SECRET_KEY', default='secret')
 
 DEBUG = env.str('DJANGO_DEBUG', default='False').lower() in {
