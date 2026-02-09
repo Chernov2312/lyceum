@@ -1,6 +1,4 @@
-from .settings import ALLOW_REVERSE
-
-flag_reverse = ALLOW_REVERSE
+from lyceum import settings
 
 
 class MiddlewareCounter:
@@ -10,7 +8,7 @@ class MiddlewareCounter:
 
     def __call__(self, request):
         response = self.get_response(request)
-        if flag_reverse:
+        if settings.ALLOW_REVERSE:
             self.counter += 1
             if self.counter % 10 == 0:
                 content = response.content.decode('utf-8')
