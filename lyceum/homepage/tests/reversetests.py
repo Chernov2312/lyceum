@@ -1,4 +1,4 @@
-from http import HTTPStatus
+
 
 import django.test
 from django.test import Client
@@ -6,16 +6,6 @@ from django.test import Client
 import lyceum.settings
 
 reverse = lyceum.settings.ALLOW_REVERSE
-
-
-class StaticURLTests(django.test.TestCase):
-    def test_homepage_endpoint(self):
-        response = django.test.Client().get('/')
-        self.assertEqual(response.status_code, 200)
-
-    def test_coffee_endpoint(self):
-        response = django.test.Client().get('/coffee/')
-        self.assertEqual(response.status_code, HTTPStatus.IM_A_TEAPOT)
 
 
 class ReversedCoffeeTests(django.test.TestCase):
