@@ -1,11 +1,12 @@
 from http import HTTPStatus
 
-from django.test import Client, TestCase, override_settings
+import django.test
+from django.test import Client, override_settings
 
 from lyceum.middleware import MiddlewareCounter
 
 
-class StaticURLTestsTestCase:
+class StaticURLTestsTestCase(django.test.TestCase):
     def test_homepage_endpoint(self):
         response = Client().get('/')
         self.assertEqual(response.status_code, 200)
@@ -15,7 +16,7 @@ class StaticURLTestsTestCase:
         self.assertEqual(response.status_code, HTTPStatus.IM_A_TEAPOT)
 
 
-class ReversedCoffeeTests(TestCase):
+class ReversedCoffeeTests(django.test.TestCase):
     def setUp(self):
         self.client = Client()
         MiddlewareCounter.counter = 0
