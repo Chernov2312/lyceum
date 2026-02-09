@@ -9,11 +9,9 @@ class MiddlewareCounter:
     def __call__(self, request):
         response = self.get_response(request)
         self.counter += 1
-        if self.counter == 13:
+        if self.counter == 1:
             content = response.content.decode('utf-8')
             text = [i[::-1] for i in content.split()]
             self.counter = 0
-            response = HttpResponse(
-                ' '.join(text), content_type='text/plain; charset=utf-8'
-            )
+            response.content = ' '.join(text).encode()
         return response
