@@ -47,6 +47,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'lyceum.middleware.MiddlewareCounter',
 ]
 
 INTERNAL_IPS = [
@@ -125,6 +126,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 if DEBUG:
     INSTALLED_APPS.append('debug_toolbar')
     MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
-
-if ALLOW_REVERSE:
-    MIDDLEWARE.append('lyceum.middleware.MiddlewareCounter')

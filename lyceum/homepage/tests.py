@@ -14,17 +14,21 @@ class StaticURLTests(django.test.TestCase):
 
 
 class ReversedCoffeeTests(django.test.TestCase):
-    def test_coffee__reverse_content(self):
-        from lyceum.settings import ALLOW_REVERSE
+    def test_coffee__reverse_content_true(self):
+        import lyceum.middleware
 
-        if ALLOW_REVERSE:
-            for _ in range(10):
-                response = self.client.get('/coffee/')
-            self.assertIn('Я кинйач', response.content.decode())
-        else:
-            for _ in range(10):
-                response = self.client.get('/coffee/')
-            self.assertIn('Я чайник', response.content.decode())
+        lyceum.middleware.flag_reverse = True
+        for _ in range(10):
+            response = self.client.get('/coffee/')
+        self.assertIn('Я кинйач', response.content.decode())
+
+    def test_coffee__reverse_content_false(self):
+        import lyceum.middleware
+
+        lyceum.middleware.flag_reverse = False
+        for _ in range(10):
+            response = self.client.get('/coffee/')
+        self.assertIn('Я чайник', response.content.decode())
 
     def test_coffee_content(self):
         response = self.client.get('/coffee/')
