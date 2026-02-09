@@ -22,7 +22,8 @@ class ReversedCoffeeTests(django.test.TestCase):
                 response = self.client.get('/coffee/')
             self.assertIn('Я кинйач', response.content.decode())
         else:
-            response = self.client.get('/coffee/')
+            for _ in range(10):
+                response = self.client.get('/coffee/')
             self.assertIn('Я чайник', response.content.decode())
 
     def test_coffee_content(self):
