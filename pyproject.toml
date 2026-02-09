@@ -5,13 +5,3 @@ skip-string-normalization = true
 [tool.isort]
 profile = "black"
 line_length = 79
-known_django = ["django"]
-sections = [
-    "FUTURE",
-    "STDLIB", 
-    "DJANGO",
-    "THIRDPARTY",
-    "FIRSTPARTY",
-    "LOCALFOLDER"
-]
-default_section = "THIRDPARTY"
