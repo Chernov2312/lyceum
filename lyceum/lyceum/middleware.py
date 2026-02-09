@@ -1,6 +1,3 @@
-from django.http import HttpResponse
-
-
 class MiddlewareCounter:
     def __init__(self, get_response):
         self.get_response = get_response
@@ -9,7 +6,7 @@ class MiddlewareCounter:
     def __call__(self, request):
         response = self.get_response(request)
         self.counter += 1
-        if self.counter == 1:
+        if self.counter % 10 == 0:
             content = response.content.decode('utf-8')
             text = [i[::-1] for i in content.split()]
             self.counter = 0
