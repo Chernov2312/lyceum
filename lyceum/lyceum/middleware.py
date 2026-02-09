@@ -1,4 +1,4 @@
-from lyceum import settings
+from django.conf import settings
 
 
 class MiddlewareCounter:
