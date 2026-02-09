@@ -8,6 +8,6 @@ class TestToTest(TestCase):
         self.client = Client()
         MiddlewareCounter.counter = 0
 
-    def test_coffee__reverse_content_true(self):
+    def test_coffee_2(self):
         response = self.client.get('/coffee/')
         self.assertIn('Я чайник', response.content.decode())
