@@ -41,20 +41,20 @@ class StaticConverterTests(django.test.TestCase):
 
 
 class StaticReTests(django.test.TestCase):
-    @parameterized.expand(('00', '0'))
-    def test_item_re_zero_endpoint(self, value):
+    @parameterized.expand(('01', '010', '52'))
+    def test_item_re_posituv_digit_endpoint(self, value):
         response = django.test.Client().get(f'/catalog/re/{value}/')
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 200)
 
     @parameterized.expand(('-01', '-010', '-52'))
     def test_item_re_negative_digit_endpoint(self, value):
         response = django.test.Client().get(f'/catalog/re/{value}/')
         self.assertEqual(response.status_code, 404)
 
-    @parameterized.expand(('01', '010', '52'))
-    def test_item_re_posituv_digit_endpoint(self, value):
+    @parameterized.expand(('00', '0'))
+    def test_item_re_zero_endpoint(self, value):
         response = django.test.Client().get(f'/catalog/re/{value}/')
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 404)
 
     @parameterized.expand(('0.1', '0.10', '5.2'))
     def test_item_re_float_digit_endpoint(self, value):
