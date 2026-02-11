@@ -62,6 +62,6 @@ class StaticReTests(django.test.TestCase):
         self.assertEqual(response.status_code, 404)
 
     @parameterized.expand(('i am venom', 'i am the atomic'))
-    def test_item_converter_re_endpoint(self, value):
-        response = django.test.Client().get(f'/catalog/converter/{value}/')
+    def test_item_re_str_endpoint(self, value):
+        response = django.test.Client().get(f'/catalog/re/{value}/')
         self.assertEqual(response.status_code, 404)
