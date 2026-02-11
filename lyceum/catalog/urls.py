@@ -1,6 +1,6 @@
 from django.urls import path, re_path, register_converter
 
-from .convertors import PositiveIntegerConverter
+from .converters import PositiveIntegerConverter
 from .views import (
     get_int_converter_endpoint,
     get_int_endpoint,
