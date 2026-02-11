@@ -1,4 +1,5 @@
 import django.test
+from parameterized import parameterized
 
 
 class StaticURLTests(django.test.TestCase):
@@ -10,38 +11,36 @@ class StaticURLTests(django.test.TestCase):
         response = django.test.Client().get('/catalog/1/')
         self.assertEqual(response.status_code, 200)
 
-    def test_item_converter_posituv_digit_endpoint(self):
-        response = django.test.Client().get('/catalog/converter/52/')
+
+class StaticConverterTests(django.test.TestCase):
+    @parameterized.expand(('01', '010', '52'))
+    def test_item_converter_posituv_digit_endpoint(self, value):
+        response = django.test.Client().get(f'/catalog/converter/{value}/')
         self.assertEqual(response.status_code, 200)
 
-    def test_item_converter_posituv_digit1_endpoint(self):
-        response = django.test.Client().get('/catalog/converter/010/')
+    @parameterized.expand(('-01', '-010', '-52'))
+    def test_item_converter_negative_digit_endpoint(self, value):
+        response = django.test.Client().get(f'/catalog/converter/{value}/')
+        self.assertEqual(response.status_code, 404)
+
+    @parameterized.expand(('00', '0'))
+    def test_item_converter_zero_endpoint(self, value):
+        response = django.test.Client().get(f'/catalog/converter/{value}/')
+        self.assertEqual(response.status_code, 404)
+
+
+class StaticReTests(django.test.TestCase):
+    @parameterized.expand(('00', '0'))
+    def test_item_re_zero_endpoint(self, value):
+        response = django.test.Client().get(f'/catalog/re/{value}/')
+        self.assertEqual(response.status_code, 404)
+
+    @parameterized.expand(('-01', '-010', '-52'))
+    def test_item_re_negative_digit_endpoint(self, value):
+        response = django.test.Client().get(f'/catalog/re/{value}/')
+        self.assertEqual(response.status_code, 404)
+
+    @parameterized.expand(('01', '010', '52'))
+    def test_item_re_posituv_digit_endpoint(self, value):
+        response = django.test.Client().get(f'/catalog/re/{value}/')
         self.assertEqual(response.status_code, 200)
-
-    def test_item_converter_posituv_digit2_endpoint(self):
-        response = django.test.Client().get('/catalog/converter/01/')
-        self.assertEqual(response.status_code, 200)
-
-    def test_item_converter_negative_digit_endpoint(self):
-        response = django.test.Client().get('/catalog/converter/-42/')
-        self.assertEqual(response.status_code, 404)
-
-    def test_item_converter_zero_endpoint(self):
-        response = django.test.Client().get('/catalog/converter/0/')
-        self.assertEqual(response.status_code, 404)
-
-    def test_item_re_posituv_digit_endpoint(self):
-        response = django.test.Client().get('/catalog/re/52/')
-        self.assertEqual(response.status_code, 200)
-
-    def test_item_re_negative_digit_endpoint(self):
-        response = django.test.Client().get('/catalog/re/-52/')
-        self.assertEqual(response.status_code, 404)
-
-    def test_item_re_zero_endpoint(self):
-        response = django.test.Client().get('/catalog/re/0/')
-        self.assertEqual(response.status_code, 404)
-
-    def test_item_re_zero2_endpoint(self):
-        response = django.test.Client().get('/catalog/re/00/')
-        self.assertEqual(response.status_code, 404)
