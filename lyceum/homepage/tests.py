@@ -22,13 +22,13 @@ class ReversedCoffeeTests(django.test.TestCase):
         MiddlewareReverseRussian.counter = 0
 
     @override_settings(ALLOW_REVERSE=True)
-    def test_coffee__reverse_content_true(self):
+    def test_coffee_reverse_content_true(self):
         for _ in range(10):
             response = self.client.get('/coffee/')
         self.assertIn('Я кинйач', response.content.decode())
 
     @override_settings(ALLOW_REVERSE=False)
-    def test_coffee__reverse_content_false(self):
+    def test_coffee_reverse_content_false(self):
         for _ in range(10):
             response = self.client.get('/coffee/')
         self.assertIn('Я чайник', response.content.decode())
