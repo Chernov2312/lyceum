@@ -3,7 +3,7 @@ from http import HTTPStatus
 import django.test
 from django.test import Client, override_settings
 
-from lyceum.middleware import MiddlewareReverseRussian
+from lyceum.middleware import ReverseRussianMiddleware
 
 
 class StaticURLTestsTestCase(django.test.TestCase):
@@ -19,7 +19,7 @@ class StaticURLTestsTestCase(django.test.TestCase):
 class ReversedCoffeeTests(django.test.TestCase):
     def setUp(self):
         self.client = Client()
-        MiddlewareReverseRussian.counter = 0
+        ReverseRussianMiddleware.counter = 0
 
     @override_settings(ALLOW_REVERSE=True)
     def test_coffee_reverse_content_true(self):

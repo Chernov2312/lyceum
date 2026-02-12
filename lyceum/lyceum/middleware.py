@@ -3,7 +3,7 @@ import re
 from django.conf import settings
 
 
-class MiddlewareReverseRussian:
+class ReverseRussianMiddleware:
     counter = 0
     russian_pattern = re.compile(r'[а-яА-ЯЁё]+')
 
@@ -21,12 +21,12 @@ class MiddlewareReverseRussian:
     def __call__(self, request):
         response = self.get_response(request)
         if settings.ALLOW_REVERSE:
-            MiddlewareReverseRussian.counter += 1
+            ReverseRussianMiddleware.counter += 1
             if (
-                MiddlewareReverseRussian.counter
-                % settings.COUNTER_BEFORE_REVERSE
+                ReverseRussianMiddleware.counter
+                % settings.REQUESTS_COUNT_BEFORE_REVERSE
                 == 0
             ):
-                response = MiddlewareReverseRussian.reverse_words(response)
-                MiddlewareReverseRussian.counter = 0
+                response = ReverseRussianMiddleware.reverse_words(response)
+                ReverseRussianMiddleware.counter = 0
         return response

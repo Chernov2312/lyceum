@@ -9,7 +9,9 @@ env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR, './../.env'), overwrite=False)
 SECRET_KEY = env.str('DJANGO_SECRET_KEY', default='secret')
 
-COUNTER_BEFORE_REVERSE = env.int('DJANGO_COUNTER_BEFORE_REVERSE', default=10)
+REQUESTS_COUNT_BEFORE_REVERSE = env.int(
+    'DJANGO_REQUESTS_COUNT_BEFORE_REVERSE', default=10
+)
 
 DEBUG = env.str('DJANGO_DEBUG', default='False').lower() in {
     'true',
@@ -48,7 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'lyceum.middleware.MiddlewareReverseRussian',
+    'lyceum.middleware.ReverseRussianMiddleware',
 ]
 
 INTERNAL_IPS = [

@@ -7,7 +7,7 @@ def item_list(request):
     )
 
 
-def get_int_item_detail(request, item_id):
+def get_int_item_detail(request, item_id: int):
     return django.http.HttpResponse(
         f'Подробно элемент {item_id}', content_type='text/plain; charset=utf-8'
     )
