@@ -1,4 +1,4 @@
-from http import HTTPStatus
+import http
 
 import django.test
 from django.test import Client, override_settings
@@ -9,11 +9,11 @@ from lyceum.middleware import ReverseRussianMiddleware
 class StaticURLTestsTestCase(django.test.TestCase):
     def test_homepage_endpoint(self):
         response = Client().get('/')
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, http.HTTPStatus.OK)
 
     def test_coffee_endpoint(self):
         response = Client().get('/coffee/')
-        self.assertEqual(response.status_code, HTTPStatus.IM_A_TEAPOT)
+        self.assertEqual(response.status_code, http.HTTPStatus.IM_A_TEAPOT)
 
 
 class ReversedCoffeeTests(django.test.TestCase):

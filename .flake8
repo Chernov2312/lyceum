@@ -5,4 +5,5 @@ exclude =
     .tox,
     .eggs,
     *.egg,
-    .venv
+    .venv,
+    migrations
