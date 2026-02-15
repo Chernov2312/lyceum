@@ -10,7 +10,8 @@ environ.Env.read_env(os.path.join(BASE_DIR, './../.env'), overwrite=False)
 SECRET_KEY = env.str('DJANGO_SECRET_KEY', default='secret')
 
 REQUESTS_COUNT_BEFORE_REVERSE = env.int(
-    'DJANGO_REQUESTS_COUNT_BEFORE_REVERSE', default=10
+    'DJANGO_REQUESTS_COUNT_BEFORE_REVERSE',
+    default=10,
 )
 
 DEBUG = env.str('DJANGO_DEBUG', default='False').lower() in {
@@ -83,7 +84,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    },
 }
 
 

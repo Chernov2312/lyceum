@@ -6,12 +6,12 @@ class PositiveIntegerConverter:
             int_value = int(value)
             if int_value <= 0:
                 raise ValueError(
-                    'Значение должно быть положительным целым числом'
+                    'Значение должно быть положительным целым числом',
                 )
             return int_value
         except ValueError:
             raise ValueError(
-                f'{value} не является корректным положительным целым числом'
+                f'{value} не является корректным положительным целым числом',
             )
 
     def to_url(self, value):

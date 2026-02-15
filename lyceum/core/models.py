@@ -6,7 +6,8 @@ from django.db import models
 
 class PublishedBaseModel(models.Model):
     is_published = models.BooleanField(
-        default=True, verbose_name='Опубликовано'
+        default=True,
+        verbose_name='Опубликовано',
     )
 
     class Meta:

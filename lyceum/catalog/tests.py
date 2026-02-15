@@ -44,7 +44,7 @@ class StaticConverterTests(django.test.TestCase):
         self.assertEqual(response.status_code, http.HTTPStatus.NOT_FOUND)
 
     @parameterized.expand(
-        ('i am venom', 'i am the atomic', '2ab', 'a2b', 'ab2')
+        ('i am venom', 'i am the atomic', '2ab', 'a2b', 'ab2'),
     )
     def test_item_converter_str_endpoint(self, value):
         response = django.test.Client().get(f'/catalog/converter/{value}/')
@@ -73,7 +73,7 @@ class StaticReTests(django.test.TestCase):
         self.assertEqual(response.status_code, http.HTTPStatus.NOT_FOUND)
 
     @parameterized.expand(
-        ('i am venom', 'i am the atomic', '2ab', 'a2b', 'ab2')
+        ('i am venom', 'i am the atomic', '2ab', 'a2b', 'ab2'),
     )
     def test_item_re_str_endpoint(self, value):
         response = django.test.Client().get(f'/catalog/re/{value}/')
@@ -83,13 +83,17 @@ class StaticReTests(django.test.TestCase):
 class ItemModelTest(TestCase):
     def setUp(self):
         self.category = Category.objects.create(
-            name='Тестовая категория', slug='test-category', weight=100
+            name='Тестовая категория',
+            slug='test-category',
+            weight=100,
         )
         self.tag = Tag.objects.create(name='Тестовый тег', slug='test-tag')
 
     def test_item_creation_valid_text(self):
         item = Item.objects.create(
-            name='Тестовый товар', text='превосходно', category=self.category
+            name='Тестовый товар',
+            text='превосходно',
+            category=self.category,
         )
         item.tags.add(self.tag)
 
@@ -106,7 +110,7 @@ class ItemModelTest(TestCase):
             ('uppercase_excellent', 'ПРЕВОСХОДНО!'),
             ('uppercase_luxury', 'РОСКОШНО!'),
             ('mixed_case', 'Превосходно и Роскошно'),
-        ]
+        ],
     )
     def test_item_validation_need_wotd_text(self, name, text):
         try:
@@ -118,7 +122,7 @@ class ItemModelTest(TestCase):
         [
             ('no_required_words', 'Это обычный текст без нужных слов'),
             ('empty_string', ''),
-        ]
+        ],
     )
     def test_item_validation_not_word(self, name, text):
         with self.assertRaises(ValidationError):
@@ -128,7 +132,9 @@ class ItemModelTest(TestCase):
 class CategoryModelTest(TestCase):
     def test_category_creation(self):
         category = Category.objects.create(
-            name='Электроника', slug='electronics', weight=100
+            name='Электроника',
+            slug='electronics',
+            weight=100,
         )
         self.assertEqual(category.name, 'Электроника')
         self.assertEqual(category.slug, 'electronics')
@@ -140,7 +146,7 @@ class CategoryModelTest(TestCase):
             ('min_value', 0),
             ('max_value', 32768),
             ('negative_value', -10),
-        ]
+        ],
     )
     def test_category_weight_invalid_values(self, name, weight):
         category = Category(name='Тест', slug='test', weight=weight)
@@ -152,7 +158,7 @@ class CategoryModelTest(TestCase):
             ('default_value', 100),
             ('min', 1),
             ('max', 32767),
-        ]
+        ],
     )
     def test_category_weight_valid_values(self, name, weight):
         category = Category(name='Тест', slug='test', weight=weight)
@@ -166,12 +172,14 @@ class CategoryModelTest(TestCase):
             ('valid_slug_1', 'test'),
             ('valid_slug_2', 'Test123'),
             ('valid_slug_3', 'a' * 200),
-        ]
+        ],
     )
     def test_category_slug_valid_values(self, name, slug):
         try:
             category = Category.objects.create(
-                name='Электроника', slug=slug, weight=100
+                name='Электроника',
+                slug=slug,
+                weight=100,
             )
             category.full_clean()
         except ValidationError:
@@ -179,17 +187,23 @@ class CategoryModelTest(TestCase):
 
     def test_category_unique_slug(self):
         Category.objects.create(
-            name='Категория 1', slug='test-slug', weight=100
+            name='Категория 1',
+            slug='test-slug',
+            weight=100,
         )
 
         with self.assertRaises(IntegrityError):
             Category.objects.create(
-                name='Категория 2', slug='test-slug', weight=200
+                name='Категория 2',
+                slug='test-slug',
+                weight=200,
             )
 
     def test_category_str_method(self):
         category = Category.objects.create(
-            name='Электроника', slug='electronics', weight=100
+            name='Электроника',
+            slug='electronics',
+            weight=100,
         )
         self.assertEqual(str(category), 'Электроника')
 
@@ -206,7 +220,7 @@ class TagModelTest(TestCase):
             ('valid_slug_1', 'new'),
             ('valid_slug_2', 'new_2024'),
             ('valid_slug_3', 'a' * 200),
-        ]
+        ],
     )
     def test_tag_slug_valid_values(self, name, slug):
         tag = Tag(name='Тест', slug=slug)
@@ -229,14 +243,18 @@ class TagModelTest(TestCase):
 class ItemRelationsTest(TestCase):
     def setUp(self):
         self.category = Category.objects.create(
-            name='Электроника', slug='electronics', weight=100
+            name='Электроника',
+            slug='electronics',
+            weight=100,
         )
         self.tag1 = Tag.objects.create(name='Тег 1', slug='tag1')
         self.tag2 = Tag.objects.create(name='Тег 2', slug='tag2')
 
     def test_item_category_relation(self):
         item = Item.objects.create(
-            name='Телефон', text='Работает превосходно', category=self.category
+            name='Телефон',
+            text='Работает превосходно',
+            category=self.category,
         )
         self.assertEqual(item.category, self.category)
         self.assertIn(item, self.category.items.all())
@@ -245,11 +263,13 @@ class ItemRelationsTest(TestCase):
         [
             ('one_tag', [1]),
             ('two_tags', [1, 2]),
-        ]
+        ],
     )
     def test_item_tags_relation(self, name, tag_indices):
         item = Item.objects.create(
-            name='Телефон', text='Работает превосходно', category=self.category
+            name='Телефон',
+            text='Работает превосходно',
+            category=self.category,
         )
 
         tags = [self.tag1, self.tag2]

@@ -11,7 +11,9 @@ from .validators import validate_words_in_text
 
 class Tag(PublishedBaseModel, NamedBaseModel, SluggedBaseModel):
     id = models.BigAutoField(
-        auto_created=True, primary_key=True, verbose_name='id'
+        auto_created=True,
+        primary_key=True,
+        verbose_name='id',
     )
 
     class Meta:
@@ -24,7 +26,9 @@ class Tag(PublishedBaseModel, NamedBaseModel, SluggedBaseModel):
 
 class Category(PublishedBaseModel, NamedBaseModel, SluggedBaseModel):
     id = models.BigAutoField(
-        auto_created=True, primary_key=True, verbose_name='id'
+        auto_created=True,
+        primary_key=True,
+        verbose_name='id',
     )
     weight = models.IntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(32767)],
@@ -42,7 +46,9 @@ class Category(PublishedBaseModel, NamedBaseModel, SluggedBaseModel):
 
 class Item(PublishedBaseModel, NamedBaseModel):
     id = models.BigAutoField(
-        auto_created=True, primary_key=True, verbose_name='id'
+        auto_created=True,
+        primary_key=True,
+        verbose_name='id',
     )
     text = models.TextField(
         verbose_name='Текст',
@@ -57,7 +63,9 @@ class Item(PublishedBaseModel, NamedBaseModel):
         verbose_name='Категория',
     )
     tags = models.ManyToManyField(
-        Tag, related_name='items', verbose_name='Тэг'
+        Tag,
+        related_name='items',
+        verbose_name='Тэг',
     )
 
     class Meta:

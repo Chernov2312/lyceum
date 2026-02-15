@@ -6,7 +6,8 @@ from django.http import HttpResponse
 
 def home(request):
     return django.http.HttpResponse(
-        'Главная', content_type='text/plain; charset=utf-8'
+        'Главная',
+        content_type='text/plain; charset=utf-8',
     )
 
 
