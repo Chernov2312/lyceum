@@ -9,12 +9,6 @@ from core.models import NamedBaseModel, PublishedBaseModel, SluggedBaseModel
 
 
 class Tag(PublishedBaseModel, NamedBaseModel, SluggedBaseModel):
-    id = models.BigAutoField(
-        auto_created=True,
-        primary_key=True,
-        verbose_name='id',
-    )
-
     class Meta:
         verbose_name = 'тег'
         verbose_name_plural = 'теги'
@@ -25,15 +19,11 @@ class Tag(PublishedBaseModel, NamedBaseModel, SluggedBaseModel):
 
 
 class Category(PublishedBaseModel, NamedBaseModel, SluggedBaseModel):
-    id = models.BigAutoField(
-        auto_created=True,
-        primary_key=True,
-        verbose_name='id',
-    )
     weight = models.IntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(32767)],
         default=100,
         verbose_name='Вес',
+        help_text='Вес категории от 1 до 32767',
     )
 
     class Meta:
@@ -46,16 +36,11 @@ class Category(PublishedBaseModel, NamedBaseModel, SluggedBaseModel):
 
 
 class Item(PublishedBaseModel, NamedBaseModel):
-    id = models.BigAutoField(
-        auto_created=True,
-        primary_key=True,
-        verbose_name='id',
-    )
     text = models.TextField(
         verbose_name='Текст',
         validators=[validate_words_in_text],
-        help_text='Обязательно должно содержать'
-        'слова "превосходно" или "роскошно"',
+        help_text='Обязательно должно содержать слова "превосходно"'
+        'или "роскошно"',
     )
     category = models.ForeignKey(
         Category,
@@ -66,7 +51,7 @@ class Item(PublishedBaseModel, NamedBaseModel):
     tags = models.ManyToManyField(
         Tag,
         related_name='items',
-        verbose_name='Тэг',
+        verbose_name='Теги',
     )
 
     class Meta:
@@ -76,3 +61,7 @@ class Item(PublishedBaseModel, NamedBaseModel):
 
     def __str__(self):
         return self.name
+    
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)

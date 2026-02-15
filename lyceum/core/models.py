@@ -9,7 +9,6 @@ class PublishedBaseModel(models.Model):
     is_published = models.BooleanField(
         default=True,
         verbose_name='Опубликовано',
-        db_column='is_published',
     )
 
     class Meta:
@@ -20,7 +19,7 @@ class NamedBaseModel(models.Model):
     name = models.CharField(
         max_length=150,
         verbose_name='Название',
-        db_column='name',
+        db_index=True,
     )
 
     class Meta:
@@ -33,7 +32,6 @@ class SluggedBaseModel(models.Model):
         unique=True,
         validators=[validate_slug],
         verbose_name='Слаг',
-        db_column='slug',
         help_text='Только латиница, цифры, дефис и подчеркивание',
     )
 

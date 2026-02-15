@@ -86,14 +86,9 @@ class ItemModelTest(django.test.TestCase):
             name='Test Category',
             slug='test-category',
         )
-        cls.item = Item.objects.create(
-            name='Test Item',
-            category=cls.category,
-        )
 
     @classmethod
     def tearDownClass(cls):
-        cls.item.delete()
         cls.category.delete()
         super().tearDownClass()
 
@@ -128,13 +123,14 @@ class ItemModelTest(django.test.TestCase):
     )
     @override_settings(ALLOW_REVERSE=False)
     def test_invalid_create(self, name, is_published, text):
-        item = Item.objects.create(
+        item = Item(
             name=name,
             is_published=is_published,
             text=text,
             category=self.category,
         )
-        self.assertRaises(ValidationError, item.full_clean)
+        with self.assertRaises(ValidationError):
+            item.full_clean()
 
 
 class TagModelTest(django.test.TestCase):
