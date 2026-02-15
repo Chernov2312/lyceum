@@ -79,8 +79,6 @@ class StaticReTests(django.test.TestCase):
 
 
 class ItemModelTest(TestCase):
-    """Тесты для модели Item"""
-
     def setUp(self):
         self.category = Category.objects.create(
             name='Тестовая категория', slug='test-category', weight=100
