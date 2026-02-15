@@ -32,7 +32,7 @@ class SluggedBaseModel(models.Model):
         max_length=200,
         unique=True,
         validators=[validate_slug],
-        verbose_name='слуг',
+        verbose_name='Слаг',
         help_text='Только латиница, цифры, дефис и подчеркивание',
     )
 
