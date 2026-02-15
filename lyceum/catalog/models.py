@@ -18,6 +18,7 @@ class Tag(PublishedBaseModel, NamedBaseModel, SluggedBaseModel):
     class Meta:
         verbose_name = 'тег'
         verbose_name_plural = 'теги'
+        ordering = ['name']
 
     def __str__(self):
         return self.name
@@ -38,6 +39,7 @@ class Category(PublishedBaseModel, NamedBaseModel, SluggedBaseModel):
     class Meta:
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
+        ordering = ['weight', 'name']
 
     def __str__(self):
         return self.name
@@ -70,6 +72,7 @@ class Item(PublishedBaseModel, NamedBaseModel):
     class Meta:
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'
+        ordering = ['name']
 
     def __str__(self):
         return self.name
