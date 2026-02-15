@@ -181,8 +181,7 @@ class TagModelTest(django.test.TestCase):
             name='First Tag',
             slug='unique-slug',
         )
-
-        with self.assertRaises(IntegrityError):
+        with self.assertRaises(ValidationError):
             Tag.objects.create(
                 name='Second Tag',
                 slug='unique-slug',

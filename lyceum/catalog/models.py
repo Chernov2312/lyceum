@@ -17,6 +17,10 @@ class Tag(PublishedBaseModel, NamedBaseModel, SluggedBaseModel):
     def __str__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
+
 
 class Category(PublishedBaseModel, NamedBaseModel, SluggedBaseModel):
     weight = models.IntegerField(
@@ -33,6 +37,10 @@ class Category(PublishedBaseModel, NamedBaseModel, SluggedBaseModel):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
 
 
 class Item(PublishedBaseModel, NamedBaseModel):
