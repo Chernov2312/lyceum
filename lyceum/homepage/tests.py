@@ -4,7 +4,7 @@ import django.test
 from django.test import Client
 
 
-class StaticURLTestsTestCase(django.test.TestCase):
+class StaticTeaURLTestCase(django.test.TestCase):
     def test_homepage_endpoint(self):
         response = Client().get('/')
         self.assertEqual(response.status_code, http.HTTPStatus.OK)
