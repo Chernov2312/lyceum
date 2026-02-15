@@ -1,7 +1,6 @@
 import http
 
 from django.core.exceptions import ValidationError
-from django.db import IntegrityError
 import django.test
 from django.test import override_settings
 from parameterized import parameterized
