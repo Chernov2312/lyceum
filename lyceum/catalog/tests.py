@@ -98,7 +98,6 @@ class ItemModelTest(django.test.TestCase):
         cls.category.delete()
         super().tearDownClass()
 
-    @override_settings(ALLOW_REVERSE=False)
     @parameterized.expand(
         [
             ('Hgh', True, 'rangom превосходно'),
@@ -107,6 +106,7 @@ class ItemModelTest(django.test.TestCase):
             ('Another', False, 'росКошно'),
         ],
     )
+    @override_settings(ALLOW_REVERSE=False)
     def test_create_full(self, name, is_published, text):
         count = Item.objects.count()
         item = Item.objects.create(
@@ -121,13 +121,13 @@ class ItemModelTest(django.test.TestCase):
         self.assertEqual(item.text, text)
         self.assertEqual(item.category, self.category)
 
-    @override_settings(ALLOW_REVERSE=False)
     @parameterized.expand(
         [
             ('Hgh', True, 'rangom'),
             ('Another', False, 'что-то'),
         ],
     )
+    @override_settings(ALLOW_REVERSE=False)
     def test_invalid_create(self, name, is_published, text):
         item = Item.objects.create(
             name=name,
@@ -249,8 +249,8 @@ class CategoryModelTest(django.test.TestCase):
         self.assertEqual(category.weight, 500)
         self.assertFalse(category.is_published)
 
-    @override_settings(ALLOW_REVERSE=False)
     @parameterized.expand((0, 32768))
+    @override_settings(ALLOW_REVERSE=False)
     def test_weight_validation(self, weight):
         category = Category(
             name='Min Weight Category',
@@ -263,7 +263,6 @@ class CategoryModelTest(django.test.TestCase):
 
         self.assertIn('weight', context.exception.message_dict)
 
-    @override_settings(ALLOW_REVERSE=False)
     @parameterized.expand(
         [
             (1,),
@@ -271,6 +270,7 @@ class CategoryModelTest(django.test.TestCase):
             (32767,),
         ],
     )
+    @override_settings(ALLOW_REVERSE=False)
     def test_weight_boundary_values(self, weight):
         category = Category(
             name=f'Weight Test {weight}',
