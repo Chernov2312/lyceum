@@ -1,7 +1,7 @@
 from django.urls import path, re_path, register_converter
 
-from .converters import PositiveIntegerConverter
-from .views import (
+from catalog.converters import PositiveIntegerConverter
+from catalog.views import (
     get_int_item_detail,
     item_list,
 )
