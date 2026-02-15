@@ -1,11 +1,11 @@
-from core.models import NamedBaseModel, PublishedBaseModel, SluggedBaseModel
 from django.core.validators import (
     MaxValueValidator,
     MinValueValidator,
 )
 from django.db import models
 
-from .validators import validate_words_in_text
+from catalog.validators import validate_words_in_text
+from core.models import NamedBaseModel, PublishedBaseModel, SluggedBaseModel
 
 
 class Tag(PublishedBaseModel, NamedBaseModel, SluggedBaseModel):

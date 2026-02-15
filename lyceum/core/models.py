@@ -1,7 +1,8 @@
+from django.db import models
+
 from core.validators import (
     validate_slug,
 )
-from django.db import models
 
 
 class PublishedBaseModel(models.Model):
