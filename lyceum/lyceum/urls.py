@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import include, path
 
-from .settings import DEBUG
+from lyceum.settings import DEBUG
 
 urlpatterns = [
     path('', include('homepage.urls')),
