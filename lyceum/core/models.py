@@ -18,7 +18,9 @@ class PublishedBaseModel(models.Model):
 
 class NamedBaseModel(models.Model):
     name = models.CharField(
-        max_length=150, validators=[validate_name], verbose_name='Название',
+        max_length=150,
+        validators=[validate_name],
+        verbose_name='Название',
     )
 
     class Meta:
