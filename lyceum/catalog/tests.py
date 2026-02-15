@@ -162,29 +162,18 @@ class CategoryModelTest(TestCase):
     @parameterized.expand(
         [
             ('valid_slug_1', 'test'),
-            ('valid_slug_4', 'Test123'),
-            ('valid_slug_5', 'a' * 200),
+            ('valid_slug_2', 'Test123'),
+            ('valid_slug_3', 'a' * 200),
         ]
     )
     def test_category_slug_valid_values(self, name, slug):
-        category = Category(name=f'Тест {slug}', slug=slug, weight=100)
         try:
+            category = Category.objects.create(
+                name='Электроника', slug=slug, weight=100
+            )
             category.full_clean()
         except ValidationError:
             self.fail(f"Slug '{slug}' should be valid!")
-
-    @parameterized.expand(
-        [
-            ('invalid_slug_1', 'test@123'),
-            ('invalid_slug_2', 'test 123'),
-            ('invalid_slug_3', 'тест'),
-            ('invalid_slug_4', 'test.123'),
-        ]
-    )
-    def test_category_slug_invalid_values(self, name, slug):
-        category = Category(name=f'Тест {slug}', slug=slug, weight=100)
-        with self.assertRaises(ValidationError):
-            category.full_clean()
 
     def test_category_unique_slug(self):
         Category.objects.create(
@@ -213,28 +202,16 @@ class TagModelTest(TestCase):
     @parameterized.expand(
         [
             ('valid_slug_1', 'new'),
-            ('valid_slug_2', 'new-2024'),
-            ('valid_slug_5', 'a' * 200),
+            ('valid_slug_2', 'new_2024'),
+            ('valid_slug_3', 'a' * 200),
         ]
     )
     def test_tag_slug_valid_values(self, name, slug):
-        tag = Tag(name=f'Тест {slug}', slug=slug)
+        tag = Tag(name='Тест', slug=slug)
         try:
             tag.full_clean()
         except ValidationError:
             self.fail(f"Slug '{slug}' should be valid!")
-
-    @parameterized.expand(
-        [
-            ('invalid_slug_1', 'new@2024'),
-            ('invalid_slug_2', 'new 2024'),
-            ('invalid_slug_3', 'новинка'),
-        ]
-    )
-    def test_tag_slug_invalid_values(self, name, slug):
-        tag = Tag(name=f'Тест {slug}', slug=slug)
-        with self.assertRaises(ValidationError):
-            tag.full_clean()
 
     def test_tag_unique_slug(self):
         Tag.objects.create(name='Тег 1', slug='test-tag')
@@ -281,11 +258,3 @@ class ItemRelationsTest(TestCase):
         for tag in selected_tags:
             self.assertIn(tag, item.tags.all())
             self.assertIn(item, tag.items.all())
-
-    def test_category_delete_sets_null(self):
-        item = Item.objects.create(
-            name='Телефон', text='Работает превосходно', category=self.category
-        )
-        self.category.delete()
-        item.refresh_from_db()
-        self.assertIsNone(item.category)

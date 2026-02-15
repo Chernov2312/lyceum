@@ -1,5 +1,5 @@
 from django.core.validators import (
-    validate_unicode_slug,
+    validate_slug,
 )
 from django.db import models
 
@@ -24,7 +24,7 @@ class SluggedBaseModel(models.Model):
     slug = models.CharField(
         max_length=200,
         unique=True,
-        validators=[validate_unicode_slug],
+        validators=[validate_slug],
         verbose_name='Слаг',
         help_text='Только латиница, цифры, дефис и подчеркивание',
     )
