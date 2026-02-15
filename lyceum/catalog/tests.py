@@ -1,13 +1,12 @@
 import http
 
-from catalog.models import Category, Item, Tag
-
-import django.test
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
+import django.test
 from django.test import override_settings
-
 from parameterized import parameterized
+
+from catalog.models import Category, Item, Tag
 
 
 class StaticURLTests(django.test.TestCase):

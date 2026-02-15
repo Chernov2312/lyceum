@@ -7,3 +7,7 @@ exclude =
     *.egg,
     .venv,
     migrations
+
+import-order-style = google
+application-import-names = catalog, lyceum, config
+per-file-ignores = */__init__.py:F401

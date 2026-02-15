@@ -1,5 +1,4 @@
 from core.models import NamedBaseModel, PublishedBaseModel, SluggedBaseModel
-
 from django.core.validators import (
     MaxValueValidator,
     MinValueValidator,

@@ -1,7 +1,6 @@
 from core.validators import (
     validate_slug,
 )
-
 from django.db import models
 
 
