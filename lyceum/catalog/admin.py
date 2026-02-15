@@ -6,6 +6,11 @@ LIST_PER_PAGE = 20
 LIST_FILTER_CATEGORY = ['is_published']
 LIST_FILTER_TAG = ['is_published']
 LIST_FILTER_ITEM = ['is_published', 'category']
+LIST_DISPLAY_ITEM = ('name', 'is_published', 'category_info')
+LIST_ADIBLE_ITEM = ('is_published',)
+LIST_FILTER_ITEM = ('name',)
+LIST_DISPLAY_LINKS_ITEM = ('name',)
+LIST_HORIZONTAL_ITEM = ('tags',)
 
 
 @admin.register(Category)
@@ -22,11 +27,11 @@ class TagAdmin(admin.ModelAdmin):
 
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
-    list_display = ('name', 'is_published', 'category_info')
-    list_editable = ('is_published',)
-    list_display_links = ('name',)
+    list_display = LIST_DISPLAY_ITEM
+    list_editable = LIST_ADIBLE_ITEM
+    list_display_links = LIST_DISPLAY_LINKS_ITEM
     list_filter = LIST_FILTER_ITEM
-    filter_horizontal = ('tags',)
+    filter_horizontal = LIST_HORIZONTAL_ITEM
     list_per_page = LIST_PER_PAGE
 
     @admin.display(description='Категория')
