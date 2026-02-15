@@ -3,9 +3,9 @@ from django.contrib import admin
 from catalog.models import Category, Item, Tag
 
 LIST_PER_PAGE = 20
-LIST_FILTER_CATEGORY = ['is_published']
-LIST_FILTER_TAG = ['is_published']
-LIST_FILTER_ITEM = ['is_published', 'category']
+LIST_FILTER_CATEGORY = ('is_published',)
+LIST_FILTER_TAG = ('is_published',)
+LIST_FILTER_ITEM = ('is_published', 'category')
 LIST_DISPLAY_ITEM = ('name', 'is_published', 'category_info')
 LIST_ADIBLE_ITEM = ('is_published',)
 LIST_FILTER_ITEM = ('name',)
