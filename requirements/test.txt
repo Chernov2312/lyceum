@@ -2,7 +2,7 @@
 -r dev.txt
 flake8==7.3.0
 flake8-bugbear==25.11.29
-flake8-isort==7.0.0
+flake8-import-order==0.19.2
 flake8-quotes==3.4.0
 isort==7.0.0
 parameterized==0.9.0

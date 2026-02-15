@@ -1,4 +1,5 @@
 from core.models import NamedBaseModel, PublishedBaseModel, SluggedBaseModel
+
 from django.core.validators import (
     MaxValueValidator,
     MinValueValidator,
@@ -14,8 +15,8 @@ class Tag(PublishedBaseModel, NamedBaseModel, SluggedBaseModel):
     )
 
     class Meta:
-        verbose_name = 'Тэг'
-        verbose_name_plural = 'Тэги'
+        verbose_name = 'тег'
+        verbose_name_plural = 'теги'
 
     def __str__(self):
         return self.name

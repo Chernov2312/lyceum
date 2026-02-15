@@ -1,11 +1,13 @@
 import http
 
-import django.test
 from catalog.models import Category, Item, Tag
 from catalog.validators import validate_words_in_text
+
+import django.test
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 from django.test import TestCase
+
 from parameterized import parameterized
 
 
