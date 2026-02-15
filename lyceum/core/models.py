@@ -8,7 +8,7 @@ from core.validators import (
 class PublishedBaseModel(models.Model):
     is_published = models.BooleanField(
         default=True,
-        verbose_name='Опубликовано',
+        verbose_name='опубликовано',
     )
 
     class Meta:
@@ -18,7 +18,7 @@ class PublishedBaseModel(models.Model):
 class NamedBaseModel(models.Model):
     name = models.CharField(
         max_length=150,
-        verbose_name='Название',
+        verbose_name='название',
         db_index=True,
     )
 
@@ -31,7 +31,7 @@ class SluggedBaseModel(models.Model):
         max_length=200,
         unique=True,
         validators=[validate_slug],
-        verbose_name='Слаг',
+        verbose_name='слаг',
         help_text='Только латиница, цифры, дефис и подчеркивание',
     )
 
