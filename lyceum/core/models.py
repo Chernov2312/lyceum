@@ -1,6 +1,8 @@
-from django.core.validators import (
+from core.validators import (
+    validate_name,
     validate_slug,
 )
+
 from django.db import models
 
 
@@ -15,7 +17,9 @@ class PublishedBaseModel(models.Model):
 
 
 class NamedBaseModel(models.Model):
-    name = models.CharField(max_length=150, verbose_name='Название')
+    name = models.CharField(
+        max_length=150, validators=[validate_name], verbose_name='Название',
+    )
 
     class Meta:
         abstract = True
