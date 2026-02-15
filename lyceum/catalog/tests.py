@@ -5,6 +5,7 @@ from catalog.models import Category, Item, Tag
 import django.test
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
+from django.test import override_settings
 
 from parameterized import parameterized
 
@@ -91,12 +92,14 @@ class ItemModelTest(django.test.TestCase):
             category=cls.category,
         )
 
+    @override_settings(ALLOW_REVERSE=False)
     @classmethod
     def tearDownClass(cls):
         cls.item.delete()
         cls.category.delete()
         super().tearDownClass()
 
+    @override_settings(ALLOW_REVERSE=False)
     @parameterized.expand(
         [
             ('Hgh', True, 'rangom превосходно'),
@@ -119,6 +122,7 @@ class ItemModelTest(django.test.TestCase):
         self.assertEqual(item.text, text)
         self.assertEqual(item.category, self.category)
 
+    @override_settings(ALLOW_REVERSE=False)
     @parameterized.expand(
         [
             ('Hgh', True, 'rangom'),
@@ -150,6 +154,7 @@ class TagModelTest(django.test.TestCase):
         cls.tag.delete()
         super().tearDownClass()
 
+    @override_settings(ALLOW_REVERSE=False)
     def test_create_minimal(self):
         tag_count = Tag.objects.count()
         tag = Tag.objects.create(
@@ -162,6 +167,7 @@ class TagModelTest(django.test.TestCase):
         self.assertEqual(tag.slug, 'minimal-tag')
         self.assertIsNotNone(tag.is_published)
 
+    @override_settings(ALLOW_REVERSE=False)
     def test_create_full(self):
         tag_count = Tag.objects.count()
         tag = Tag.objects.create(
@@ -175,6 +181,7 @@ class TagModelTest(django.test.TestCase):
         self.assertEqual(tag.slug, 'full-tag')
         self.assertFalse(tag.is_published)
 
+    @override_settings(ALLOW_REVERSE=False)
     def test_slug_unique(self):
         Tag.objects.create(
             name='First Tag',
@@ -187,6 +194,7 @@ class TagModelTest(django.test.TestCase):
                 slug='unique-slug',
             )
 
+    @override_settings(ALLOW_REVERSE=False)
     def test_slug_validation(self):
         tag = Tag(
             name='Invalid Slug Tag',
@@ -212,6 +220,7 @@ class CategoryModelTest(django.test.TestCase):
         cls.category.delete()
         super().tearDownClass()
 
+    @override_settings(ALLOW_REVERSE=False)
     def test_create_minimal(self):
         category_count = Category.objects.count()
         category = Category.objects.create(
@@ -225,6 +234,7 @@ class CategoryModelTest(django.test.TestCase):
         self.assertEqual(category.weight, 100)
         self.assertIsNotNone(category.is_published)
 
+    @override_settings(ALLOW_REVERSE=False)
     def test_create_full(self):
         category_count = Category.objects.count()
         category = Category.objects.create(
@@ -240,6 +250,7 @@ class CategoryModelTest(django.test.TestCase):
         self.assertEqual(category.weight, 500)
         self.assertFalse(category.is_published)
 
+    @override_settings(ALLOW_REVERSE=False)
     @parameterized.expand((0, 32768))
     def test_weight_validation(self, weight):
         category = Category(
@@ -253,6 +264,7 @@ class CategoryModelTest(django.test.TestCase):
 
         self.assertIn('weight', context.exception.message_dict)
 
+    @override_settings(ALLOW_REVERSE=False)
     @parameterized.expand(
         [
             (1,),
