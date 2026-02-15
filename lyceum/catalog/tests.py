@@ -92,7 +92,6 @@ class ItemModelTest(django.test.TestCase):
             category=cls.category,
         )
 
-    @override_settings(ALLOW_REVERSE=False)
     @classmethod
     def tearDownClass(cls):
         cls.item.delete()
