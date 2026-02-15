@@ -20,6 +20,7 @@ class NamedBaseModel(models.Model):
         max_length=150,
         verbose_name='название',
         db_index=True,
+        help_text='Название до 150 символов',
     )
 
     class Meta:
