@@ -37,8 +37,8 @@ class Category(PublishedBaseModel, NamedBaseModel, SluggedBaseModel):
     )
 
     class Meta:
-        verbose_name = 'Категория'
-        verbose_name_plural = 'Категории'
+        verbose_name = 'категория'
+        verbose_name_plural = 'категории'
         ordering = ['weight', 'name']
 
     def __str__(self):
@@ -70,8 +70,8 @@ class Item(PublishedBaseModel, NamedBaseModel):
     )
 
     class Meta:
-        verbose_name = 'Товар'
-        verbose_name_plural = 'Товары'
+        verbose_name = 'товар'
+        verbose_name_plural = 'товары'
         ordering = ['name']
 
     def __str__(self):
