@@ -25,7 +25,7 @@ class NamedBaseModel(models.Model):
 
 class SluggedBaseModel(models.Model):
     slug = models.SlugField(
-        'слаг',
+        name='слаг',
         max_length=200,
         unique=True,
         help_text='Только латиница, цифры, дефис и подчеркивание',
