@@ -1,14 +1,20 @@
 import re
 
 import django.core.validators
+from django.utils.deconstruct import deconstructible
+from django.utils.translation import gettext_lazy as _
 
 
-def validate_words_in_text(value: str):
-    words_need = ['превосходно', 'роскошно']
-    pattern = r'\b(?:' + '|'.join(words_need) + r')\b'
-    must_be_word = re.compile(pattern, flags=re.IGNORECASE)
-    if not must_be_word.search(value):
-        raise django.core.validators.ValidationError(
-            f'Обязательно нужно использовать одно из слов {words_need}',
+@deconstructible
+class ValidateMustContain(django.core.validators.BaseValidator):
+    def __init__(self, words):
+        self.words = words
+        self.pattern = r'\b(?:' + '|'.join(words) + r')\b'
+        self.message = _(
+            f'Обязательно нужно использовать одно из слов {words}',
         )
-    return value
+
+    def __call__(self, value):
+        print(value)
+        if not re.search(self.pattern, value, flags=re.IGNORECASE):
+            raise django.core.validators.ValidationError(self.message)

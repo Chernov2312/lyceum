@@ -1,3 +1,6 @@
+from django.utils.translation import gettext_lazy as _
+
+
 class PositiveIntegerConverter:
     regex = r'[0-9]*[1-9][0-9]*'
 
@@ -6,15 +9,20 @@ class PositiveIntegerConverter:
             int_value = int(value)
             if int_value <= 0:
                 raise ValueError(
-                    'Значение должно быть положительным целым числом',
+                    _('Значение должно быть положительным целым числом'),
                 )
             return int_value
         except ValueError:
             raise ValueError(
-                f'{value} не является корректным положительным целым числом',
+                _(
+                    f'{value} не является корректным'
+                    'положительным целым числом',
+                ),
             )
 
     def to_url(self, value):
         if value <= 0:
-            raise ValueError(f'{value} должно быть положительным целым числом')
+            raise ValueError(
+                _(f'{value} должно быть положительным целым числом'),
+            )
         return str(value)
