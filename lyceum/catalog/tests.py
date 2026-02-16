@@ -8,6 +8,7 @@ from parameterized import parameterized
 from catalog.models import Category, Item, Tag
 
 
+@override_settings(ALLOW_REVERSE=False)
 class StaticURLTests(django.test.TestCase):
     def test_item_list_endpoint(self):
         response = django.test.Client().get('/catalog/')
@@ -19,6 +20,7 @@ class StaticURLTests(django.test.TestCase):
         self.assertEqual(response.status_code, http.HTTPStatus.OK)
 
 
+@override_settings(ALLOW_REVERSE=False)
 class StaticConverterTests(django.test.TestCase):
     @parameterized.expand(('01', '010', '52'))
     def test_item_converter_posituv_digit_endpoint(self, value):
@@ -48,6 +50,7 @@ class StaticConverterTests(django.test.TestCase):
         self.assertEqual(response.status_code, http.HTTPStatus.NOT_FOUND)
 
 
+@override_settings(ALLOW_REVERSE=False)
 class StaticReTests(django.test.TestCase):
     @parameterized.expand(('01', '010', '52'))
     def test_item_re_posituv_digit_endpoint(self, value):
@@ -77,6 +80,7 @@ class StaticReTests(django.test.TestCase):
         self.assertEqual(response.status_code, http.HTTPStatus.NOT_FOUND)
 
 
+@override_settings(ALLOW_REVERSE=False)
 class ItemModelTest(django.test.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -99,7 +103,6 @@ class ItemModelTest(django.test.TestCase):
             ('Another', False, 'росКошно'),
         ],
     )
-    @override_settings(ALLOW_REVERSE=False)
     def test_create_full(self, name, is_published, text):
         count = Item.objects.count()
         item = Item.objects.create(
@@ -120,7 +123,6 @@ class ItemModelTest(django.test.TestCase):
             ('Another', False, 'что-то'),
         ],
     )
-    @override_settings(ALLOW_REVERSE=False)
     def test_invalid_create(self, name, is_published, text):
         item = Item(
             name=name,
@@ -132,6 +134,7 @@ class ItemModelTest(django.test.TestCase):
             item.full_clean()
 
 
+@override_settings(ALLOW_REVERSE=False)
 class TagModelTest(django.test.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -147,7 +150,6 @@ class TagModelTest(django.test.TestCase):
         cls.tag.delete()
         super().tearDownClass()
 
-    @override_settings(ALLOW_REVERSE=False)
     def test_create_minimal(self):
         tag_count = Tag.objects.count()
         tag = Tag.objects.create(
@@ -160,7 +162,6 @@ class TagModelTest(django.test.TestCase):
         self.assertEqual(tag.slug, 'minimal-tag')
         self.assertIsNotNone(tag.is_published)
 
-    @override_settings(ALLOW_REVERSE=False)
     def test_create_full(self):
         tag_count = Tag.objects.count()
         tag = Tag.objects.create(
@@ -174,7 +175,6 @@ class TagModelTest(django.test.TestCase):
         self.assertEqual(tag.slug, 'full-tag')
         self.assertFalse(tag.is_published)
 
-    @override_settings(ALLOW_REVERSE=False)
     def test_slug_unique(self):
         Tag.objects.create(
             name='First Tag',
@@ -186,7 +186,6 @@ class TagModelTest(django.test.TestCase):
                 slug='unique-slug',
             )
 
-    @override_settings(ALLOW_REVERSE=False)
     def test_slug_validation(self):
         tag = Tag(
             name='Invalid Slug Tag',
@@ -196,6 +195,7 @@ class TagModelTest(django.test.TestCase):
             tag.full_clean()
 
 
+@override_settings(ALLOW_REVERSE=False)
 class CategoryModelTest(django.test.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -212,7 +212,6 @@ class CategoryModelTest(django.test.TestCase):
         cls.category.delete()
         super().tearDownClass()
 
-    @override_settings(ALLOW_REVERSE=False)
     def test_create_minimal(self):
         category_count = Category.objects.count()
         category = Category.objects.create(
@@ -226,7 +225,6 @@ class CategoryModelTest(django.test.TestCase):
         self.assertEqual(category.weight, 100)
         self.assertIsNotNone(category.is_published)
 
-    @override_settings(ALLOW_REVERSE=False)
     def test_create_full(self):
         category_count = Category.objects.count()
         category = Category.objects.create(
@@ -243,7 +241,6 @@ class CategoryModelTest(django.test.TestCase):
         self.assertFalse(category.is_published)
 
     @parameterized.expand((0, 32768))
-    @override_settings(ALLOW_REVERSE=False)
     def test_weight_validation(self, weight):
         category = Category(
             name='Min Weight Category',
@@ -263,7 +260,6 @@ class CategoryModelTest(django.test.TestCase):
             (32767,),
         ],
     )
-    @override_settings(ALLOW_REVERSE=False)
     def test_weight_boundary_values(self, weight):
         category = Category(
             name=f'Weight Test {weight}',
