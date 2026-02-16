@@ -3,7 +3,6 @@ from django.core.validators import (
     MinValueValidator,
 )
 from django.db import models
-from django.utils.translation import gettext_lazy as _
 
 from catalog.validators import ValidateMustContain
 from core.models import NamedBaseModel, PublishedBaseModel, SluggedBaseModel
@@ -11,8 +10,8 @@ from core.models import NamedBaseModel, PublishedBaseModel, SluggedBaseModel
 
 class Tag(NamedBaseModel, PublishedBaseModel, SluggedBaseModel):
     class Meta:
-        verbose_name = _('тег')
-        verbose_name_plural = _('теги')
+        verbose_name = 'тег'
+        verbose_name_plural = 'теги'
         ordering = ['name']
 
     def __str__(self):
@@ -27,13 +26,13 @@ class Category(PublishedBaseModel, NamedBaseModel, SluggedBaseModel):
     weight = models.IntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(32767)],
         default=100,
-        verbose_name=_('вес'),
-        help_text=_('Вес категории от 1 до 32767'),
+        verbose_name='вес',
+        help_text='Вес категории от 1 до 32767',
     )
 
     class Meta:
-        verbose_name = _('категория')
-        verbose_name_plural = _('категории')
+        verbose_name = 'категория'
+        verbose_name_plural = 'категории'
         ordering = ['weight', 'name']
 
     def __str__(self):
@@ -46,27 +45,26 @@ class Category(PublishedBaseModel, NamedBaseModel, SluggedBaseModel):
 
 class Item(PublishedBaseModel, NamedBaseModel):
     text = models.TextField(
-        verbose_name=_('текст'),
+        verbose_name='текст',
         validators=[ValidateMustContain(['роскошно', 'превосходно'])],
-        help_text=_(
-            'Обязательно должно содержать слова "превосходно" или "роскошно"',
-        ),
+        help_text='Обязательно должно содержать слова "превосходно"'
+        'или "роскошно"',
     )
     category = models.ForeignKey(
         Category,
         related_name='items',
         on_delete=models.CASCADE,
-        verbose_name=_('Категория'),
+        verbose_name='Категория',
     )
     tags = models.ManyToManyField(
         Tag,
         related_name='items',
-        verbose_name=_('Теги'),
+        verbose_name='Теги',
     )
 
     class Meta:
-        verbose_name = _('товар')
-        verbose_name_plural = _('товары')
+        verbose_name = 'товар'
+        verbose_name_plural = 'товары'
         ordering = ['name']
 
     def __str__(self):
