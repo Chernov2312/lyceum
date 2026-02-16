@@ -8,14 +8,12 @@ from catalog.models import Category, Item, Tag
 class CategoryAdmin(admin.ModelAdmin):
     list_filter = settings.LIST_FILTER_CATEGORY
     list_per_page = settings.LIST_PER_PAGE
-    prepopulated_fields = {'slug': ('name', )}
 
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
     list_filter = settings.LIST_FILTER_TAG
     list_per_page = settings.LIST_PER_PAGE
-    prepopulated_fields = {'slug': ('name', )}
 
 
 @admin.register(Item)
