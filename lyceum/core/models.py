@@ -1,9 +1,5 @@
 from django.db import models
 
-from core.validators import (
-    validate_slug,
-)
-
 
 class PublishedBaseModel(models.Model):
     is_published = models.BooleanField(
