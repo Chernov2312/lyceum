@@ -33,3 +33,4 @@ class SluggedBaseModel(models.Model):
 
     class Meta:
         abstract = True
+        verbose_name = 'слаг'

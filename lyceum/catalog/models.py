@@ -8,7 +8,7 @@ from catalog.validators import validate_words_in_text
 from core.models import NamedBaseModel, PublishedBaseModel, SluggedBaseModel
 
 
-class Tag(PublishedBaseModel, NamedBaseModel, SluggedBaseModel):
+class Tag(NamedBaseModel, PublishedBaseModel, SluggedBaseModel):
     class Meta:
         verbose_name = 'тег'
         verbose_name_plural = 'теги'
@@ -26,7 +26,7 @@ class Category(PublishedBaseModel, NamedBaseModel, SluggedBaseModel):
     weight = models.IntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(32767)],
         default=100,
-        verbose_name='Вес',
+        verbose_name='вес',
         help_text='Вес категории от 1 до 32767',
     )
 
@@ -45,7 +45,7 @@ class Category(PublishedBaseModel, NamedBaseModel, SluggedBaseModel):
 
 class Item(PublishedBaseModel, NamedBaseModel):
     text = models.TextField(
-        verbose_name='Текст',
+        verbose_name='текст',
         validators=[validate_words_in_text],
         help_text='Обязательно должно содержать слова "превосходно"'
         'или "роскошно"',
