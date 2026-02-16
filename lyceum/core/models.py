@@ -27,7 +27,7 @@ class SluggedBaseModel(models.Model):
     slug = models.SlugField(
         max_length=200,
         unique=True,
-        verbose_name='URL',
+        verbose_name='слаг',
         help_text='Только латиница, цифры, дефис и подчеркивание',
     )
 
