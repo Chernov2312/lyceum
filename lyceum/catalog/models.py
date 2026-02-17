@@ -6,6 +6,7 @@ from django.db import models
 
 from catalog.validators import ValidateMustContain
 from core.models import NamedBaseModel, PublishedBaseModel
+from core.unic_field import Normalise
 
 
 class Tag(NamedBaseModel, PublishedBaseModel):
@@ -14,6 +15,13 @@ class Tag(NamedBaseModel, PublishedBaseModel):
         max_length=200,
         unique=True,
         help_text='Только латиница, цифры, дефис и подчеркивание',
+    )
+    normalized_name = models.CharField(
+        max_length=150,
+        unique=True,
+        editable=False,
+        db_index=True,
+        verbose_name='нормализованное название',
     )
 
     class Meta:
@@ -25,6 +33,7 @@ class Tag(NamedBaseModel, PublishedBaseModel):
         return self.name
 
     def save(self, *args, **kwargs):
+        self.normalized_name = Normalise.normalize_name(self.name)
         self.full_clean()
         super().save(*args, **kwargs)
 
@@ -52,6 +61,7 @@ class Category(PublishedBaseModel, NamedBaseModel):
         return self.name
 
     def save(self, *args, **kwargs):
+        self.normalized_name = Normalise.normalize_name(self.name)
         self.full_clean()
         super().save(*args, **kwargs)
 
