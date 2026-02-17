@@ -6,10 +6,12 @@ from django.utils.deconstruct import deconstructible
 
 @deconstructible
 class ValidateMustContain(django.core.validators.BaseValidator):
-    def __init__(self, words):
+    def __init__(self, *words):
         self.words = words
-        self.pattern = r'\b(?:' + '|'.join(words) + r')\b'
-        self.message = f'Обязательно нужно использовать одно из слов {words}'
+        self.pattern = r'\b(?:' + '|'.join(self.words) + r')\b'
+        self.message = (
+            f'Обязательно нужно использовать одно из слов {self.words}'
+        )
 
     def __call__(self, value):
         print(value)

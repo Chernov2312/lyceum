@@ -59,7 +59,7 @@ class Category(PublishedBaseModel, NamedBaseModel):
 class Item(PublishedBaseModel, NamedBaseModel):
     text = models.TextField(
         verbose_name='текст',
-        validators=[ValidateMustContain(['роскошно', 'превосходно'])],
+        validators=[ValidateMustContain('роскошно', 'превосходно')],
         help_text='Обязательно должно содержать слова "превосходно"'
         'или "роскошно"',
     )
