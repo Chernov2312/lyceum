@@ -24,6 +24,14 @@ class Tag(NamedBaseModel, PublishedBaseModel):
         verbose_name='нормализованное название',
     )
 
+    normalized_name = models.CharField(
+        max_length=150,
+        unique=True,
+        editable=False,
+        db_index=True,
+        verbose_name='нормализованное название',
+    )
+
     class Meta:
         verbose_name = 'тег'
         verbose_name_plural = 'теги'
@@ -33,7 +41,7 @@ class Tag(NamedBaseModel, PublishedBaseModel):
         return self.name
 
     def save(self, *args, **kwargs):
-        self.normalized_name = Normalise.normalize_name(self.name)
+        self.normalized_name = Normalise.normalize(self.name)
         self.full_clean()
         super().save(*args, **kwargs)
 
@@ -51,6 +59,13 @@ class Category(PublishedBaseModel, NamedBaseModel):
         verbose_name='вес',
         help_text='Вес категории от 1 до 32767',
     )
+    normalized_name = models.CharField(
+        max_length=150,
+        unique=True,
+        editable=False,
+        db_index=True,
+        verbose_name='нормализованное название',
+    )
 
     class Meta:
         verbose_name = 'категория'
@@ -61,7 +76,7 @@ class Category(PublishedBaseModel, NamedBaseModel):
         return self.name
 
     def save(self, *args, **kwargs):
-        self.normalized_name = Normalise.normalize_name(self.name)
+        self.normalized_name = Normalise.normalize(self.name)
         self.full_clean()
         super().save(*args, **kwargs)
 
