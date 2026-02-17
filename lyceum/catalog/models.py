@@ -24,14 +24,6 @@ class Tag(NamedBaseModel, PublishedBaseModel):
         verbose_name='нормализованное название',
     )
 
-    normalized_name = models.CharField(
-        max_length=150,
-        unique=True,
-        editable=False,
-        db_index=True,
-        verbose_name='нормализованное название',
-    )
-
     class Meta:
         verbose_name = 'тег'
         verbose_name_plural = 'теги'
