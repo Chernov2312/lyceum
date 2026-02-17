@@ -7,25 +7,42 @@ class Normalise:
         value = value.lower().strip()
         replacements = {
             'а': 'a',
-            'с': 'c',
+            'б': 'b',
+            'в': 'v',
+            'г': 'g',
+            'д': 'd',
             'е': 'e',
-            'о': 'o',
-            'р': 'p',
-            'х': 'x',
-            'у': 'y',
-            'в': 'b',
-            'н': 'h',
+            'ё': 'yo',
+            'ж': 'zh',
+            'з': 'z',
+            'и': 'i',
+            'й': 'y',
             'к': 'k',
-            'т': 't',
+            'л': 'l',
             'м': 'm',
-            'и': 'u',
-            'ё': 'e',
-            'й': 'i',
+            'н': 'n',
+            'о': 'o',
+            'п': 'p',
+            'р': 'r',
+            'с': 's',
+            'т': 't',
+            'у': 'u',
+            'ф': 'f',
+            'х': 'kh',
+            'ц': 'ts',
+            'ч': 'ch',
+            'ш': 'sh',
+            'щ': 'shch',
             'ъ': '',
+            'ы': 'y',
             'ь': '',
+            'э': 'e',
+            'ю': 'yu',
+            'я': 'ya',
         }
         for old, new in replacements.items():
             value = value.replace(old, new)
         value = re.sub(r'[^\w\s]', '', value)
-        value = re.sub(r'\s+', ' ', value)
+        value = re.sub(r'\s+', '', value)
+        print('asdfghjkl;', value)
         return value.strip()

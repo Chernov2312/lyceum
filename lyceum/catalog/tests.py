@@ -267,3 +267,37 @@ class CategoryModelTest(django.test.TestCase):
             weight=weight,
         )
         category.full_clean()
+
+
+@override_settings(ALLOW_REVERSE=False)
+class TestUniqueName(django.test.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+
+    @classmethod
+    def tearDownClass(cls):
+        super().tearDownClass()
+
+    @parameterized.expand(
+        [
+            ('Гений', 'Гений'),
+            ('Гений', 'гений'),
+            ('Гений', 'Гений!'),
+            ('Гений', 'Гений '),
+            ('Гений', 'Geний'),
+
+        ],
+    )
+    def test_unique(self, name, test_name, slug='deth'):
+        category_1 = Category(
+            name=name,
+            slug=slug,
+        )
+        category_1.save()
+        category_2 = Category(
+            name=test_name,
+            slug=slug + '10',
+        )
+        with self.assertRaises(ValidationError):
+            category_2.save()
