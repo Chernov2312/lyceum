@@ -5,10 +5,17 @@ from django.core.validators import (
 from django.db import models
 
 from catalog.validators import ValidateMustContain
-from core.models import NamedBaseModel, PublishedBaseModel, SluggedBaseModel
+from core.models import NamedBaseModel, PublishedBaseModel
 
 
-class Tag(NamedBaseModel, PublishedBaseModel, SluggedBaseModel):
+class Tag(NamedBaseModel, PublishedBaseModel):
+    slug = models.SlugField(
+        name='слаг',
+        max_length=200,
+        unique=True,
+        help_text='Только латиница, цифры, дефис и подчеркивание',
+    )
+
     class Meta:
         verbose_name = 'тег'
         verbose_name_plural = 'теги'
@@ -22,7 +29,13 @@ class Tag(NamedBaseModel, PublishedBaseModel, SluggedBaseModel):
         super().save(*args, **kwargs)
 
 
-class Category(PublishedBaseModel, NamedBaseModel, SluggedBaseModel):
+class Category(PublishedBaseModel, NamedBaseModel):
+    slug = models.SlugField(
+        name='слаг',
+        max_length=200,
+        unique=True,
+        help_text='Только латиница, цифры, дефис и подчеркивание',
+    )
     weight = models.IntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(32767)],
         default=100,

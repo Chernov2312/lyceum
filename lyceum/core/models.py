@@ -21,15 +21,3 @@ class NamedBaseModel(models.Model):
 
     class Meta:
         abstract = True
-
-
-class SluggedBaseModel(models.Model):
-    slug = models.SlugField(
-        name='слаг',
-        max_length=200,
-        unique=True,
-        help_text='Только латиница, цифры, дефис и подчеркивание',
-    )
-
-    class Meta:
-        abstract = True
