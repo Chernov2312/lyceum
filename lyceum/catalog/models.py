@@ -10,7 +10,7 @@ from core.models import NamedBaseModel, PublishedBaseModel
 
 class Tag(NamedBaseModel, PublishedBaseModel):
     slug = models.SlugField(
-        name='слаг',
+        verbose_name='слаг',
         max_length=200,
         unique=True,
         help_text='Только латиница, цифры, дефис и подчеркивание',
@@ -31,7 +31,7 @@ class Tag(NamedBaseModel, PublishedBaseModel):
 
 class Category(PublishedBaseModel, NamedBaseModel):
     slug = models.SlugField(
-        name='слаг',
+        verbose_name='слаг',
         max_length=200,
         unique=True,
         help_text='Только латиница, цифры, дефис и подчеркивание',
