@@ -16,7 +16,7 @@ class Tag(NamedBaseModel, PublishedBaseModel):
         unique=True,
         help_text='Только латиница, цифры, дефис и подчеркивание',
     )
-    normalized_name = models.CharField(
+    normalised_name = models.CharField(
         max_length=150,
         unique=True,
         editable=False,
@@ -33,7 +33,7 @@ class Tag(NamedBaseModel, PublishedBaseModel):
         return self.name
 
     def save(self, *args, **kwargs):
-        self.normalized_name = Normalise.normalize(self.name)
+        self.normalised_name = Normalise.normalise(self.name)
         self.full_clean()
         super().save(*args, **kwargs)
 
@@ -51,7 +51,7 @@ class Category(PublishedBaseModel, NamedBaseModel):
         verbose_name='вес',
         help_text='Вес категории от 1 до 32767',
     )
-    normalized_name = models.CharField(
+    normalised_name = models.CharField(
         max_length=150,
         unique=True,
         editable=False,
@@ -68,7 +68,7 @@ class Category(PublishedBaseModel, NamedBaseModel):
         return self.name
 
     def save(self, *args, **kwargs):
-        self.normalized_name = Normalise.normalize(self.name)
+        self.normalised_name = Normalise.normalise(self.name)
         self.full_clean()
         super().save(*args, **kwargs)
 

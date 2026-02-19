@@ -3,7 +3,7 @@ import re
 
 class Normalise:
     @classmethod
-    def normalize(cls, value):
+    def normalise(cls, value):
         value = value.lower().strip()
         replacements = {
             'а': 'a',
@@ -20,7 +20,7 @@ class Normalise:
             'к': 'k',
             'л': 'l',
             'м': 'm',
-            'н': 'n',
+            'н': 'h',
             'о': 'o',
             'п': 'p',
             'р': 'r',
@@ -28,7 +28,7 @@ class Normalise:
             'т': 't',
             'у': 'u',
             'ф': 'f',
-            'х': 'h',
+            'х': 'x',
             'ц': 's',
             'ч': 'h',
             'ш': 's',
@@ -39,10 +39,12 @@ class Normalise:
             'э': 'e',
             'ю': 'u',
             'я': 'y',
+            'n': 'h',
         }
         for old, new in replacements.items():
             value = value.replace(old, new)
         value = re.sub(r'[^\w\s]', '', value)
         value = re.sub(r'\s+', '', value)
+        value = re.sub(r'\d+', '', value)
         value = re.sub(r'(.)\1+', r'\1', value)
         return value.strip()
