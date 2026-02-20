@@ -486,6 +486,15 @@ class CategoryModelTest(django.test.TestCase):
         )
         category.full_clean()
 
+    @parameterized.expand(('-a'))
+    def test_minus_slug(self, slug):
+        category = Category(
+            name='gg',
+            slug=slug,
+            weight=1,
+        )
+        category.full_clean()
+
 
 @override_settings(ALLOW_REVERSE=False)
 class TestUniqueName(django.test.TestCase):
@@ -523,3 +532,24 @@ class TestUniqueName(django.test.TestCase):
         )
         with self.assertRaises(ValidationError):
             category_2.save()
+
+
+@override_settings(ALLOW_REVERSE=False)
+class TestLength(django.test.TestCase):
+    @parameterized.expand(('a' * 150, 'a'))
+    def test_max_min_name_length(self, name):
+        category = Category(
+            name=name,
+            slug='min-weight',
+            weight=1,
+        )
+        category.full_clean()
+
+    @parameterized.expand(('a' * 200, 'a'))
+    def test_max_min_slug_length(self, slug):
+        category = Category(
+            name='gg',
+            slug=slug,
+            weight=1,
+        )
+        category.full_clean()
