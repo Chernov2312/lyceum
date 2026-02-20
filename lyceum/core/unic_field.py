@@ -6,6 +6,7 @@ class Normalise:
     def normalise(cls, value):
         value = value.strip()
         replacements = {
+            'З': '',
             'а': 'a',
             'в': 'b',
             'е': 'e',
