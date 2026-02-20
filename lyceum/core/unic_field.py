@@ -32,6 +32,7 @@ class Normalise:
             'Т': 't',
             'У': 'y',
             'Х': 'x',
+            'l': 'I',
         }
         for old, new in replacements.items():
             value = value.replace(old, new)

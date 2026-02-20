@@ -259,6 +259,7 @@ class TestUniqueName(django.test.TestCase):
             ('гений123', 'гений'),
             ('Рома', 'Poма'),
             ('Ворон', 'Boрон'),
+            ('lol', 'IoI'),
         ],
     )
     def test_unique(self, name, test_name, slug='deth'):
