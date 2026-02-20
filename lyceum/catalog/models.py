@@ -84,12 +84,12 @@ class Item(PublishedBaseModel, NamedBaseModel):
         Category,
         related_name='items',
         on_delete=models.CASCADE,
-        verbose_name='Категория',
+        verbose_name='категория',
     )
     tags = models.ManyToManyField(
         Tag,
         related_name='items',
-        verbose_name='Теги',
+        verbose_name='теги',
     )
 
     class Meta:
