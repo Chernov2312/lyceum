@@ -11,8 +11,10 @@
 ### Это учебный проект для специализации по django 
 ### Необходимое ПО
 + Python 3.13
+https://www.python.org/downloads/
 + git
-
+ссылка
+https://github.com/apps/desktop
 ### Скопировать git репозиторий
 ```bash
 git clone https://gitlab.crja72.ru/django/2026/spring/course/students/173126-m.chernov.tchernov-course-1585
@@ -63,9 +65,17 @@ cp .env.example .env
 copy .env.example .env
 ```
 Копирование из .env.example примера в .env
-
-### ER диаграма базы данных
-![ER-диаграмма проекта](ER.jpg)
+### создание миграций
+```
+python manage.py makemigrations
+```
+```
+python manage.py migrate
+```
+### Создание superuser
+```
+python manage.py createsuperuser
+```
 ### Запуск приложения в dev режиме
 Переходим в папку, в которой есть manage.py и запускаем
 ```bash
@@ -74,10 +84,6 @@ cd lyceum
 + Linux/macOS
 ```bash
 python3 manage.py runserver
-```
-+ Windows
-```bash
-python manage.py runserver
 ```
 
 ### Ссылка где доступен сайт
@@ -93,7 +99,6 @@ cd lyceum
 ```bash
 python3 manage.py test
 ```
-+ Windows
-```bash
-python manage.py test
-```
+
+### ER база данных
+![ER-диаграмма проекта](ER.jpg)

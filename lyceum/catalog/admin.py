@@ -6,14 +6,14 @@ from catalog.models import Category, Item, Tag
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_filter = ('is_published',)
-    list_per_page = settings.ADMIN_LIST_PER_PAGE
+    list_filter = settings.LIST_FILTER
+    list_per_page = settings.LIST_PER_PAGE
 
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
-    list_filter = ('is_published',)
-    list_per_page = settings.ADMIN_LIST_PER_PAGE
+    list_filter = settings.LIST_FILTER
+    list_per_page = settings.LIST_PER_PAGE
 
 
 @admin.register(Item)
@@ -23,7 +23,7 @@ class ItemAdmin(admin.ModelAdmin):
     list_display_links = ('name',)
     list_filter = ('is_published', 'category', 'name')
     filter_horizontal = ('tags',)
-    list_per_page = settings.ADMIN_LIST_PER_PAGE
+    list_per_page = settings.LIST_PER_PAGE
 
     @admin.display(description='Категория')
     def category_info(self, obj):
