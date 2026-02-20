@@ -7,7 +7,6 @@ from lyceum.middleware import ReverseRussianMiddleware
 
 class ReversedCoffeeTests(django.test.TestCase):
     def setUp(self):
-        self.client = Client()
         ReverseRussianMiddleware.counter = 0
 
     @override_settings(ALLOW_REVERSE=True)

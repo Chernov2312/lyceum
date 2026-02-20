@@ -3,6 +3,8 @@ from pathlib import Path
 
 import environ
 
+import lyceum.utils
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env()
@@ -14,13 +16,7 @@ REQUESTS_COUNT_BEFORE_REVERSE = env.int(
     default=10,
 )
 
-DEBUG = env.str('DJANGO_DEBUG', default='False').lower() in {
-    'true',
-    'yes',
-    'on',
-    '1',
-    'y',
-}
+DEBUG = lyceum.utils.str_to_bool(env.str('DJANGO_DEBUG', default='False'))
 ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['*'])
 
 ALLOW_REVERSE = env.str('DJANGO_ALLOW_REVERSE', default='True').lower() in {
@@ -93,8 +89,8 @@ DATABASES = {
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': (
-            'django.contrib.auth.password_validation.'
-            'UserAttributeSimilarityValidator'
+            'django.contrib.auth.password_validation'
+            '.UserAttributeSimilarityValidator'
         ),
     },
     {
@@ -104,8 +100,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': (
-            'django.contrib.auth.password_validation.'
-            'CommonPasswordValidator'
+            'django.contrib.auth.password_validation'
+            '.CommonPasswordValidator'
         ),
     },
     {
@@ -117,13 +113,10 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-LANGUAGE_CODE = 'ru'
+LANGUAGE_CODE = 'ru-RU'
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
-
 STATIC_URL = 'static/'
 
 
