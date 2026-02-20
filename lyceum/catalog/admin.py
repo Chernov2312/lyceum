@@ -6,24 +6,24 @@ from catalog.models import Category, Item, Tag
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_filter = settings.LIST_FILTER_CATEGORY
-    list_per_page = settings.LIST_PER_PAGE
+    list_filter = ('is_published',)
+    list_per_page = settings.ADMIN_LIST_PER_PAGE
 
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
-    list_filter = settings.LIST_FILTER_TAG
-    list_per_page = settings.LIST_PER_PAGE
+    list_filter = ('is_published',)
+    list_per_page = settings.ADMIN_LIST_PER_PAGE
 
 
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
-    list_display = settings.LIST_DISPLAY_ITEM
-    list_editable = settings.LIST_ADIBLE_ITEM
-    list_display_links = settings.LIST_DISPLAY_LINKS_ITEM
-    list_filter = settings.LIST_FILTER_ITEM
-    filter_horizontal = settings.LIST_HORIZONTAL_ITEM
-    list_per_page = settings.LIST_PER_PAGE
+    list_display = ('name', 'is_published', 'category_info')
+    list_editable = ('is_published',)
+    list_display_links = ('name',)
+    list_filter = ('is_published', 'category', 'name')
+    filter_horizontal = ('tags',)
+    list_per_page = settings.ADMIN_LIST_PER_PAGE
 
     @admin.display(description='Категория')
     def category_info(self, obj):

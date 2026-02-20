@@ -31,15 +31,7 @@ ALLOW_REVERSE = env.str('DJANGO_ALLOW_REVERSE', default='True').lower() in {
     'y',
 }
 
-LIST_PER_PAGE = 20
-LIST_FILTER_CATEGORY = ('is_published',)
-LIST_FILTER_TAG = ('is_published',)
-LIST_FILTER_ITEM = ('is_published', 'category')
-LIST_DISPLAY_ITEM = ('name', 'is_published', 'category_info')
-LIST_ADIBLE_ITEM = ('is_published',)
-LIST_FILTER_ITEM = ('name',)
-LIST_DISPLAY_LINKS_ITEM = ('name',)
-LIST_HORIZONTAL_ITEM = ('tags',)
+ADMIN_LIST_PER_PAGE = 20
 
 INSTALLED_APPS = [
     'django.contrib.admin',
