@@ -33,6 +33,8 @@ class Normalise:
             'У': 'y',
             'Х': 'x',
             'l': 'I',
+            'ь': 'b',
+            'ъ': 'd',
         }
         for old, new in replacements.items():
             value = value.replace(old, new)
