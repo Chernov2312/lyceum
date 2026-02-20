@@ -4,46 +4,38 @@ import re
 class Normalise:
     @classmethod
     def normalise(cls, value):
-        value = value.lower().strip()
+        value = value.strip()
         replacements = {
             'а': 'a',
-            'б': 'b',
-            'в': 'v',
-            'г': 'g',
-            'д': 'd',
+            'в': 'b',
             'е': 'e',
             'ё': 'e',
-            'ж': 'z',
-            'з': 'z',
-            'и': 'i',
-            'й': 'y',
             'к': 'k',
-            'л': 'l',
             'м': 'm',
             'н': 'h',
             'о': 'o',
-            'п': 'p',
-            'р': 'r',
-            'с': 's',
+            'р': 'p',
+            'с': 'c',
             'т': 't',
-            'у': 'u',
-            'ф': 'f',
+            'у': 'y',
             'х': 'x',
-            'ц': 's',
-            'ч': 'h',
-            'ш': 's',
-            'щ': 'h',
-            'ъ': '',
-            'ы': 'y',
-            'ь': '',
-            'э': 'e',
-            'ю': 'u',
-            'я': 'y',
-            'n': 'h',
+            'А': 'a',
+            'В': 'b',
+            'Е': 'e',
+            'Ё': 'e',
+            'К': 'k',
+            'М': 'm',
+            'Н': 'h',
+            'О': 'o',
+            'Р': 'p',
+            'С': 'c',
+            'Т': 't',
+            'У': 'y',
+            'Х': 'x',
         }
         for old, new in replacements.items():
             value = value.replace(old, new)
-        value = re.sub(r'[^\w\s]', '', value)
+        value = re.sub(r'[^\w\s]', '', value.lower())
         value = re.sub(r'\s+', '', value)
         value = re.sub(r'\d+', '', value)
         value = re.sub(r'(.)\1+', r'\1', value)
