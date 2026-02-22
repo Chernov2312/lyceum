@@ -1,0 +1,14 @@
+[flake8]
+exclude =
+    .git,
+    __pycache__,
+    .tox,
+    .eggs,
+    *.egg,
+    .venv,
+    migrations
+
+import-order-style = google
+per-file-ignores = */__init__.py:F401
+application-import-names = about, catalog, core, homepage, lyceum
+line-length = 79

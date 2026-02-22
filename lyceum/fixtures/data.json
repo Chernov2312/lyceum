@@ -1,0 +1,140 @@
+[
+{
+  "model": "catalog.tag",
+  "pk": 1,
+  "fields": {
+    "is_published": true,
+    "name": "Удобно",
+    "slug": "comfort"
+  }
+},
+{
+  "model": "catalog.tag",
+  "pk": 2,
+  "fields": {
+    "is_published": true,
+    "name": "Практично",
+    "slug": "practic"
+  }
+},
+{
+  "model": "catalog.tag",
+  "pk": 3,
+  "fields": {
+    "is_published": true,
+    "name": "Красиво",
+    "slug": "beautiful"
+  }
+},
+{
+  "model": "catalog.tag",
+  "pk": 4,
+  "fields": {
+    "is_published": true,
+    "name": "Долговечно",
+    "slug": "immortal"
+  }
+},
+{
+  "model": "catalog.tag",
+  "pk": 5,
+  "fields": {
+    "is_published": true,
+    "name": "Ужасно",
+    "slug": "ugly"
+  }
+},
+{
+  "model": "catalog.category",
+  "pk": 1,
+  "fields": {
+    "is_published": true,
+    "name": "Обувь",
+    "slug": "shoes",
+    "weight": 10
+  }
+},
+{
+  "model": "catalog.category",
+  "pk": 2,
+  "fields": {
+    "is_published": true,
+    "name": "Электроника",
+    "slug": "electronics",
+    "weight": 100
+  }
+},
+{
+  "model": "catalog.item",
+  "pk": 1,
+  "fields": {
+    "is_published": true,
+    "name": "Nike pro",
+    "text": "превосходно хитов",
+    "category": 1,
+    "tags": [
+      1,
+      3
+    ]
+  }
+},
+{
+  "model": "catalog.item",
+  "pk": 2,
+  "fields": {
+    "is_published": true,
+    "name": "Парилка",
+    "text": "Роскошно парит: парит так что вся студяга в смоге",
+    "category": 2,
+    "tags": [
+      4,
+      5
+    ]
+  }
+},
+{
+  "model": "catalog.item",
+  "pk": 3,
+  "fields": {
+    "is_published": true,
+    "name": "Apple 15 pro ultra chiken magnagets",
+    "text": "Роскошно это про этот телефон",
+    "category": 2,
+    "tags": [
+      1,
+      2,
+      3,
+      4
+    ]
+  }
+},
+{
+  "model": "catalog.item",
+  "pk": 4,
+  "fields": {
+    "is_published": true,
+    "name": "Ботинок трампа",
+    "text": "Роскошно ботинок",
+    "category": 1,
+    "tags": [
+      1,
+      2,
+      3,
+      4
+    ]
+  }
+},
+{
+  "model": "catalog.item",
+  "pk": 5,
+  "fields": {
+    "is_published": true,
+    "name": "Рандомная штука",
+    "text": "Превосходно",
+    "category": 1,
+    "tags": [
+      5
+    ]
+  }
+}
+]
