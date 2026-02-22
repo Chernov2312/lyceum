@@ -6,7 +6,7 @@ from catalog.views import (
 )
 
 urlpatterns = [
-    path('', item_list),
-    path('<int:item_id>/', get_int_item_detail),
-    re_path(r're/(?P<item_id>[0-9]*[1-9][0-9]*)/', get_int_item_detail),
+    path('', item_list, name='catalog'),
+    path('<int:item_id>/', get_int_item_detail, name='item_detail'),
+    re_path(r're/(?P<item_id>[0-9]*[1-9][0-9]*)/', get_int_item_detail, name='item_detail'),
 ]

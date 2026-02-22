@@ -1,14 +1,13 @@
 from http import HTTPStatus
 
-import django.http
 from django.http import HttpResponse
+from django.shortcuts import render
 
 
 def home(request):
-    return django.http.HttpResponse(
-        'Главная',
-        content_type='text/html; charset=utf-8',
-    )
+    template = 'homepage/home.html'
+    context = {}
+    return render(request=request, template_name=template, context=context)
 
 
 def coffee(request):
