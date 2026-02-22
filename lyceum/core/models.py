@@ -17,6 +17,7 @@ class NamedBaseModel(models.Model):
         verbose_name='название',
         db_index=True,
         unique=True,
+        blank=False,
         help_text='Название до 150 символов',
     )
 

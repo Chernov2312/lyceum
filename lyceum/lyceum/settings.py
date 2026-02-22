@@ -3,6 +3,8 @@ from pathlib import Path
 
 import environ
 
+import lyceum.utils
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env()
@@ -14,32 +16,12 @@ REQUESTS_COUNT_BEFORE_REVERSE = env.int(
     default=10,
 )
 
-DEBUG = env.str('DJANGO_DEBUG', default='False').lower() in {
-    'true',
-    'yes',
-    'on',
-    '1',
-    'y',
-}
+DEBUG = lyceum.utils.str_to_bool(env.str('DJANGO_DEBUG', default='False'))
 ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['*'])
 
-ALLOW_REVERSE = env.str('DJANGO_ALLOW_REVERSE', default='True').lower() in {
-    'true',
-    'yes',
-    'on',
-    '1',
-    'y',
-}
-
-LIST_PER_PAGE = 20
-LIST_FILTER_CATEGORY = ('is_published',)
-LIST_FILTER_TAG = ('is_published',)
-LIST_FILTER_ITEM = ('is_published', 'category')
-LIST_DISPLAY_ITEM = ('name', 'is_published', 'category_info')
-LIST_ADIBLE_ITEM = ('is_published',)
-LIST_FILTER_ITEM = ('name',)
-LIST_DISPLAY_LINKS_ITEM = ('name',)
-LIST_HORIZONTAL_ITEM = ('tags',)
+ALLOW_REVERSE = lyceum.utils.str_to_bool(
+    env.str('DJANGO_ALLOW_REVERSE', default='True'),
+)
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -52,7 +34,7 @@ INSTALLED_APPS = [
     'catalog.apps.CatalogConfig',
     'core.apps.CoreConfig',
     'homepage.apps.HomepageConfig',
-]
+] + (['debug_toolbar'] if DEBUG else [])
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -63,11 +45,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'lyceum.middleware.ReverseRussianMiddleware',
-]
+] + (['debug_toolbar.middleware.DebugToolbarMiddleware'] if DEBUG else [])
 
 INTERNAL_IPS = [
     '127.0.0.1',
-    'localhost',
 ]
 
 ROOT_URLCONF = 'lyceum.urls'
@@ -101,8 +82,8 @@ DATABASES = {
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': (
-            'django.contrib.auth.password_validation.'
-            'UserAttributeSimilarityValidator'
+            'django.contrib.auth.password_validation'
+            '.UserAttributeSimilarityValidator'
         ),
     },
     {
@@ -112,31 +93,25 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': (
-            'django.contrib.auth.password_validation.'
-            'CommonPasswordValidator'
+            'django.contrib.auth.password_validation'
+            '.CommonPasswordValidator'
         ),
     },
     {
         'NAME': (
-            'django.contrib.auth.password_validation.'
-            'NumericPasswordValidator'
+            'django.contrib.auth.password_validation'
+            '.NumericPasswordValidator'
         ),
     },
 ]
 
 
-LANGUAGE_CODE = 'ru'
+LANGUAGE_CODE = 'ru-RU'
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
 
 STATIC_URL = 'static/'
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-if DEBUG:
-    INSTALLED_APPS.append('debug_toolbar')
-    MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')

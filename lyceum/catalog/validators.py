@@ -14,6 +14,5 @@ class ValidateMustContain(django.core.validators.BaseValidator):
         )
 
     def __call__(self, value):
-        print(value)
         if not re.search(self.pattern, value, flags=re.IGNORECASE):
             raise django.core.validators.ValidationError(self.message)

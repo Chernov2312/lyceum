@@ -8,11 +8,18 @@ class ReverseRussianMiddleware:
     russian_pattern = re.compile(r'[а-яА-ЯЁё]+')
 
     @classmethod
+    def replace_with_regex(cls, content):
+        return re.sub(
+            cls.russian_pattern,
+            lambda m: m.group()[::-1],
+            content,
+        )
+
+    @classmethod
     def reverse_words(cls, response):
-        content = response.content.decode('utf-8')
-        russian_words = cls.russian_pattern.findall(content)
-        text = [i[::-1] if i in russian_words else i for i in content.split()]
-        response.content = ' '.join(text).encode()
+        content = response.content.decode(response.charset)
+        reversed_content = cls.replace_with_regex(content)
+        response.content = reversed_content.encode(response.charset)
         return response
 
     def __init__(self, get_response):

@@ -6,6 +6,7 @@ from django.db import models
 
 from catalog.validators import ValidateMustContain
 from core.models import NamedBaseModel, PublishedBaseModel
+from core.unic_field import Normalise
 
 
 class Tag(NamedBaseModel, PublishedBaseModel):
@@ -14,6 +15,13 @@ class Tag(NamedBaseModel, PublishedBaseModel):
         max_length=200,
         unique=True,
         help_text='Только латиница, цифры, дефис и подчеркивание',
+    )
+    normalised_name = models.CharField(
+        max_length=150,
+        unique=True,
+        editable=False,
+        db_index=True,
+        verbose_name='нормализованное название',
     )
 
     class Meta:
@@ -25,6 +33,7 @@ class Tag(NamedBaseModel, PublishedBaseModel):
         return self.name
 
     def save(self, *args, **kwargs):
+        self.normalised_name = Normalise.normalise(self.name)
         self.full_clean()
         super().save(*args, **kwargs)
 
@@ -42,6 +51,13 @@ class Category(PublishedBaseModel, NamedBaseModel):
         verbose_name='вес',
         help_text='Вес категории от 1 до 32767',
     )
+    normalised_name = models.CharField(
+        max_length=150,
+        unique=True,
+        editable=False,
+        db_index=True,
+        verbose_name='нормализованное название',
+    )
 
     class Meta:
         verbose_name = 'категория'
@@ -52,6 +68,7 @@ class Category(PublishedBaseModel, NamedBaseModel):
         return self.name
 
     def save(self, *args, **kwargs):
+        self.normalised_name = Normalise.normalise(self.name)
         self.full_clean()
         super().save(*args, **kwargs)
 
@@ -67,12 +84,12 @@ class Item(PublishedBaseModel, NamedBaseModel):
         Category,
         related_name='items',
         on_delete=models.CASCADE,
-        verbose_name='Категория',
+        verbose_name='категория',
     )
     tags = models.ManyToManyField(
         Tag,
         related_name='items',
-        verbose_name='Теги',
+        verbose_name='теги',
     )
 
     class Meta:
