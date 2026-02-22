@@ -23,9 +23,6 @@ ALLOW_REVERSE = lyceum.utils.str_to_bool(
     env.str('DJANGO_ALLOW_REVERSE', default='True'),
 )
 
-LIST_PER_PAGE = 20
-LIST_FILTER = ('is_published',)
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -37,7 +34,7 @@ INSTALLED_APPS = [
     'catalog.apps.CatalogConfig',
     'core.apps.CoreConfig',
     'homepage.apps.HomepageConfig',
-]
+] + (['debug_toolbar'] if DEBUG else [])
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -47,10 +44,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
-
-
-MIDDLEWARES_CREATED = ['lyceum.middleware.ReverseRussianMiddleware']
+    'lyceum.middleware.ReverseRussianMiddleware',
+] + (['debug_toolbar.middleware.DebugToolbarMiddleware'] if DEBUG else [])
 
 INTERNAL_IPS = [
     '127.0.0.1',
@@ -104,8 +99,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': (
-            'django.contrib.auth.password_validation.'
-            'NumericPasswordValidator'
+            'django.contrib.auth.password_validation'
+            '.NumericPasswordValidator'
         ),
     },
 ]
@@ -115,13 +110,8 @@ LANGUAGE_CODE = 'ru-RU'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
+
 STATIC_URL = 'static/'
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-if DEBUG:
-    INSTALLED_APPS.append('debug_toolbar')
-    MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
-
-MIDDLEWARE.extend(MIDDLEWARES_CREATED)

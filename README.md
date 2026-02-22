@@ -65,23 +65,20 @@ cp .env.example .env
 copy .env.example .env
 ```
 Копирование из .env.example примера в .env
-### создание миграций
-```
-python manage.py makemigrations
-```
-```
-python manage.py migrate
-```
 ### Создание superuser
+Переходим в папку lyceum
+```bash
+cd lyceum
+```
+Создаём
 ```
 python manage.py createsuperuser
 ```
 ### Запуск приложения в dev режиме
-Переходим в папку, в которой есть manage.py и запускаем
+Переходим в папку lyceum если ещё не в ней
 ```bash
 cd lyceum
 ```
-+ Linux/macOS
 ```bash
 python3 manage.py runserver
 ```
@@ -95,7 +92,6 @@ python3 manage.py runserver
 cd lyceum
 ```
 Запускаем
-+ Linux/macOS
 ```bash
 python3 manage.py test
 ```

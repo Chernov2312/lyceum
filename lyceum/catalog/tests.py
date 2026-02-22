@@ -27,47 +27,21 @@ class StaticReTests(django.test.TestCase):
         response = django.test.Client().get(f'/catalog/re/{value}/')
         self.assertEqual(response.status_code, http.HTTPStatus.OK)
 
-    @parameterized.expand(('-01', '-010', '-52'))
-    def test_item_re_negative_digit_endpoint(self, value):
-        response = django.test.Client().get(f'/catalog/re/{value}/')
-        self.assertEqual(response.status_code, http.HTTPStatus.NOT_FOUND)
-
-    @parameterized.expand(('00', '0'))
-    def test_item_re_zero_endpoint(self, value):
-        response = django.test.Client().get(f'/catalog/re/{value}/')
-        self.assertEqual(response.status_code, http.HTTPStatus.NOT_FOUND)
-
-    @parameterized.expand(('0.1', '0.10', '5.2'))
-    def test_item_re_float_digit_endpoint(self, value):
-        response = django.test.Client().get(f'/catalog/re/{value}/')
-        self.assertEqual(response.status_code, http.HTTPStatus.NOT_FOUND)
-
-    @parameterized.expand(
-        ('i am venom', 'i am the atomic', '2ab', 'a2b', 'ab2'),
-    )
-    def test_item_re_str_endpoint(self, value):
-        response = django.test.Client().get(f'/catalog/re/{value}/')
-        self.assertEqual(response.status_code, http.HTTPStatus.NOT_FOUND)
-
     @parameterized.expand(
         (
+            'i am venom',
+            'i am the atomic',
+            '2ab',
+            'a2b',
+            'ab2',
+            '0',
+            '00',
             '-1',
             '-42',
             '-100500',
             '--1',
             '-0',
             '--0',
-        ),
-    )
-    def test_negative_numbers(self, value):
-        response = django.test.Client().get(f'/catalog/re/{value}/')
-        self.assertEqual(response.status_code, http.HTTPStatus.NOT_FOUND)
-
-        response = django.test.Client().get(f'/catalog/{value}/')
-        self.assertEqual(response.status_code, http.HTTPStatus.NOT_FOUND)
-
-    @parameterized.expand(
-        (
             '0.1',
             '1.5',
             '3.14',
@@ -77,69 +51,19 @@ class StaticReTests(django.test.TestCase):
             '-1.5',
             '0,1',
             '1,5',
-        ),
-    )
-    def test_fractional_numbers(self, value):
-        response = django.test.Client().get(f'/catalog/re/{value}/')
-        self.assertEqual(response.status_code, http.HTTPStatus.NOT_FOUND)
-
-        response = django.test.Client().get(f'/catalog/{value}/')
-        self.assertEqual(response.status_code, http.HTTPStatus.NOT_FOUND)
-
-    @parameterized.expand(
-        (
             '-0.1',
             '-1.5',
             '-3.14',
             '-.5',
             '-5.',
-        ),
-    )
-    def test_negative_fractional(self, value):
-        response = django.test.Client().get(f'/catalog/re/{value}/')
-        self.assertEqual(response.status_code, http.HTTPStatus.NOT_FOUND)
-
-        response = django.test.Client().get(f'/catalog/{value}/')
-        self.assertEqual(response.status_code, http.HTTPStatus.NOT_FOUND)
-
-    @parameterized.expand(
-        (
             '+1',
             '+42',
             '+100500',
             '+0',
             '+01',
             '+010',
-        ),
-    )
-    def test_plus_sign(self, value):
-        response = django.test.Client().get(f'/catalog/re/{value}/')
-        self.assertEqual(response.status_code, http.HTTPStatus.NOT_FOUND)
-
-        response = django.test.Client().get(f'/catalog/{value}/')
-        self.assertEqual(response.status_code, http.HTTPStatus.NOT_FOUND)
-
-    @parameterized.expand(
-        (
             '',
             '//',
-        ),
-    )
-    def test_empty_value(self, value):
-        if value == '//':
-            response = django.test.Client().get('/catalog/re//')
-        else:
-            response = django.test.Client().get(f'/catalog/re/{value}/')
-        self.assertEqual(response.status_code, http.HTTPStatus.NOT_FOUND)
-
-        if value == '//':
-            response = django.test.Client().get('/catalog//')
-        else:
-            response = django.test.Client().get(f'/catalog/{value}/')
-        self.assertEqual(response.status_code, http.HTTPStatus.NOT_FOUND)
-
-    @parameterized.expand(
-        (
             'abc',
             'hello-world',
             'test123',
@@ -147,68 +71,24 @@ class StaticReTests(django.test.TestCase):
             'привет',
             'テスト',
             'اختبار',
-        ),
-    )
-    def test_strings(self, value):
-        response = django.test.Client().get(f'/catalog/re/{value}/')
-        self.assertEqual(response.status_code, http.HTTPStatus.NOT_FOUND)
-
-        response = django.test.Client().get(f'/catalog/{value}/')
-        self.assertEqual(response.status_code, http.HTTPStatus.NOT_FOUND)
-
-    @parameterized.expand(
-        (
             '😀',
             '🔥',
             '👨‍💻',
             '🚀',
             '❤️',
             '👍🏼',
-        ),
-    )
-    def test_emoji(self, value):
-        response = django.test.Client().get(f'/catalog/re/{value}/')
-        self.assertEqual(response.status_code, http.HTTPStatus.NOT_FOUND)
-
-        response = django.test.Client().get(f'/catalog/{value}/')
-        self.assertEqual(response.status_code, http.HTTPStatus.NOT_FOUND)
-
-    @parameterized.expand(
-        (
             '中',
             '国',
             '日本',
             '漢字',
             '中文',
             '中國',
-        ),
-    )
-    def test_hieroglyphs(self, value):
-        response = django.test.Client().get(f'/catalog/re/{value}/')
-        self.assertEqual(response.status_code, http.HTTPStatus.NOT_FOUND)
-
-        response = django.test.Client().get(f'/catalog/{value}/')
-        self.assertEqual(response.status_code, http.HTTPStatus.NOT_FOUND)
-
-    @parameterized.expand(
-        (
             '१',
             '१२',
             '१२३',
             '४५६',
             '७८९',
             '०',
-        ),
-    )
-    def test_devanagari_numerals(self, value):
-        response = django.test.Client().get(f'/catalog/re/{value}/')
-        self.assertEqual(response.status_code, http.HTTPStatus.NOT_FOUND)
-
-        response = django.test.Client().get(f'/catalog/{value}/')
-        self.assertEqual(response.status_code, http.HTTPStatus.NOT_FOUND)
-
-    @parameterized.expand(
-        (
             '১',
             '২',
             '৩',
@@ -219,17 +99,6 @@ class StaticReTests(django.test.TestCase):
             '৮',
             '৯',
             '০',
-        ),
-    )
-    def test_bengali_numerals(self, value):
-        response = django.test.Client().get(f'/catalog/re/{value}/')
-        self.assertEqual(response.status_code, http.HTTPStatus.NOT_FOUND)
-
-        response = django.test.Client().get(f'/catalog/{value}/')
-        self.assertEqual(response.status_code, http.HTTPStatus.NOT_FOUND)
-
-    @parameterized.expand(
-        (
             '1e3',
             '1E3',
             '1e+3',
@@ -241,17 +110,6 @@ class StaticReTests(django.test.TestCase):
             '5.e3',
             '1e03',
             '1e003',
-        ),
-    )
-    def test_scientific_notation(self, value):
-        response = django.test.Client().get(f'/catalog/re/{value}/')
-        self.assertEqual(response.status_code, http.HTTPStatus.NOT_FOUND)
-
-        response = django.test.Client().get(f'/catalog/{value}/')
-        self.assertEqual(response.status_code, http.HTTPStatus.NOT_FOUND)
-
-    @parameterized.expand(
-        (
             '1_000',
             '1_000_000',
             '100_000',
@@ -260,17 +118,6 @@ class StaticReTests(django.test.TestCase):
             '_100',
             '100_',
             '1__000',
-        ),
-    )
-    def test_underscore_numbers(self, value):
-        response = django.test.Client().get(f'/catalog/re/{value}/')
-        self.assertEqual(response.status_code, http.HTTPStatus.NOT_FOUND)
-
-        response = django.test.Client().get(f'/catalog/{value}/')
-        self.assertEqual(response.status_code, http.HTTPStatus.NOT_FOUND)
-
-    @parameterized.expand(
-        (
             '123abc456',
             'abc123def',
             '!@#$%',
@@ -292,9 +139,6 @@ class StaticReTests(django.test.TestCase):
     )
     def test_mixed_invalid_values(self, value):
         response = django.test.Client().get(f'/catalog/re/{value}/')
-        self.assertEqual(response.status_code, http.HTTPStatus.NOT_FOUND)
-
-        response = django.test.Client().get(f'/catalog/{value}/')
         self.assertEqual(response.status_code, http.HTTPStatus.NOT_FOUND)
 
 
@@ -498,14 +342,6 @@ class CategoryModelTest(django.test.TestCase):
 
 @override_settings(ALLOW_REVERSE=False)
 class TestUniqueName(django.test.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-
-    @classmethod
-    def tearDownClass(cls):
-        super().tearDownClass()
-
     @parameterized.expand(
         [
             ('Гений', 'Гений'),
