@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'catalog.apps.CatalogConfig',
     'core.apps.CoreConfig',
     'homepage.apps.HomepageConfig',
+    'django_cleanup.apps.CleanupConfig',
 ] + (['debug_toolbar'] if DEBUG else [])
 
 MIDDLEWARE = [
@@ -56,7 +57,9 @@ ROOT_URLCONF = 'lyceum.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR / 'templates',
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
