@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from catalog.models import Category, Item, Tag, Image
+from catalog.models import Category, Image, Item, Tag
 
 
 @admin.register(Category)
@@ -35,5 +35,5 @@ class ItemAdmin(admin.ModelAdmin):
         return obj.category.name if obj.category else '-'
 
     @admin.display(description='Картинка')
-    def category_info(self, obj):
+    def image_info(self, obj):
         return obj.image.get_image_300x300() if obj.image else '-'
