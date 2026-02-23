@@ -5,7 +5,7 @@ from django.shortcuts import render
 
 
 def home(request):
-    template = 'homepage/home.html'
+    template = 'homepage/main.html'
     context = {}
     return render(request=request, template_name=template, context=context)
 

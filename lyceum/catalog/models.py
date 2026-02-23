@@ -3,6 +3,8 @@ from django.core.validators import (
     MinValueValidator,
 )
 from django.db import models
+from django.utils.safestring import mark_safe
+from sorl.thumbnail import get_thumbnail
 
 from catalog.validators import ValidateMustContain
 from core.models import NamedBaseModel, PublishedBaseModel
@@ -74,7 +76,7 @@ class Category(PublishedBaseModel, NamedBaseModel):
 
 
 class Item(PublishedBaseModel, NamedBaseModel):
-    image = models.ImageField(upload_to='')
+    image = models.ImageField(upload_to='uploads/')
     text = models.TextField(
         verbose_name='текст',
         validators=[ValidateMustContain('роскошно', 'превосходно')],
@@ -97,6 +99,19 @@ class Item(PublishedBaseModel, NamedBaseModel):
         verbose_name = 'товар'
         verbose_name_plural = 'товары'
         ordering = ['name']
+
+    def get_image_x1280(self):
+        return get_thumbnail(self.image, '1280', quality=51)
+
+    def get_image_400x300(self):
+        return get_thumbnail(self.image, '400x300', crop='center', quality=51)
+
+    def image_tmb(self):
+        if self.image:
+            return mark_safe(f'<img src="{self.image.url}" width="50">')
+
+    image_tmb.short_description = 'превью'
+    image_tmb.allow_tags = True
 
     def __str__(self):
         return self.name
