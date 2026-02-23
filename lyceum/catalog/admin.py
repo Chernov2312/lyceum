@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from catalog.models import Category, Item, Tag
+from catalog.models import Category, Item, Tag, Image
 
 
 @admin.register(Category)
@@ -13,12 +13,18 @@ class TagAdmin(admin.ModelAdmin):
     list_filter = (Tag.is_published.field.name,)
 
 
+@admin.register(Image)
+class ImageAdmin(admin.ModelAdmin):
+    list_filter = (Image.image.field.name,)
+
+
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
     filter_horizontal = (Item.tags.field.name,)
     list_display = (
         Item.name.field.name,
         Item.is_published.field.name,
+        Item.main_image.field.name,
     )
     list_editable = (Item.is_published.field.name,)
     list_display_links = (Item.name.field.name,)

@@ -1,7 +1,4 @@
-from django.core.validators import (
-    MaxValueValidator,
-    MinValueValidator,
-)
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.utils.safestring import mark_safe
 from sorl.thumbnail import get_thumbnail
@@ -75,24 +72,72 @@ class Category(PublishedBaseModel, NamedBaseModel):
         super().save(*args, **kwargs)
 
 
+class Image(models.Model):
+    image = models.ImageField(
+        upload_to='uploads/images/',
+        verbose_name='изображение',
+    )
+
+    class Meta:
+        verbose_name = 'изображение'
+        verbose_name_plural = 'изображения'
+
+    def __str__(self):
+        return f'Изображение #{self.id}'
+
+    def get_image_x1280(self):
+        return get_thumbnail(self.image, '1280', quality=51)
+
+    def get_image_300x300(self):
+        return get_thumbnail(self.image, '300x300', crop='center', quality=51)
+
+    def image_tmb(self):
+        if self.image:
+            return mark_safe(
+                f'<img src="{self.image.url}" width="50" height="50"'
+                'style="object-fit: cover;">',
+            )
+        return 'Нет изображения'
+
+    image_tmb.short_description = 'Превью'
+    image_tmb.allow_tags = True
+
+
 class Item(PublishedBaseModel, NamedBaseModel):
-    image = models.ImageField(upload_to='uploads/')
     text = models.TextField(
         verbose_name='текст',
         validators=[ValidateMustContain('роскошно', 'превосходно')],
-        help_text='Обязательно должно содержать слова "превосходно"'
-        'или "роскошно"',
+        help_text='Обязательно должно содержать слова'
+        '"превосходно" или "роскошно"',
     )
     category = models.ForeignKey(
         Category,
         related_name='items',
         on_delete=models.CASCADE,
         verbose_name='категория',
+        db_index=True,
     )
     tags = models.ManyToManyField(
         Tag,
         related_name='items',
         verbose_name='теги',
+        blank=True,
+    )
+    main_image = models.ForeignKey(
+        Image,
+        related_name='main_item',
+        on_delete=models.SET_NULL,
+        verbose_name='главное изображение',
+        null=True,
+        blank=True,
+        help_text='Выберите главное изображение товара',
+    )
+    images = models.ManyToManyField(
+        Image,
+        related_name='items',
+        verbose_name='дополнительные изображения',
+        blank=True,
+        help_text='Выберите дополнительные изображения для галереи',
     )
 
     class Meta:
@@ -100,22 +145,32 @@ class Item(PublishedBaseModel, NamedBaseModel):
         verbose_name_plural = 'товары'
         ordering = ['name']
 
-    def get_image_x1280(self):
-        return get_thumbnail(self.image, '1280', quality=51)
-
-    def get_image_400x300(self):
-        return get_thumbnail(self.image, '400x300', crop='center', quality=51)
-
-    def image_tmb(self):
-        if self.image:
-            return mark_safe(f'<img src="{self.image.url}" width="50">')
-
-    image_tmb.short_description = 'превью'
-    image_tmb.allow_tags = True
-
     def __str__(self):
         return self.name
 
     def save(self, *args, **kwargs):
         self.full_clean()
         super().save(*args, **kwargs)
+
+    def get_main_image_tmb(self):
+        if self.main_image:
+            return self.main_image.image_tmb()
+        return 'Нет главного изображения'
+
+    get_main_image_tmb.short_description = 'Главное изображение'
+
+    def get_all_images_tmb(self):
+        images = self.images.all()
+        if images:
+            html = '<div style="display: flex; flex-wrap: wrap; gap: 5px;">'
+            for img in images[:5]:
+                html += f'<img src="{img.image.url}" width="40" height="40">'
+            if images.count() > 5:
+                html += (
+                    f'<span style="padding: 8px;">+{images.count() - 5}</span>'
+                )
+            html += '</div>'
+            return mark_safe(html)
+        return 'Нет дополнительных изображений'
+
+    get_all_images_tmb.short_description = 'Галерея'
