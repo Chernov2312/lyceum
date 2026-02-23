@@ -103,6 +103,25 @@ class Image(models.Model):
     image_tmb.allow_tags = True
 
 
+class MainImage(models.Model):
+    main_image = models.ImageField(upload_to='uploads/main/')
+
+    class Meta:
+        verbose_name = 'главное изображение'
+        verbose_name_plural = 'главные изображения'
+
+    def __str__(self):
+        return f'Изображение #{self.id}'
+
+    def image_tmb(self):
+        if self.image:
+            return mark_safe(
+                f'<img src="{self.image.url}" width="50" height="50"'
+                'style="object-fit: cover;">',
+            )
+        return 'Нет изображения'
+
+
 class Item(PublishedBaseModel, NamedBaseModel):
     text = models.TextField(
         verbose_name='текст',
@@ -124,7 +143,7 @@ class Item(PublishedBaseModel, NamedBaseModel):
         blank=True,
     )
     main_image = models.ForeignKey(
-        Image,
+        MainImage,
         related_name='main_item',
         on_delete=models.SET_NULL,
         verbose_name='главное изображение',

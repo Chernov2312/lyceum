@@ -1,18 +1,15 @@
 {% load static %}
 
-<div class="container">  
-    <div class="row">
-        <div class="d-flex justify-content-center">
-            <img src="{% static 'images/new_year.jpeg' %}"
-                 alt="Котик" 
-                 class="img-fluid rounded shadow">
-        </div>
+<div class="row mb-4">
+    <div class="col-12">
+        <h1 class="text-center mb-4">Наши товары</h1>
     </div>
-    <div class="row">
-        <div class="d-flex justify-content-center">
-            <img src="{% static 'images/new_year.jpeg' %}"
-                 alt="Котик" 
-                 class="img-fluid rounded shadow">
-        </div>
+</div>
+
+<div class="row">
+    {% for item in items %}
+    <div class="col-lg-4 col-md-6 mb-4">
+        {% include 'includes/item_card.html' with item=item %}
     </div>
+    {% endfor %}
 </div>
