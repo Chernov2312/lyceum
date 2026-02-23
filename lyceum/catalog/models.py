@@ -114,9 +114,9 @@ class MainImage(models.Model):
         return f'Изображение #{self.id}'
 
     def image_tmb(self):
-        if self.image:
+        if self.main_image:
             return mark_safe(
-                f'<img src="{self.image.url}" width="50" height="50"'
+                f'<img src="{self.main_image.url}" width="50" height="50"'
                 'style="object-fit: cover;">',
             )
         return 'Нет изображения'

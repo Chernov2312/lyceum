@@ -5,7 +5,7 @@
     "fields": {
       "is_published": true,
       "name": "Удобно",
-      "normalized_name": "udobno",
+      "normalised_name": "udobno",
       "slug": "comfort"
     }
   },
@@ -15,7 +15,7 @@
     "fields": {
       "is_published": true,
       "name": "Практично",
-      "normalized_name": "praktichno",
+      "normalised_name": "praktichno",
       "slug": "practic"
     }
   },
@@ -25,7 +25,7 @@
     "fields": {
       "is_published": true,
       "name": "Красиво",
-      "normalized_name": "krasivo",
+      "normalised_name": "krasivo",
       "slug": "beautiful"
     }
   },
@@ -35,7 +35,7 @@
     "fields": {
       "is_published": true,
       "name": "Долговечно",
-      "normalized_name": "dolgovechno",
+      "normalised_name": "dolgovechno",
       "slug": "immortal"
     }
   },
@@ -45,7 +45,7 @@
     "fields": {
       "is_published": true,
       "name": "Ужасно",
-      "normalized_name": "uzhasno",
+      "normalised_name": "uzhasno",
       "slug": "ugly"
     }
   },
@@ -55,7 +55,7 @@
     "fields": {
       "is_published": true,
       "name": "Обувь",
-      "normalized_name": "obuv",
+      "normalised_name": "obuv",
       "slug": "shoes",
       "weight": 10
     }
@@ -66,82 +66,93 @@
     "fields": {
       "is_published": true,
       "name": "Электроника",
-      "normalized_name": "elektronika",
+      "normalised_name": "elektronika",
       "slug": "electronics",
       "weight": 100
     }
   },
   {
-    "model": "catalog.item",
+    "model": "catalog.mainimage",
     "pk": 1,
     "fields": {
-      "is_published": true,
-      "name": "Nike pro",
-      "text": "превосходно хитов",
-      "category": 1,
-      "tags": [
-        1,
-        3
-      ]
+      "main_image": "main/nike_pro_main.jpg"
     }
   },
   {
-    "model": "catalog.item",
+    "model": "catalog.mainimage",
     "pk": 2,
     "fields": {
-      "is_published": true,
-      "name": "Парилка",
-      "text": "Роскошно парит: парит так что вся студяга в смоге",
-      "category": 2,
-      "tags": [
-        4,
-        5
-      ]
+      "main_image": "main/parilka_main.jpg"
     }
   },
   {
-    "model": "catalog.item",
+    "model": "catalog.mainimage",
     "pk": 3,
     "fields": {
-      "is_published": true,
-      "name": "Apple 15 pro ultra chiken magnagets",
-      "text": "Роскошно это про этот телефон",
-      "category": 2,
-      "tags": [
-        1,
-        2,
-        3,
-        4
-      ]
+      "main_image": "main/iphone_main.jpg"
     }
   },
   {
-    "model": "catalog.item",
+    "model": "catalog.mainimage",
     "pk": 4,
     "fields": {
-      "is_published": true,
-      "name": "Ботинок трампа",
-      "text": "Роскошно ботинок",
-      "category": 1,
-      "tags": [
-        1,
-        2,
-        3,
-        4
-      ]
+      "main_image": "main/trump_shoe_main.jpg"
     }
   },
   {
-    "model": "catalog.item",
+    "model": "catalog.mainimage",
     "pk": 5,
     "fields": {
-      "is_published": true,
-      "name": "Рандомная штука",
-      "text": "Превосходно",
-      "category": 1,
-      "tags": [
-        5
-      ]
+      "main_image": "main/random_item_main.jpg"
+    }
+  },
+  {
+    "model": "catalog.image",
+    "pk": 1,
+    "fields": {
+      "image": "uploads/nike_pro_1.jpg"
+    }
+  },
+  {
+    "model": "catalog.image",
+    "pk": 2,
+    "fields": {
+      "image": "uploads/nike_pro_2.jpg"
+    }
+  },
+  {
+    "model": "catalog.image",
+    "pk": 3,
+    "fields": {
+      "image": "uploads/nike_pro_3.jpg"
+    }
+  },
+  {
+    "model": "catalog.image",
+    "pk": 4,
+    "fields": {
+      "image": "uploads/parilka_1.jpg"
+    }
+  },
+  {
+    "model": "catalog.image",
+    "pk": 5,
+    "fields": {
+      "image": "uploads/iphone_1.jpg"
+    }
+  },
+  {
+    "model": "catalog.image",
+    "pk": 6,
+    "fields": {
+      "image": "uploads/random_item_1.jpg"
+    }
+  },
+  {
+    "model": "catalog.image",
+    "pk": 7,
+    "fields": {
+      "image": "uploads/trump_shoe_1.jpg"
     }
   }
 ]
