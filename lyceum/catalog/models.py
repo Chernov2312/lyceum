@@ -74,7 +74,7 @@ class Category(PublishedBaseModel, NamedBaseModel):
 
 class Image(models.Model):
     image = models.ImageField(
-        upload_to='uploads/images/',
+        upload_to='uploads/',
         verbose_name='изображение',
     )
 
@@ -104,7 +104,7 @@ class Image(models.Model):
 
 
 class MainImage(models.Model):
-    main_image = models.ImageField(upload_to='uploads/main/')
+    main_image = models.ImageField(upload_to='main/')
 
     class Meta:
         verbose_name = 'главное изображение'

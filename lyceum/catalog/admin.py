@@ -16,8 +16,8 @@ class ItemMainImageInline(admin.StackedInline):
     verbose_name_plural = 'главные изображения'
     extra = 0
     max_num = 1
-    fields = (MainImage.main_image, MainImage.image_tmb)
-    readonly_fields = (MainImage.image_tmb,)
+    fields = (MainImage.main_image.field.name, 'image_tmb')
+    readonly_fields = ('image_tmb',)
 
     def image_tmb(self, obj):
         return obj.image_tmb() if obj.pk else 'Будет доступно после сохранения'
@@ -37,8 +37,8 @@ class TagAdmin(admin.ModelAdmin):
 
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
-    list_display = (Image.id.field.name, Image.image_tmb)
-    readonly_fields = (Image.image_tmb,)
+    list_display = (Image.id.field.name, 'image_tmb')
+    readonly_fields = ('image_tmb',)
 
     def image_tmb(self, obj):
         return obj.image_tmb()
@@ -49,10 +49,10 @@ class ImageAdmin(admin.ModelAdmin):
 @admin.register(MainImage)
 class MainImageAdmin(admin.ModelAdmin):
     list_display = (
-        Image.id.field.name,
-        Image.image_tmb,
+        MainImage.id.field.name,
+        'image_tmb',
     )
-    readonly_fields = (Image.image_tmb,)
+    readonly_fields = ('image_tmb',)
 
     def image_tmb(self, obj):
         return obj.image_tmb()

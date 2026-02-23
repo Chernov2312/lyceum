@@ -1,7 +1,8 @@
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
-from lyceum.settings import DEBUG
+from lyceum.settings import DEBUG, MEDIA_ROOT, MEDIA_URL
 
 urlpatterns = [
     path('', include('homepage.urls')),
@@ -15,3 +16,4 @@ if DEBUG:
     from debug_toolbar.toolbar import debug_toolbar_urls
 
     urlpatterns += debug_toolbar_urls()
+    urlpatterns += static(MEDIA_URL, document_root=MEDIA_ROOT)

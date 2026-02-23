@@ -154,5 +154,70 @@
     "fields": {
       "image": "uploads/trump_shoe_1.jpg"
     }
+  },
+  {
+    "model": "catalog.item",
+    "pk": 1,
+    "fields": {
+      "is_published": true,
+      "name": "Nike pro",
+      "text": "превосходно хитов",
+      "category": 1,
+      "main_image": 1,
+      "images": [1, 2, 3],
+      "tags": [1, 3]
+    }
+  },
+  {
+    "model": "catalog.item",
+    "pk": 2,
+    "fields": {
+      "is_published": true,
+      "name": "Парилка",
+      "text": "Роскошно парит: парит так что вся студяга в смоге",
+      "category": 2,
+      "main_image": 2,
+      "images": [4],
+      "tags": [4, 5]
+    }
+  },
+  {
+    "model": "catalog.item",
+    "pk": 3,
+    "fields": {
+      "is_published": true,
+      "name": "Apple 15 pro ultra chiken magnagets",
+      "text": "Роскошно это про этот телефон",
+      "category": 2,
+      "main_image": 3,
+      "images": [5],
+      "tags": [1, 2, 3, 4]
+    }
+  },
+  {
+    "model": "catalog.item",
+    "pk": 4,
+    "fields": {
+      "is_published": true,
+      "name": "Ботинок трампа",
+      "text": "Роскошно ботинок",
+      "category": 1,
+      "main_image": 4,
+      "images": [7],
+      "tags": [1, 2, 3, 4]
+    }
+  },
+  {
+    "model": "catalog.item",
+    "pk": 5,
+    "fields": {
+      "is_published": true,
+      "name": "Рандомная штука",
+      "text": "Превосходно",
+      "category": 1,
+      "main_image": 5,
+      "images": [6],
+      "tags": [5]
+    }
   }
 ]
