@@ -5,6 +5,8 @@ from django.test import override_settings
 from django.urls import reverse
 from parameterized import parameterized
 
+__all__ = ['StaticURLTests', 'StaticReTests']
+
 
 @override_settings(ALLOW_REVERSE=False)
 class StaticURLTests(django.test.TestCase):

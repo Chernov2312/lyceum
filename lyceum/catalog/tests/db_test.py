@@ -5,6 +5,14 @@ from parameterized import parameterized
 
 from catalog.models import Category, Item, Tag
 
+__all__ = [
+    'CategoryModelTest',
+    'ItemModelTest',
+    'LengthTest',
+    'TagModelTest',
+    'UniqueNameTest',
+]
+
 
 @override_settings(ALLOW_REVERSE=False)
 class ItemModelTest(django.test.TestCase):
