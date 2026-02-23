@@ -4,9 +4,16 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href={% static "css/bootstrap.min.css" %}>
-    <title>{% block title %}Мой сайт{% endblock title %}</title>
-    <link rel="icon" type="image/x-icon" href="{% static 'icons/box.svg' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="icon" type="image/svg+xml" href="{% static 'icons/box.svg' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'icons/box.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'icons/box.png' %}">
+    <link rel="shortcut icon" href="{% static 'icons/box.ico' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'icons/box.ico' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'icons/box.png' %}">
+    
+    <title>{% block title %}Мой сайт{% endblock %}</title>
+    {% block extra_head %}{% endblock %}
   </head>
   <body>
     <header>

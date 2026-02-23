@@ -7,6 +7,8 @@ from catalog.validators import ValidateMustContain
 from core.models import NamedBaseModel, PublishedBaseModel
 from core.unic_field import Normalise
 
+__all__ = ['Tag', 'Category', 'Item', 'Image', 'MainImage']
+
 
 class Tag(NamedBaseModel, PublishedBaseModel):
     slug = models.SlugField(

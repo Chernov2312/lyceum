@@ -4,6 +4,9 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 
+__all__ = ['home', 'coffee']
+
+
 def home(request):
     template = 'homepage/main.html'
     context = {}

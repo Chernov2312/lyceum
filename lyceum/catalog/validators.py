@@ -3,6 +3,8 @@ import re
 import django.core.validators
 from django.utils.deconstruct import deconstructible
 
+__all__ = ['ValidateMustContain']
+
 
 @deconstructible
 class ValidateMustContain(django.core.validators.BaseValidator):

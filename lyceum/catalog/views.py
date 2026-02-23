@@ -1,6 +1,9 @@
 from django.shortcuts import render
 
 
+__all__ = ['item_list', 'get_int_item_detail']
+
+
 def item_list(request):
     template = 'catalog/item_list.html'
     context = {}
