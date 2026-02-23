@@ -2,6 +2,8 @@ import re
 
 from django.conf import settings
 
+__all__ = ['ReverseRussianMiddleware']
+
 
 class ReverseRussianMiddleware:
     counter = 0

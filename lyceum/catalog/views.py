@@ -1,6 +1,5 @@
 from django.shortcuts import render
 
-
 __all__ = ['item_list', 'get_int_item_detail']
 
 

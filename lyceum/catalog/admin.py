@@ -10,21 +10,6 @@ class ItemImageInline(admin.TabularInline):
     extra = 1
 
 
-class ItemMainImageInline(admin.StackedInline):
-    model = MainImage
-    verbose_name = 'главное изображение'
-    verbose_name_plural = 'главные изображения'
-    extra = 0
-    max_num = 1
-    fields = (MainImage.main_image.field.name, 'image_tmb')
-    readonly_fields = ('image_tmb',)
-
-    def image_tmb(self, obj):
-        return obj.image_tmb() if obj.pk else 'Будет доступно после сохранения'
-
-    image_tmb.short_description = 'Превью'
-
-
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_filter = (Category.is_published.field.name,)
@@ -62,6 +47,7 @@ class MainImageAdmin(admin.ModelAdmin):
 
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
+    inlines = (ItemImageInline,)
     filter_horizontal = (Item.tags.field.name,)
     list_display = (
         Item.name.field.name,

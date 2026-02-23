@@ -205,7 +205,7 @@ class CategoryModelTest(django.test.TestCase):
 
 
 @override_settings(ALLOW_REVERSE=False)
-class TestUniqueName(django.test.TestCase):
+class UniqueNameTest(django.test.TestCase):
     @parameterized.expand(
         [
             ('Гений', 'Гений'),
@@ -235,7 +235,7 @@ class TestUniqueName(django.test.TestCase):
 
 
 @override_settings(ALLOW_REVERSE=False)
-class TestLength(django.test.TestCase):
+class LengthTest(django.test.TestCase):
     @parameterized.expand(('a' * 150, 'a'))
     def test_max_min_name_length(self, name):
         category = Category(
