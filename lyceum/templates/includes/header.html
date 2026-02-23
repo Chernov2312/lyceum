@@ -1,7 +1,7 @@
 {% load static %}
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container">
-    <a class="navbar-brand" href="{% url 'home' %}">
+    <a class="navbar-brand" href="{% url 'main:home' %}">
       <img src="{% static 'icons/box.svg' %}" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
       Мой джанго проект
     </a>
@@ -16,21 +16,21 @@
           {% if request.path == '/' %}
             <span class="nav-link active">На главную</span>
           {% else %}
-            <a class="nav-link" href="{% url 'home' %}">На главную</a>
+            <a class="nav-link" href="{% url 'main:home' %}">На главную</a>
           {% endif %}
         </li>
         <li class="nav-item">
           {% if request.path == '/about/' %}
             <span class="nav-link active">О проекте</span>
           {% else %}
-            <a class="nav-link" href="{% url 'about' %}">О проекте</a>
+            <a class="nav-link" href="{% url 'about:about' %}">О проекте</a>
           {% endif %}
         </li>
         <li class="nav-item">
           {% if request.path == '/catalog/' %}
             <span class="nav-link active">Список товаров</span>
           {% else %}
-            <a class="nav-link" href="{% url 'item_list' %}">Список товаров </a>
+            <a class="nav-link" href="{% url 'catalog:item_list' %}">Список товаров </a>
           {% endif %}
         </li>
       </ul>
