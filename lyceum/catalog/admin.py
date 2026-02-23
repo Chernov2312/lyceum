@@ -2,6 +2,8 @@ from django.contrib import admin
 
 from catalog.models import Category, Image, Item, MainImage, Tag
 
+__all__ = []
+
 
 class ItemImageInline(admin.TabularInline):
     model = Item.images.through

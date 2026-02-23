@@ -5,6 +5,8 @@ from django.test import Client
 from django.test import override_settings
 from django.urls import reverse
 
+__all__ = ['StaticTeaURLTestCase']
+
 
 @override_settings(ALLOW_REVERSE=False)
 class StaticTeaURLTestCase(django.test.TestCase):

@@ -4,6 +4,8 @@ from django.test import Client, override_settings
 
 from lyceum.middleware import ReverseRussianMiddleware
 
+__all__ = ['ReversedCoffeeTests']
+
 
 class ReversedCoffeeTests(django.test.TestCase):
     def setUp(self):

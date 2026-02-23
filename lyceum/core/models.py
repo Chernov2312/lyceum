@@ -1,5 +1,7 @@
 from django.db import models
 
+__all__ = ['PublishedBaseModel', 'NamedBaseModel']
+
 
 class PublishedBaseModel(models.Model):
     is_published = models.BooleanField(
