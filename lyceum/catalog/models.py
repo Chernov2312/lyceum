@@ -74,6 +74,7 @@ class Category(PublishedBaseModel, NamedBaseModel):
 
 
 class Item(PublishedBaseModel, NamedBaseModel):
+    image = models.ImageField(upload_to='')
     text = models.TextField(
         verbose_name='текст',
         validators=[ValidateMustContain('роскошно', 'превосходно')],

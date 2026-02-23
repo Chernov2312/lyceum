@@ -14,9 +14,9 @@
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
           {% if request.path == '/' %}
-            <span class="nav-link active">Главная</span>
+            <span class="nav-link active">На главную</span>
           {% else %}
-            <a class="nav-link" href="{% url 'home' %}">Главная</a>
+            <a class="nav-link" href="{% url 'home' %}">На главную</a>
           {% endif %}
         </li>
         <li class="nav-item">
@@ -28,9 +28,9 @@
         </li>
         <li class="nav-item">
           {% if request.path == '/catalog/' %}
-            <span class="nav-link active">Каталог</span>
+            <span class="nav-link active">Список товаров</span>
           {% else %}
-            <a class="nav-link" href="{% url 'catalog' %}">Каталог</a>
+            <a class="nav-link" href="{% url 'item_list' %}">Список товаров </a>
           {% endif %}
         </li>
       </ul>
