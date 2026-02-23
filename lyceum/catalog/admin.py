@@ -33,3 +33,7 @@ class ItemAdmin(admin.ModelAdmin):
     @admin.display(description='Категория')
     def category_info(self, obj):
         return obj.category.name if obj.category else '-'
+
+    @admin.display(description='Картинка')
+    def category_info(self, obj):
+        return obj.image.get_image_300x300() if obj.image else '-'
