@@ -101,6 +101,9 @@ python3 manage.py test
 ```bash
 python manage.py makemessages -l ru
 ```
+```bash
+python manage.py compilemessages
+```
 В файле settings.py 
 LANGUAGE_CODE отвечает за язык, также добавляем
 ```bash
