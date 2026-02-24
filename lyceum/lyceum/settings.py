@@ -1,10 +1,10 @@
 import os
 from pathlib import Path
 
+from django.utils.translation import gettext_lazy as _
 import environ
 
 import lyceum.utils
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env()
@@ -116,7 +116,15 @@ LANGUAGE_CODE = 'ru-RU'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
+LANGUAGES = [
+    ('ru', _('Russian')),
+    ('en', _('English')),
 
+]
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'lyceum', 'locale'),
+]
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
