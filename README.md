@@ -102,6 +102,9 @@ python3 manage.py test
 python manage.py makemessages -l ru
 ```
 ```bash
+python manage.py makemessages -l en
+```
+```bash
 python manage.py compilemessages
 ```
 В файле settings.py 
