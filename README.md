@@ -99,7 +99,7 @@ python3 manage.py test
 ### Настройка локализации
 В папке lyceum вводим команду с языком который нам нужен
 ```bash
-python manage.py makemessages -l ru -l en 
+python manage.py makemessages -l ru
 ```
 В файле settings.py 
 LANGUAGE_CODE отвечает за язык, также добавляем

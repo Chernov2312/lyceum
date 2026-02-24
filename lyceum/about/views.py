@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.http import HttpResponse
 
 __all__ = ['description']
 
 
 def description(request):
-    template = 'about/about.html'
-    context = {}
-    return render(request=request, template_name=template, context=context)
+    return HttpResponse(
+        'О проекте',
+        content_type='text/html; charset=utf-8',
+    )
