@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 
+from django.utils.translation import gettext_lazy as _
 import environ
 
 import lyceum.utils
@@ -117,8 +118,8 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 LANGUAGES = [
-    ('ru', 'Русский'),
-    ('en', 'English'),
+    ('ru', _('Русский')),
+    ('en', _('English')),
 ]
 
 LOCALE_PATHS = [
