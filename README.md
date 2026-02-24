@@ -95,6 +95,18 @@ cd lyceum
 ```bash
 python3 manage.py test
 ```
-
+# Подвал
+### Настройка локализации
+В файле settings.py 
+LANGUAGE_CODE отвечает за язык, также можно
+добавить 
+```bash
+LANGUAGES = [
+    ("ru", "Русский"),
+    ("en", "English"),
+    ("de", "Deutsch"),
+]
+```
+в качестве поддерживаемых языков
 ### ER база данных
 ![ER-диаграмма проекта](ER.jpg)
