@@ -65,15 +65,6 @@ cp .env.example .env
 copy .env.example .env
 ```
 Копирование из .env.example примера в .env
-### Создание superuser
-Переходим в папку lyceum
-```bash
-cd lyceum
-```
-Создаём
-```
-python manage.py createsuperuser
-```
 ### Настройка локализации
 В папке lyceum вводим команду с языком который нам нужен
 ```bash
@@ -102,6 +93,15 @@ LANGUAGES = [
 ]
 ```
 в качестве поддерживаемых языков
+### Создание superuser
+Переходим в папку lyceum
+```bash
+cd lyceum
+```
+Создаём
+```
+python manage.py createsuperuser
+```
 ### Запуск приложения в dev режиме
 Переходим в папку lyceum если ещё не в ней
 ```bash
