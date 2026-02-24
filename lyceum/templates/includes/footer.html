@@ -1,18 +1,21 @@
+{% load static i18n %}
 <footer class="bg-dark text-light py-4 mt-5">
     <div class="container">
         <div class="row">
             <div class="col-md-12 text-center">
-                <h4>Подвал GYM бро</h4>
+                <h4>{% trans "Подвал GYM бро" %}</h4>
             </div>
         </div>
         <div class="row">
             <div class="col-md-6">
-                <h5>О проекте</h5>
-                <p>Лучшие еноты и коты</p>
+                <h5>{% trans "О проекте" %}</h5>
+                <p>{% trans "Лучшие еноты и коты" %}</p>
             </div>
             <div class="col-md-6 text-end">
-                <p>&copy; 2025 Мой проект. У меня нет прав.</p>
+                <p>&copy;{% trans "У меня нет прав." %}</p>
+                <span class="copyright-year" data-server-year="{{ server_year }}">{% now "Y" %}</span>
             </div>
         </div>
+        <script src="{% static 'js/copyright-year.js' %}"></script>
     </div>
 </footer>

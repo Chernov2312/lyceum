@@ -1,4 +1,4 @@
-{% load static %}
+{% load static i18n %}
 
 <div class="container">  
     <article class="gym-bro-article">
@@ -8,15 +8,16 @@
                     <span class="emoji">🔥</span> GYM BRO <span class="emoji">🔥</span>
                 </h1>
                 <p class="section-text">
+                    {% trans "
                     Это не просто приложение, gym. Это твой напарник по master, 
                     который никогда не сольется! Тут ты найдешь базу, котов 
                     и мотивацию енотить до отказа. Никаких slave, только 
-                    dangeon master и вечный цукуёми!
+                    dangeon master и вечный цукуёми!" %}
                 </p>
                 <div class="stats fw-bold">
-                    <div class="stat">10000+ слитых каток</div>
-                    <div class="stat">5000л балтики</div>
-                    <div class="stat">∞ вайб</div>
+                    <div class="stat">10000+ {% trans "слитых каток" %}</div>
+                    <div class="stat">5000л {% trans "балтики" %}</div>
+                    <div class="stat">∞ {% trans "-вайб" %}</div>
                 </div>
             </div>
         </section>
