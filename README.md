@@ -109,8 +109,10 @@ python manage.py makemessages -l en
 msgid "балтики"
 msgstr "Baltika beers"
 ```
+Применить перевод
 ```bash
-python manage.py compilemessages
+python manage.py compilemessages -l en
+python manage.py compilemessages -l ru
 ```
 В файле settings.py 
 LANGUAGE_CODE отвечает за язык, также добавляем
