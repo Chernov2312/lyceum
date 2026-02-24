@@ -74,6 +74,34 @@ cd lyceum
 ```
 python manage.py createsuperuser
 ```
+### Настройка локализации
+В папке lyceum вводим команду с языком который нам нужен
+```bash
+python manage.py makemessages -l ru
+```
+```bash
+python manage.py makemessages -l en
+```
+В папке locale в файлах django.po заполняем перевод по типу
+```bash
+msgid "балтики"
+msgstr "Baltika beers"
+```
+Применить перевод
+```bash
+python manage.py compilemessages -l en
+python manage.py compilemessages -l ru
+```
+В файле settings.py 
+LANGUAGE_CODE = 'ru' отвечает за язык, также добавляем
+```bash
+LANGUAGES = [
+    ("ru", "Русский"),
+    ("en", "English"),
+    ("de", "Deutsch"),
+]
+```
+в качестве поддерживаемых языков
 ### Запуск приложения в dev режиме
 Переходим в папку lyceum если ещё не в ней
 ```bash
@@ -96,33 +124,5 @@ cd lyceum
 python3 manage.py test
 ```
 # Подвал
-### Настройка локализации
-В папке lyceum вводим команду с языком который нам нужен
-```bash
-python manage.py makemessages -l ru
-```
-```bash
-python manage.py makemessages -l en
-```
-В папке locale в файлах django.po заполняем перевод по типу
-```bash
-msgid "балтики"
-msgstr "Baltika beers"
-```
-Применить перевод
-```bash
-python manage.py compilemessages -l en
-python manage.py compilemessages -l ru
-```
-В файле settings.py 
-LANGUAGE_CODE отвечает за язык, также добавляем
-```bash
-LANGUAGES = [
-    ("ru", "Русский"),
-    ("en", "English"),
-    ("de", "Deutsch"),
-]
-```
-в качестве поддерживаемых языков
 ### ER база данных
 ![ER-диаграмма проекта](ER.jpg)
