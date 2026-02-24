@@ -123,7 +123,7 @@ LANGUAGES = [
 ]
 
 LOCALE_PATHS = [
-    os.path.join(BASE_DIR, 'lyceum', 'locale'),
+    BASE_DIR / 'locale',
 ]
 STATIC_URL = '/static/'
 
