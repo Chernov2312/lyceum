@@ -104,6 +104,11 @@ python manage.py makemessages -l ru
 ```bash
 python manage.py makemessages -l en
 ```
+В папке locale в файлах django.po заполняем перевод по типу
+```bash
+msgid "балтики"
+msgstr "Baltika beers"
+```
 ```bash
 python manage.py compilemessages
 ```
