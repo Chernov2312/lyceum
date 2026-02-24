@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'homepage.apps.HomepageConfig',
     'sorl.thumbnail',
     'django_cleanup.apps.CleanupConfig',
+    'django_ckeditor_5',
 ] + (['debug_toolbar'] if DEBUG else [])
 
 MIDDLEWARE = [
@@ -123,5 +124,23 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+CKEDITOR_5_CONFIGS = {
+    'default': {
+        'toolbar': {
+            'items': [
+                'heading',
+                '|',
+                'bold',
+                'italic',
+                'link',
+                'bulletedList',
+                'numberedList',
+                'blockQuote',
+                'imageUpload',
+            ],
+        },
+    },
+}
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
