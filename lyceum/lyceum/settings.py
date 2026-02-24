@@ -118,8 +118,8 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 LANGUAGES = [
-    ('ru', _('Russian')),
-    ('en', _('English')),
+    ('ru', 'Русский'),
+    ('en', 'English'),
 ]
 
 LOCALE_PATHS = [
