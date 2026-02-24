@@ -48,6 +48,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'lyceum.middleware.ReverseRussianMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
 ] + (['debug_toolbar.middleware.DebugToolbarMiddleware'] if DEBUG else [])
 
 INTERNAL_IPS = [
