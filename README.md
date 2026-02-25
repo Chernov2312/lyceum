@@ -68,7 +68,7 @@ copy .env.example .env
 ### Настройка локализации
 В папке lyceum вводим команду с языком который нам нужен
 ```bash
-python manage.py makemessages -l <код_языка>
+python3 manage.py makemessages -l <код_языка>
 ```
 В папке locale в файлах django.po заполняем перевод по типу
 ```bash
@@ -77,7 +77,7 @@ msgstr "Baltika beers"
 ```
 Применить перевод
 ```bash
-python manage.py compilemessages -l <код_языка>
+python3 manage.py compilemessages -l <код_языка>
 ```
 В файле settings.py 
 LANGUAGE_CODE = 'ru' отвечает за язык, также добавляем
