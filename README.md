@@ -55,20 +55,14 @@ pip install -r requirements/prod.txt
 pip install -r requirements/test.txt
 ```
 ### Работа с .env
-+ Linux/macOS
 ```bash
 cp .env.example .env
-```
-
-+ Windows
-```bash
-copy .env.example .env
 ```
 Копирование из .env.example примера в .env
 ### Настройка локализации
 В папке lyceum вводим команду с языком который нам нужен
 ```bash
-python3 manage.py makemessages -l <код_языка>
+python3 manage.py makemessages -l
 ```
 В папке locale в файлах django.po заполняем перевод по типу
 ```bash
@@ -77,7 +71,7 @@ msgstr "Baltika beers"
 ```
 Применить перевод
 ```bash
-python3 manage.py compilemessages -l <код_языка>
+python3 manage.py compilemessages -l
 ```
 В файле settings.py 
 LANGUAGE_CODE = 'ru' отвечает за язык, также добавляем
