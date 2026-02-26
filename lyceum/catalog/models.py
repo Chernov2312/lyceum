@@ -168,13 +168,6 @@ class Item(PublishedBaseModel, NamedBaseModel):
         verbose_name_plural = 'товары'
         ordering = ['name']
 
-    def __str__(self):
-        return self.name
-
-    def save(self, *args, **kwargs):
-        self.full_clean()
-        super().save(*args, **kwargs)
-
     def get_main_image_tmb(self):
         if self.main_image:
             return self.main_image.image_tmb()
@@ -197,3 +190,13 @@ class Item(PublishedBaseModel, NamedBaseModel):
         return 'Нет дополнительных изображений'
 
     get_all_images_tmb.short_description = 'Галерея'
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
+
+    def __repr__(self):
+        return f'Item(name={self.name}, category={self.category}, tags={self.tags}, main_image={self.main_image})'

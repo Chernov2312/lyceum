@@ -6,7 +6,7 @@
 {% block content %}
 <div class="row">
         <div class="card">
-            <img src="{% static item.main_image %}" class="card-img-top" alt="{{ item.name }}" style="max-height: 400px; object-fit: contain;">
+            {{item.get_main_image_tmb}}
             <div class="card-body">
                 <h2 class="card-title">{{ item.name }}</h2>
                 <p class="card-text">{{ item.text }}</p>
