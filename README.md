@@ -60,10 +60,12 @@ cp .env.example .env
 ```
 Копирование из .env.example примера в .env
 ### Настройка локализации
+Переходим в папку lyceum
+```bash
+cd lyceum
+```
 В папке lyceum вводим команду с языком который нам нужен
 ```bash
-python3 manage.py makemessages -l
-python manage.py makemessages --all
 django-admin makemessages --all
 ```
 В папке locale в файлах django.po заполняем перевод по типу
@@ -73,11 +75,11 @@ msgstr "Baltika beers"
 ```
 Применить перевод
 ```bash
-python3 manage.py compilemessages -l
-django-admin compilemessages --all
+django-admin compilemessages -l <язык>
 ```
 В файле settings.py 
-LANGUAGE_CODE = 'ru' отвечает за язык, также добавляем
+LANGUAGE_CODE = 'ru' отвечает за язык разработки
+Также добавляем в качестве поддерживаемых языков приложения
 ```bash
 LANGUAGES = [
     ("ru", "Русский"),
@@ -85,9 +87,8 @@ LANGUAGES = [
     ("de", "Deutsch"),
 ]
 ```
-в качестве поддерживаемых языков
 ### Создание superuser
-Переходим в папку lyceum
+Переходим в папку lyceum если ещё не в ней
 ```bash
 cd lyceum
 ```
