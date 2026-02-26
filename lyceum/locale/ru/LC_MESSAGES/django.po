@@ -70,7 +70,7 @@ msgstr "-вайб"
 
 #: .\templates\catalog\item_list_extend.html:4
 msgid "Каталог йоу"
-msgstr "Каталог"
+msgstr "Каталог йоу"
 
 #: .\templates\catalog\item_list_include.html:5
 msgid "Наши товары"
@@ -82,7 +82,7 @@ msgstr "Главная страница"
 
 #: .\templates\includes\footer.html:6
 msgid "Подвал GYM бро"
-msgstr "Подвал"
+msgstr "Подвал Gym bro"
 
 #: .\templates\includes\footer.html:12
 msgid "Лучшие еноты и коты"

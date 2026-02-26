@@ -62,11 +62,11 @@ msgstr "Baltika beers"
 
 #: .\templates\about\about_include.html:21
 msgid "-вайб"
-msgstr "vibe"
+msgstr "-vibe"
 
 #: .\templates\catalog\item_list_extend.html:4
 msgid "Каталог йоу"
-msgstr "Catalog"
+msgstr "Catalog you"
 
 #: .\templates\catalog\item_list_include.html:5
 msgid "Наши товары"
@@ -78,7 +78,7 @@ msgstr "Home page"
 
 #: .\templates\includes\footer.html:6
 msgid "Подвал GYM бро"
-msgstr "Footer"
+msgstr "Footer GYM bro"
 
 #: .\templates\includes\footer.html:12
 msgid "Лучшие еноты и коты"
