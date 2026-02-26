@@ -199,4 +199,9 @@ class Item(PublishedBaseModel, NamedBaseModel):
         super().save(*args, **kwargs)
 
     def __repr__(self):
-        return f'Item(name={self.name}, category={self.category}, tags={self.tags}, main_image={self.main_image})'
+        return (
+            f'Item(name={self.name}, '
+            f'category={self.category}, '
+            f'tags={self.tags}, '
+            f'main_image={self.main_image})'
+        )
