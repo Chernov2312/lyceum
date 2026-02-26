@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-25 00:22+0700\n"
+"POT-Creation-Date: 2026-02-26 20:45+0700\n"
 "PO-Revision-Date: 2026-02-25 13:30+0700\n"
 "Last-Translator: Your Name <your.email@example.com>\n"
 "Language-Team: English <en@li.org>\n"
@@ -18,8 +18,8 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: .\lyceum\settings.py:121
-msgid "Russian"
-msgstr "Russian"
+msgid "Русский"
+msgstr ""
 
 #: .\lyceum\settings.py:122
 msgid "English"
@@ -48,8 +48,7 @@ msgstr ""
 "companion, \n"
 "                        that will never give up! Here you'll find base, "
 "cats \n"
-"                        and motivation to work hard. No slaves, "
-"only \n"
+"                        and motivation to work hard. No slaves, only \n"
 "                        dungeon master and eternal tsukuyomi!\n"
 "                    "
 
@@ -100,3 +99,6 @@ msgstr "Home"
 #: .\templates\includes\header.html:31 .\templates\includes\header.html:33
 msgid "Список товаров"
 msgstr "Products"
+
+#~ msgid "Russian"
+#~ msgstr "Russian"

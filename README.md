@@ -63,6 +63,8 @@ cp .env.example .env
 В папке lyceum вводим команду с языком который нам нужен
 ```bash
 python3 manage.py makemessages -l
+python manage.py makemessages --all
+django-admin makemessages --all
 ```
 В папке locale в файлах django.po заполняем перевод по типу
 ```bash

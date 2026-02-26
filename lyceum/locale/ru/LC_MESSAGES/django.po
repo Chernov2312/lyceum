@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-25 00:22+0700\n"
+"POT-Creation-Date: 2026-02-26 20:45+0700\n"
 "PO-Revision-Date: 2026-02-25 12:00+0700\n"
 "Last-Translator: Your Name <your.email@example.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -21,8 +21,8 @@ msgstr ""
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
 #: .\lyceum\settings.py:121
-msgid "Russian"
-msgstr "Русский"
+msgid "Русский"
+msgstr ""
 
 #: .\lyceum\settings.py:122
 msgid "English"
@@ -103,3 +103,6 @@ msgstr "На главную"
 #: .\templates\includes\header.html:31 .\templates\includes\header.html:33
 msgid "Список товаров"
 msgstr "Список товаров"
+
+#~ msgid "Russian"
+#~ msgstr "Русский"
