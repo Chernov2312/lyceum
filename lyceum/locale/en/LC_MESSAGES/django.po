@@ -86,7 +86,7 @@ msgstr "Best raccoons and cats"
 
 #: .\templates\includes\footer.html:15
 msgid "У меня нет прав."
-msgstr "© All rights reserved"
+msgstr "I have no rights"
 
 #: .\templates\includes\header.html:6
 msgid "Мой джанго проект"

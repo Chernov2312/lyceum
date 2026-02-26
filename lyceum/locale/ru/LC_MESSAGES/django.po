@@ -90,7 +90,7 @@ msgstr "Лучшие еноты и коты"
 
 #: .\templates\includes\footer.html:15
 msgid "У меня нет прав."
-msgstr "© Все права защищены"
+msgstr "У меня нет прав"
 
 #: .\templates\includes\header.html:6
 msgid "Мой джанго проект"
