@@ -4,14 +4,5 @@
 {% block title %}{{ item.name }}{% endblock %}
 
 {% block content %}
-<div class="row">
-        <div class="card">
-            {{item.get_main_image_tmb}}
-            <div class="card-body">
-                <h2 class="card-title">{{ item.name }}</h2>
-                <p class="card-text">{{ item.text }}</p>
-            </div>
-        </div>
-    </div>
-</div>
+{% include 'includes/item_card.html' with item=item %}
 {% endblock %}

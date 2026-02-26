@@ -1,10 +1,10 @@
 {% load static %}
-{% block content %}
 <div class="card">
-    {{item.get_main_image_tmb}}
+    {{ item.get_main_image_tmb|safe }}
     <div class="card-body">
-        <h2 class="card-title">{{ item.name }}</h2>
+        <a class="nav-link" href="{% url 'catalog:item_detail' item.id %}">
+            <h2 class="card-title">{{ item.name }}</h2>
+        </a>
         <p class="card-text">{{ item.text }}</p>
     </div>
 </div>
-{% endblock %}
