@@ -21,6 +21,37 @@ __all__ = [
 
 @override_settings(ALLOW_REVERSE=False)
 class StaticURLTests(django.test.TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.category = Category.objects.create(
+            name='Тестовая категория',
+            slug='test-category',
+            weight=100,
+        )
+
+        cls.tag1 = Tag.objects.create(
+            name='asdfghjkl;',
+            slug='asdfghjk',
+        )
+        cls.tag2 = Tag.objects.create(
+            name='qwertyu',
+            slug='qwerty',
+        )
+        items_data = [
+            (1, 'Товар 1', 'Этот товар просто превосходно!'),
+            (10, 'Товар dfghjk10', 'Товар 10 - роскошно выглядит!'),
+            (52, 'Товар asdfghjkl52', 'Товар 52 - превосходно выбор!'),
+        ]
+
+        for item_id, name, text in items_data:
+            item = Item.objects.create(
+                id=item_id,
+                name=name,
+                text=text,
+                category=cls.category,
+            )
+            item.tags.add(cls.tag1, cls.tag2)
+
     def test_item_list_endpoint(self):
         response = django.test.Client().get(reverse('catalog:item_list'))
         self.assertEqual(response.status_code, http.HTTPStatus.OK)
@@ -35,6 +66,37 @@ class StaticURLTests(django.test.TestCase):
 
 @override_settings(ALLOW_REVERSE=False)
 class StaticReTests(django.test.TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.category = Category.objects.create(
+            name='Тестовая категория',
+            slug='test-category',
+            weight=100,
+        )
+
+        cls.tag1 = Tag.objects.create(
+            name='asdfghjkl;',
+            slug='asdfghjk',
+        )
+        cls.tag2 = Tag.objects.create(
+            name='qwertyu',
+            slug='qwerty',
+        )
+        items_data = [
+            (1, 'Товар 1', 'Этот товар просто превосходно!'),
+            (10, 'Товар dfghjk10', 'Товар 10 - роскошно выглядит!'),
+            (52, 'Товар asdfghjkl52', 'Товар 52 - превосходно выбор!'),
+        ]
+
+        for item_id, name, text in items_data:
+            item = Item.objects.create(
+                id=item_id,
+                name=name,
+                text=text,
+                category=cls.category,
+            )
+            item.tags.add(cls.tag1, cls.tag2)
+
     @parameterized.expand(('01', '010', '52'))
     def test_item_re_posituv_digit_endpoint(self, value):
         response = django.test.Client().get(
