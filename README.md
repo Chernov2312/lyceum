@@ -74,6 +74,7 @@ msgstr "Baltika beers"
 Применить перевод
 ```bash
 python3 manage.py compilemessages -l
+django-admin compilemessages --all
 ```
 В файле settings.py 
 LANGUAGE_CODE = 'ru' отвечает за язык, также добавляем
