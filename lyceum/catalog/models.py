@@ -2,10 +2,9 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.utils.safestring import mark_safe
 from django_ckeditor_5.fields import CKEditor5Field
-from sorl.thumbnail import get_thumbnail
 
 from catalog.validators import ValidateMustContain
-from core.models import NamedBaseModel, PublishedBaseModel
+from core.models import BaseImageModel, NamedBaseModel, PublishedBaseModel
 from core.unic_field import Normalise
 
 __all__ = ['Tag', 'Category', 'Item', 'Image', 'MainImage']
@@ -75,7 +74,7 @@ class Category(PublishedBaseModel, NamedBaseModel):
         super().save(*args, **kwargs)
 
 
-class Image(models.Model):
+class Image(BaseImageModel):
     image = models.ImageField(
         upload_to='uploads/',
         verbose_name='изображение',
@@ -88,25 +87,8 @@ class Image(models.Model):
     def __str__(self):
         return f'Изображение #{self.id}'
 
-    def get_image_x1280(self):
-        return get_thumbnail(self.image, '1280', quality=51)
 
-    def get_image_300x300(self):
-        return get_thumbnail(self.image, '300x300', crop='center', quality=51)
-
-    def image_tmb(self):
-        if self.image:
-            return mark_safe(
-                f'<img src="{self.image.url}" width="50" height="50"'
-                'style="object-fit: cover;">',
-            )
-        return 'Нет изображения'
-
-    image_tmb.short_description = 'Превью'
-    image_tmb.allow_tags = True
-
-
-class MainImage(models.Model):
+class MainImage(BaseImageModel):
     main_image = models.ImageField(upload_to='main/')
 
     class Meta:
@@ -115,14 +97,6 @@ class MainImage(models.Model):
 
     def __str__(self):
         return f'Изображение #{self.id}'
-
-    def image_tmb(self):
-        if self.main_image:
-            return mark_safe(
-                f'<img src="{self.main_image.url}" width="50" height="50"'
-                'style="object-fit: cover;">',
-            )
-        return 'Нет изображения'
 
 
 class Item(PublishedBaseModel, NamedBaseModel):
@@ -167,13 +141,6 @@ class Item(PublishedBaseModel, NamedBaseModel):
         verbose_name = 'товар'
         verbose_name_plural = 'товары'
         ordering = ['name']
-
-    def get_main_image_tmb(self):
-        if self.main_image:
-            return self.main_image.image_tmb()
-        return 'Нет главного изображения'
-
-    get_main_image_tmb.short_description = 'Главное изображение'
 
     def get_all_images_tmb(self):
         images = self.images.all()

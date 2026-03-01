@@ -24,27 +24,17 @@ class TagAdmin(admin.ModelAdmin):
 
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
-    list_display = (Image.id.field.name, 'image_tmb')
-    readonly_fields = ('image_tmb',)
-
-    def image_tmb(self, obj):
-        return obj.image_tmb()
-
-    image_tmb.short_description = 'Превью'
+    list_display = (Image.id.field.name, Image.image_tmb)
+    readonly_fields = (Image.image_tmb,)
 
 
 @admin.register(MainImage)
 class MainImageAdmin(admin.ModelAdmin):
     list_display = (
         MainImage.id.field.name,
-        'image_tmb',
+        MainImage.image_tmb,
     )
-    readonly_fields = ('image_tmb',)
-
-    def image_tmb(self, obj):
-        return obj.image_tmb()
-
-    image_tmb.short_description = 'Превью'
+    readonly_fields = (MainImage.image_tmb,)
 
 
 @admin.register(Item)
@@ -54,8 +44,8 @@ class ItemAdmin(admin.ModelAdmin):
     list_display = (
         Item.name.field.name,
         Item.is_published.field.name,
-        'get_main_image_tmb',
-        'get_all_images_tmb',
+        'main_image_tmb',
+        Item.get_all_images_tmb,
     )
     list_editable = (Item.is_published.field.name,)
     list_display_links = (Item.name.field.name,)
@@ -79,14 +69,19 @@ class ItemAdmin(admin.ModelAdmin):
                 'fields': (
                     'main_image',
                     'images',
-                    'get_main_image_tmb',
                     'get_all_images_tmb',
                 ),
             },
         ),
     )
 
-    readonly_fields = ('get_main_image_tmb', 'get_all_images_tmb')
+    readonly_fields = (Item.get_all_images_tmb,)
+
+    @admin.display(description='Главное изображение')
+    def main_image_tmb(self, obj):
+        if obj.main_image:
+            return obj.main_image.image_tmb()
+        return 'Нет изображения'
 
     @admin.display(description='Категория')
     def category_info(self, obj):
