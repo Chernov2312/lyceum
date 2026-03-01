@@ -1,6 +1,16 @@
-{% extends "homepage/main_extend.html" %}
-{% load static %}
+{% extends "base.html" %}
+{% load static i18n %}
+
+{% block title %}{% trans "Главная страница" %}{% endblock %}
 
 {% block content %}
-    {{ block.super }}
+<div class="container">  
+    <div class="row">
+        <div class="d-flex justify-content-center">
+            <img src="{% static 'images/new_year.jpeg' %}"
+                 alt="Котик" 
+                 class="img-fluid rounded shadow">
+        </div>
+    </div>
+</div>
 {% endblock %}
