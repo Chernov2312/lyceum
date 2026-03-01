@@ -10,6 +10,20 @@ from core.unic_field import Normalise
 __all__ = ['Tag', 'Category', 'Item', 'Image', 'MainImage']
 
 
+def get_image_upload_path(instance, filename):
+    if hasattr(instance, 'items') and instance.items.exists():
+        item = instance.items.first()
+        return f'uploads/item_{item.id}/{filename}'
+    return f'uploads/temp/{filename}'
+
+
+def get_main_image_upload_path(instance, filename):
+    if hasattr(instance, 'main_item') and instance.main_item.exists():
+        item = instance.main_item.first()
+        return f'main/item_{item.id}/{filename}'
+    return f'main/temp/{filename}'
+
+
 class Tag(NamedBaseModel, PublishedBaseModel):
     slug = models.SlugField(
         verbose_name='слаг',
@@ -76,7 +90,7 @@ class Category(PublishedBaseModel, NamedBaseModel):
 
 class Image(BaseImageModel):
     image = models.ImageField(
-        upload_to='uploads/',
+        upload_to=get_image_upload_path,
         verbose_name='изображение',
     )
 
@@ -89,7 +103,10 @@ class Image(BaseImageModel):
 
 
 class MainImage(BaseImageModel):
-    main_image = models.ImageField(upload_to='main/')
+    main_image = models.ImageField(
+        upload_to=get_main_image_upload_path,
+        verbose_name='главное изображение',
+    )
 
     class Meta:
         verbose_name = 'главное изображение'

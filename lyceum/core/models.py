@@ -67,6 +67,7 @@ class BaseImageModel(models.Model):
             return get_thumbnail(self.image, geometry_string, **options)
         elif hasattr(self, 'main_image') and self.main_image:
             return get_thumbnail(self.main_image, geometry_string, **options)
+    
 
     image_tmb.short_description = 'Превью'
     image_tmb.allow_tags = True

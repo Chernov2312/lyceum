@@ -1,6 +1,6 @@
 {% load static %}
 <div class="card">
-    {{ item.get_main_image_tmb|safe }}
+    {{ item.main_image.image_tmb|safe }}
     <div class="card-body">
         {% if request.resolver_match.view_name == 'catalog:item_detail' %}
         <span class="nav-link active" href="{% url 'catalog:item_detail' item.id %}">
