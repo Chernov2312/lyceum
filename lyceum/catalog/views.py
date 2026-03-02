@@ -12,12 +12,14 @@ def item_list(request):
     template = 'catalog/item_list.html'
     context = {
         'items': catalog.models.Item.objects.select_related(
-            'category', 'main_image',
+            'category',
+            'main_image',
         )
         .prefetch_related(
             Prefetch('tags', queryset=catalog.models.Tag.objects.only('name')),
             Prefetch(
-                'images', queryset=catalog.models.Image.objects.only('image'),
+                'images',
+                queryset=catalog.models.Image.objects.only('image'),
             ),
         )
         .order_by('name')
@@ -34,12 +36,14 @@ def get_int_item_detail(request, item_id):
     template = 'catalog/item.html'
     context = {
         'item': catalog.models.Item.objects.select_related(
-            'main_image', 'category',
+            'main_image',
+            'category',
         )
         .prefetch_related(
             Prefetch('tags', queryset=catalog.models.Tag.objects.only('name')),
             Prefetch(
-                'images', queryset=catalog.models.Image.objects.only('image'),
+                'images',
+                queryset=catalog.models.Image.objects.only('image'),
             ),
         )
         .only('name', 'text', 'main_image__main_image', 'category__name')
@@ -47,9 +51,10 @@ def get_int_item_detail(request, item_id):
             is_published=True,
             category__is_published=True,
         )
-        .filter(id=item_id),
+        .filter(id=item_id)
+        .first(),
     }
-    if context['item'] is None:
+    if not context['item']:
         return render(
             request=request,
             template_name=template,

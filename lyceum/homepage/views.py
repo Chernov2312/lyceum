@@ -13,7 +13,8 @@ def home(request):
     template = 'homepage/main.html'
     context = {
         'items': catalog.models.Item.objects.select_related(
-            'category', 'main_image',
+            'category',
+            'main_image',
         )
         .prefetch_related(
             Prefetch('tags', queryset=catalog.models.Tag.objects.only('name')),
