@@ -44,6 +44,7 @@ class ItemAdmin(admin.ModelAdmin):
     list_display = (
         Item.name.field.name,
         Item.is_published.field.name,
+        Item.is_on_main.field.name,
         'main_image_tmb',
         Item.get_all_images_tmb,
     )
@@ -60,6 +61,7 @@ class ItemAdmin(admin.ModelAdmin):
                     'category',
                     'tags',
                     'is_published',
+                    'is_on_main',
                 ),
             },
         ),
@@ -75,7 +77,7 @@ class ItemAdmin(admin.ModelAdmin):
         ),
     )
 
-    readonly_fields = (Item.get_all_images_tmb,)
+    readonly_fields = ('get_all_images_tmb',)
 
     @admin.display(description='Главное изображение')
     def main_image_tmb(self, obj):

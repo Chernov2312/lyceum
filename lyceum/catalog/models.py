@@ -124,6 +124,10 @@ class Item(PublishedBaseModel, NamedBaseModel):
         help_text='Обязательно должно содержать слова'
         '"превосходно" или "роскошно"',
     )
+    is_on_main = models.BooleanField(
+        verbose_name='на главной',
+        default=False,
+    )
     category = models.ForeignKey(
         Category,
         related_name='items',
