@@ -54,7 +54,7 @@ def get_int_item_detail(request, item_id):
         .filter(id=item_id)
         .first(),
     }
-    if not context['item']:
+    if context['item'] is None:
         return render(
             request=request,
             template_name=template,
