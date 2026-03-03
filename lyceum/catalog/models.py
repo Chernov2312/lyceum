@@ -197,12 +197,14 @@ class Item(PublishedBaseModel, NamedBaseModel):
         on_delete=models.CASCADE,
         verbose_name='категория',
         db_index=True,
+        related_query_name='item',
     )
     tags = models.ManyToManyField(
         Tag,
         related_name='items',
         verbose_name='теги',
         blank=True,
+        related_query_name='item',
     )
     main_image = models.ForeignKey(
         MainImage,
