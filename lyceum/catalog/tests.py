@@ -468,66 +468,106 @@ class LengthTest(django.test.TestCase):
         category.full_clean()
 
 
-class ItemManagerReturnValuesTest(django.test.TestCase):
+class CatalogContextTests(django.test.TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.category = Category.objects.create(
-            name='Категория',
-            slug='cat',
+            name='Тестовая категория',
+            slug='test-category',
+            weight=100,
             is_published=True,
         )
-        cls.category_unpublished = Category.objects.create(
-            name='Неопубликованная',
-            slug='cat-unpub',
-            is_published=False,
+
+        cls.tag = Tag.objects.create(
+            name='Тестовый тег',
+            slug='test-tag',
+            is_published=True,
         )
 
-        cls.item1 = Item.objects.create(
-            name='Товар А',
-            text='превосходно',
+        cls.item = Item.objects.create(
+            name='Тестовый товар',
+            text='Это превосходно товар',
             category=cls.category,
             is_published=True,
         )
+        cls.item.tags.add(cls.tag)
+
         cls.item2 = Item.objects.create(
-            name='Товар Б',
-            text='роскошно',
+            name='Второй товар',
+            text='Роскошно товар',
             category=cls.category,
             is_published=True,
         )
-        cls.item_unpublished = Item.objects.create(
-            name='Неопубликованный',
+        cls.item2.tags.add(cls.tag)
+
+    def test_item_list_context(self):
+        response = django.test.Client().get(reverse('catalog:item_list'))
+
+        self.assertIsNotNone(response.context)
+
+        self.assertIn('items', response.context)
+
+        items = response.context['items']
+        self.assertEqual(items.count(), 2)
+        self.assertIn(self.item, items)
+        self.assertIn(self.item2, items)
+
+    def test_item_detail_context(self):
+        response = django.test.Client().get(
+            reverse('catalog:item_detail', args=[self.item.id]),
+        )
+
+        self.assertIsNotNone(response.context)
+        self.assertIn('item', response.context)
+
+        item = response.context['item']
+        self.assertEqual(item.name, 'Тестовый товар')
+        self.assertIn('превосходно', item.text)
+
+        self.assertTrue(item.tags.exists())
+        self.assertEqual(item.category.name, 'Тестовая категория')
+
+    def test_item_list_context_contains_only_published(self):
+        unpublished_item = Item.objects.create(
+            name='Неопубликованный товар',
             text='превосходно',
-            category=cls.category,
+            category=self.category,
             is_published=False,
         )
-        cls.item_unpublished_category = Item.objects.create(
-            name='Товар в неопубл категории',
-            text='превосходно',
-            category=cls.category_unpublished,
-            is_published=True,
+
+        response = django.test.Client().get(reverse('catalog:item_list'))
+        items = response.context['items']
+
+        self.assertNotIn(unpublished_item, items)
+        self.assertIn(self.item, items)
+        self.assertIn(self.item2, items)
+        self.assertEqual(items.count(), 2)
+
+    def test_item_list_context_pagination(self):
+        response = django.test.Client().get(reverse('catalog:item_list'))
+        items = response.context['items']
+
+        from django.db.models.query import QuerySet
+
+        self.assertIsInstance(items, QuerySet)
+
+    def test_item_list_ordering(self):
+        response = django.test.Client().get(reverse('catalog:item_list'))
+        items = list(response.context['items'])
+
+        item_names = [item.name for item in items]
+        self.assertEqual(item_names, sorted(item_names))
+
+    def test_re_item_detail_context(self):
+        response = django.test.Client().get(
+            reverse('catalog:re_item_detail', args=[str(self.item.id)]),
         )
 
-    def test_published_items_count(self):
-        result = Item.objects.published_items()
-        self.assertEqual(result.count(), 2)
+        self.assertIsNotNone(response.context)
+        self.assertIn('item', response.context)
 
-    def test_published_items_contains_correct_items(self):
-        result = Item.objects.published_items()
-        self.assertIn(self.item1, result)
-        self.assertIn(self.item2, result)
-        self.assertNotIn(self.item_unpublished, result)
-        self.assertNotIn(self.item_unpublished_category, result)
-
-    def test_published_items_ordering(self):
-        result = Item.objects.published_items()
-        self.assertEqual(result[0].name, 'Товар А')
-        self.assertEqual(result[1].name, 'Товар Б')
-
-    def test_published_items_returns_queryset(self):
-        result = Item.objects.published_items()
-        self.assertEqual(result.count(), 2)
-        for item in result:
-            self.assertIsInstance(item, Item)
+        item = response.context['item']
+        self.assertEqual(item.name, 'Тестовый товар')
 
 
 class ItemManagerGetObjectOr404Test(django.test.TestCase):
