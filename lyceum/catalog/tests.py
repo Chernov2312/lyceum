@@ -507,7 +507,7 @@ class CatalogContextTests(django.test.TestCase):
         self.assertIn('items', response.context)
 
         items = response.context['items']
-        self.assertEqual(items.count(), 2)
+        self.assertEqual(len(items), 2)
         self.assertIn(self.item, items)
         self.assertIn(self.item2, items)
 
