@@ -1,5 +1,6 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from django.db.models import Prefetch
 from django.utils.safestring import mark_safe
 from django_ckeditor_5.fields import CKEditor5Field
 
@@ -22,6 +23,53 @@ def get_main_image_upload_path(instance, filename):
         item = instance.main_item.first()
         return f'main/item_{item.id}/{filename}'
     return f'main/temp/{filename}'
+
+
+class ItemManager(models.Manager):
+    def published_items(self):
+        return (
+            self.get_queryset()
+            .select_related(
+                'category',
+                'main_image',
+            )
+            .prefetch_related(
+                Prefetch('tags', queryset=Tag.objects.only('name')),
+                Prefetch(
+                    'images',
+                    queryset=Image.objects.only('image'),
+                ),
+            )
+            .order_by('name')
+            .only('name', 'text', 'main_image__main_image', 'category__name')
+            .filter(
+                is_published=True,
+                category__is_published=True,
+            ),
+        )
+
+    def get_object_or_404(self, item_id):
+        return (
+            self.get_queryset()
+            .select_related(
+                'main_image',
+                'category',
+            )
+            .prefetch_related(
+                Prefetch('tags', queryset=Tag.objects.only('name')),
+                Prefetch(
+                    'images',
+                    queryset=Image.objects.only('image'),
+                ),
+            )
+            .only('name', 'text', 'main_image__main_image', 'category__name')
+            .filter(
+                is_published=True,
+                category__is_published=True,
+            )
+            .filter(id=item_id)
+            .first(),
+        )
 
 
 class Tag(NamedBaseModel, PublishedBaseModel):
@@ -117,6 +165,7 @@ class MainImage(BaseImageModel):
 
 
 class Item(PublishedBaseModel, NamedBaseModel):
+    objects = ItemManager()
     text = CKEditor5Field(
         verbose_name='текст',
         validators=[ValidateMustContain('роскошно', 'превосходно')],
