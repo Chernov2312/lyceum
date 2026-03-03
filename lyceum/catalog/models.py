@@ -45,7 +45,7 @@ class ItemManager(models.Manager):
             .filter(
                 is_published=True,
                 category__is_published=True,
-            ),
+            )
         )
 
     def get_object_or_404(self, item_id):
@@ -68,7 +68,7 @@ class ItemManager(models.Manager):
                 category__is_published=True,
             )
             .filter(id=item_id)
-            .first(),
+            .first()
         )
 
 
