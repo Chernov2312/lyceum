@@ -8,7 +8,7 @@ class Normalise:
     def normalise(cls, value):
         value = value.strip()
         replacements = {
-            'З': '',
+            'З': '3',
             'а': 'a',
             'в': 'b',
             'е': 'e',
@@ -43,6 +43,5 @@ class Normalise:
             value = value.replace(old, new)
         value = re.sub(r'[^\w\s]', '', value.lower())
         value = re.sub(r'\s+', '', value)
-        value = re.sub(r'\d+', '', value)
         value = re.sub(r'(.)\1+', r'\1', value)
         return value.strip()
