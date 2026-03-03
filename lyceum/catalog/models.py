@@ -95,9 +95,13 @@ class Tag(NamedBaseModel, PublishedBaseModel):
     def __str__(self):
         return self.name
 
-    def _save_table(self, *args, **kwargs):
+    def save(self, *args, **kwargs):
         self.normalised_name = Normalise.normalise(self.name)
-        self.full_clean()
+        if not kwargs.get('raw', False):
+            self.full_clean()
+        super().save(*args, **kwargs)
+
+    def _save_table(self, *args, **kwargs):
         return super()._save_table(*args, **kwargs)
 
 
@@ -130,9 +134,13 @@ class Category(PublishedBaseModel, NamedBaseModel):
     def __str__(self):
         return self.name
 
-    def _save_table(self, *args, **kwargs):
+    def save(self, *args, **kwargs):
         self.normalised_name = Normalise.normalise(self.name)
-        self.full_clean()
+        if not kwargs.get('raw', False):
+            self.full_clean()
+        super().save(*args, **kwargs)
+
+    def _save_table(self, *args, **kwargs):
         return super()._save_table(*args, **kwargs)
 
 

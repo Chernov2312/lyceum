@@ -1,6 +1,5 @@
 from http import HTTPStatus
 
-from django.db.models import Prefetch
 from django.shortcuts import render
 
 import catalog.models
