@@ -96,7 +96,7 @@ class Tag(NamedBaseModel, PublishedBaseModel):
         return self.name
 
     def clean(self):
-        self.normalized_name = Normalise.normalise(self.name)
+        self.normalised_name = Normalise.normalise(self.name)
 
     def save(self, *args, **kwargs):
         self.normalised_name = Normalise.normalise(self.name)
@@ -138,7 +138,7 @@ class Category(PublishedBaseModel, NamedBaseModel):
         return self.name
 
     def clean(self):
-        self.normalized_name = Normalise.normalise(self.name)
+        self.normalised_name = Normalise.normalise(self.name)
 
     def save(self, *args, **kwargs):
         self.normalised_name = Normalise.normalise(self.name)
