@@ -201,7 +201,3 @@ class Item(PublishedBaseModel, NamedBaseModel):
             f'tags={self.tags}, '
             f'main_image={self.main_image})'
         )
-
-    def _save_table(self, *args, **kwargs):
-        self.normalized_name = Normalise.normalise(self.name)
-        return super()._save_table(*args, **kwargs)
