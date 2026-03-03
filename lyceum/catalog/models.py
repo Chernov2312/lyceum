@@ -52,6 +52,10 @@ class Tag(NamedBaseModel, PublishedBaseModel):
         self.full_clean()
         super().save(*args, **kwargs)
 
+    def _save_table(self, *args, **kwargs):
+        self.normalized_name = Normalise.normalise(self.name)
+        return super()._save_table(*args, **kwargs)
+
 
 class Category(PublishedBaseModel, NamedBaseModel):
     slug = models.SlugField(
@@ -86,6 +90,10 @@ class Category(PublishedBaseModel, NamedBaseModel):
         self.normalised_name = Normalise.normalise(self.name)
         self.full_clean()
         super().save(*args, **kwargs)
+
+    def _save_table(self, *args, **kwargs):
+        self.normalized_name = Normalise.normalise(self.name)
+        return super()._save_table(*args, **kwargs)
 
 
 class Image(BaseImageModel):
@@ -193,3 +201,7 @@ class Item(PublishedBaseModel, NamedBaseModel):
             f'tags={self.tags}, '
             f'main_image={self.main_image})'
         )
+
+    def _save_table(self, *args, **kwargs):
+        self.normalized_name = Normalise.normalise(self.name)
+        return super()._save_table(*args, **kwargs)

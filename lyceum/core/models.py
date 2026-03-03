@@ -32,6 +32,7 @@ class NamedBaseModel(models.Model):
 class BaseImageModel(models.Model):
     class Meta:
         abstract = True
+        
 
     def get_image_x1280(self):
         thumbnail = self.get_thumbnail('1280', quality=85)
