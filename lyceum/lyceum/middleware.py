@@ -29,6 +29,7 @@ class ReverseRussianMiddleware:
 
     def __call__(self, request):
         response = self.get_response(request)
+
         if settings.ALLOW_REVERSE:
             ReverseRussianMiddleware.counter += 1
             if (
@@ -36,6 +37,6 @@ class ReverseRussianMiddleware:
                 % settings.REQUESTS_COUNT_BEFORE_REVERSE
                 == 0
             ):
-                response = ReverseRussianMiddleware.reverse_words(response)
-                ReverseRussianMiddleware.counter = 0
+                return ReverseRussianMiddleware.reverse_words(response)
+
         return response
