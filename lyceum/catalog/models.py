@@ -48,13 +48,10 @@ class Tag(NamedBaseModel, PublishedBaseModel):
         return self.name
 
     def save(self, *args, **kwargs):
-        self.normalised_name = Normalise.normalise(self.name)
-        self.full_clean()
+        if not kwargs.get('raw', False):
+            self.normalised_name = Normalise.normalise(self.name)
+            self.full_clean()
         super().save(*args, **kwargs)
-
-    def _save_table(self, *args, **kwargs):
-        self.normalized_name = Normalise.normalise(self.name)
-        return super()._save_table(*args, **kwargs)
 
 
 class Category(PublishedBaseModel, NamedBaseModel):
@@ -87,13 +84,10 @@ class Category(PublishedBaseModel, NamedBaseModel):
         return self.name
 
     def save(self, *args, **kwargs):
-        self.normalised_name = Normalise.normalise(self.name)
-        self.full_clean()
+        if not kwargs.get('raw', False):
+            self.normalised_name = Normalise.normalise(self.name)
+            self.full_clean()
         super().save(*args, **kwargs)
-
-    def _save_table(self, *args, **kwargs):
-        self.normalized_name = Normalise.normalise(self.name)
-        return super()._save_table(*args, **kwargs)
 
 
 class Image(BaseImageModel):
