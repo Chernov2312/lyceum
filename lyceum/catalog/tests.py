@@ -466,3 +466,115 @@ class LengthTest(django.test.TestCase):
             weight=1,
         )
         category.full_clean()
+
+
+class ItemManagerReturnValuesTest(django.test.TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.category = Category.objects.create(
+            name='Категория',
+            slug='cat',
+            is_published=True,
+        )
+        cls.category_unpublished = Category.objects.create(
+            name='Неопубликованная',
+            slug='cat-unpub',
+            is_published=False,
+        )
+
+        cls.item1 = Item.objects.create(
+            name='Товар А',
+            text='превосходно',
+            category=cls.category,
+            is_published=True,
+        )
+        cls.item2 = Item.objects.create(
+            name='Товар Б',
+            text='роскошно',
+            category=cls.category,
+            is_published=True,
+        )
+        cls.item_unpublished = Item.objects.create(
+            name='Неопубликованный',
+            text='превосходно',
+            category=cls.category,
+            is_published=False,
+        )
+        cls.item_unpublished_category = Item.objects.create(
+            name='Товар в неопубл категории',
+            text='превосходно',
+            category=cls.category_unpublished,
+            is_published=True,
+        )
+
+    def test_published_items_count(self):
+        result = Item.objects.published_items()
+        self.assertEqual(result.count(), 2)
+
+    def test_published_items_contains_correct_items(self):
+        result = Item.objects.published_items()
+        self.assertIn(self.item1, result)
+        self.assertIn(self.item2, result)
+        self.assertNotIn(self.item_unpublished, result)
+        self.assertNotIn(self.item_unpublished_category, result)
+
+    def test_published_items_ordering(self):
+        result = Item.objects.published_items()
+        self.assertEqual(result[0].name, 'Товар А')
+        self.assertEqual(result[1].name, 'Товар Б')
+
+    def test_published_items_returns_queryset(self):
+        result = Item.objects.published_items()
+        self.assertEqual(result.count(), 2)
+        for item in result:
+            self.assertIsInstance(item, Item)
+
+
+class ItemManagerGetObjectOr404Test(django.test.TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.category = Category.objects.create(
+            name='Категория',
+            slug='cat',
+            is_published=True,
+        )
+        cls.item = Item.objects.create(
+            name='Товар',
+            text='превосходно',
+            category=cls.category,
+            is_published=True,
+        )
+        cls.unpublished = Item.objects.create(
+            name='Неопубликованный',
+            text='превосходно',
+            category=cls.category,
+            is_published=False,
+        )
+
+    @parameterized.expand(
+        [
+            ('существующий_опубликованный', 'item', True),
+            ('несуществующий_id', 999, False),
+            ('неопубликованный_товар', 'unpublished', False),
+        ],
+    )
+    def test_get_object_or_404_returns_value(
+        self,
+        name,
+        item_key,
+        expected_is_not_none,
+    ):
+        if item_key == 'item':
+            item_id = self.item.id
+        elif item_key == 'unpublished':
+            item_id = self.unpublished.id
+        else:
+            item_id = item_key
+
+        result = Item.objects.get_object_or_404(item_id)
+
+        if expected_is_not_none:
+            self.assertIsNotNone(result)
+            self.assertEqual(result.id, item_id)
+        else:
+            self.assertIsNone(result)
