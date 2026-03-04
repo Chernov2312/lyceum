@@ -40,12 +40,27 @@ class ItemManager(models.Manager):
                     queryset=Image.objects.only('image'),
                 ),
             )
-            .order_by('name')
+            .order_by('category__name', 'name')
             .only('name', 'text', 'main_image__main_image', 'category__name')
             .filter(
                 is_published=True,
                 category__is_published=True,
             )
+        )
+
+    def main_items(self):
+        return (
+            self.get_queryset()
+            .select_related(
+                'category',
+                'main_image',
+            )
+            .prefetch_related(
+                Prefetch('tags', queryset=Tag.objects.only('name')),
+            )
+            .only('name', 'text', 'main_image__main_image', 'category__name')
+            .order_by('name')
+            .filter(is_on_main=True)
         )
 
     def get_object_or_404(self, item_id):

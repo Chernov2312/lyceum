@@ -11,7 +11,6 @@ def item_list(request):
     template = 'catalog/item_list.html'
     context = {
         'items': catalog.models.Item.objects.published_items(),
-        'counts': catalog.models.Item.objects.published_items().count(),
     }
     return render(request=request, template_name=template, context=context)
 

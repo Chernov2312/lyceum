@@ -6,10 +6,26 @@
     </div>
 </div>
 
+{% regroup items by category.name as categories_list %}
+
+{% for category in categories_list %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h2 class="mb-3">{{ category.grouper }}</h2>
+    </div>
+</div>
+
 <div class="row">
-    {% for item in items %}
+    {% for item in category.list %}
     <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
         {% include 'includes/item_card.html' with item=item %}
     </div>
     {% endfor %}
 </div>
+{% empty %}
+<div class="row">
+    <div class="col-12">
+        <p class="text-center">{% trans "Товары не найдены" %}</p>
+    </div>
+</div>
+{% endfor %}
