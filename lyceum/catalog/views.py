@@ -10,7 +10,7 @@ __all__ = ['item_list', 'get_int_item_detail']
 def item_list(request):
     template = 'catalog/item_list.html'
     context = {
-        'items': catalog.models.Item.objects.published_items(),
+        'items': catalog.models.Item.objects.published(),
     }
     return render(request=request, template_name=template, context=context)
 

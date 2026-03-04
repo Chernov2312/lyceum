@@ -11,7 +11,7 @@ __all__ = ['home', 'coffee']
 def home(request):
     template = 'homepage/main.html'
     context = {
-        'items': catalog.models.Item.objects.main_items(),
+        'items': catalog.models.Item.objects.on_main(),
     }
     return render(request=request, template_name=template, context=context)
 

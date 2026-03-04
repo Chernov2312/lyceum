@@ -6,7 +6,7 @@ from django.test import override_settings
 from django.urls import reverse
 from parameterized import parameterized
 
-from catalog.models import Category, Item, Tag
+from catalog.models import Category, Image, Item, MainImage, Tag
 
 __all__ = [
     'CategoryModelTest',
@@ -617,3 +617,181 @@ class ItemManagerGetObjectOr404Test(django.test.TestCase):
             self.assertEqual(result.id, item_id)
         else:
             self.assertIsNone(result)
+
+
+class ItemManagerPublishedFieldsTest(django.test.TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.category = Category.objects.create(
+            name='Категория',
+            slug='cat',
+            is_published=True,
+        )
+
+        cls.main_image = MainImage.objects.create(
+            main_image='items/main.jpg',
+        )
+
+        cls.tag1 = Tag.objects.create(
+            name='Тег 1',
+            slug='teg-1',
+            is_published=True,
+        )
+        cls.tag2 = Tag.objects.create(
+            name='Тег 2',
+            slug='teg-2',
+            is_published=True,
+        )
+
+        cls.image1 = Image.objects.create(image='items/1.jpg')
+        cls.image2 = Image.objects.create(image='items/2.jpg')
+
+        cls.item = Item.objects.create(
+            name='Товар',
+            text='превосходно',
+            category=cls.category,
+            main_image=cls.main_image,
+            is_published=True,
+            is_on_main=True,
+        )
+        cls.item.tags.add(cls.tag1, cls.tag2)
+        cls.item.images.add(cls.image1, cls.image2)
+
+    def test_published_loads_only_needed_item_fields(self):
+        item = Item.objects.published().first()
+        with self.assertNumQueries(0):
+            self.assertEqual(item.name, 'Товар')
+            self.assertEqual(item.text, 'превосходно')
+        with self.assertNumQueries(1):
+            _ = item.is_published
+        item = Item.objects.published().first()
+        with self.assertNumQueries(1):
+            _ = item.is_on_main
+
+    def test_published_loads_only_category_name(self):
+        item = Item.objects.published().first()
+        with self.assertNumQueries(0):
+            self.assertEqual(item.category.name, 'Категория')
+        with self.assertNumQueries(1):
+            _ = item.category.is_published
+        with self.assertNumQueries(1):
+            _ = item.category.slug
+        with self.assertNumQueries(1):
+            _ = item.category.weight
+        with self.assertNumQueries(1):
+            _ = item.category.normalised_name
+
+    def test_published_loads_only_main_image_field(self):
+        item = Item.objects.published().first()
+        with self.assertNumQueries(0):
+            self.assertEqual(item.main_image.main_image, 'items/main.jpg')
+
+    def test_published_loads_only_tag_names(self):
+        item = Item.objects.published().first()
+        tags = list(item.tags.all())
+        for tag in tags:
+            with self.assertNumQueries(0):
+                self.assertIn(tag.name, ['Тег 1', 'Тег 2'])
+            with self.assertNumQueries(1):
+                _ = tag.is_published
+            with self.assertNumQueries(1):
+                _ = tag.slug
+            with self.assertNumQueries(1):
+                _ = tag.normalised_name
+
+    def test_published_loads_only_image_field(self):
+        item = Item.objects.published().first()
+        images = list(item.images.all())
+        for image in images:
+            with self.assertNumQueries(0):
+                self.assertIn(image.image, ['items/1.jpg', 'items/2.jpg'])
+
+
+class ItemManagerOnMainFieldsTest(django.test.TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.category = Category.objects.create(
+            name='Категория',
+            slug='cat',
+            is_published=True,
+        )
+
+        cls.main_image = MainImage.objects.create(
+            main_image='items/main.jpg',
+        )
+
+        cls.tag1 = Tag.objects.create(
+            name='Тег 1',
+            slug='teg-1',
+            is_published=True,
+        )
+        cls.tag2 = Tag.objects.create(
+            name='Тег 2',
+            slug='teg-2',
+            is_published=True,
+        )
+
+        cls.item_on_main = Item.objects.create(
+            name='Товар на главной',
+            text='превосходно',
+            category=cls.category,
+            main_image=cls.main_image,
+            is_published=True,
+            is_on_main=True,
+        )
+        cls.item_on_main.tags.add(cls.tag1, cls.tag2)
+
+        cls.item_not_on_main = Item.objects.create(
+            name='Товар не на главной',
+            text='роскошно',
+            category=cls.category,
+            main_image=cls.main_image,
+            is_published=True,
+            is_on_main=False,
+        )
+        cls.item_not_on_main.tags.add(cls.tag1)
+
+    def test_on_main_loads_only_needed_item_fields(self):
+        item = Item.objects.on_main().first()
+        with self.assertNumQueries(0):
+            self.assertEqual(item.name, 'Товар на главной')
+            self.assertEqual(item.text, 'превосходно')
+        with self.assertNumQueries(1):
+            _ = item.is_published
+        with self.assertNumQueries(1):
+            _ = item.is_on_main
+
+    def test_on_main_loads_only_category_name(self):
+        item = Item.objects.on_main().first()
+        with self.assertNumQueries(0):
+            self.assertEqual(item.category.name, 'Категория')
+        with self.assertNumQueries(1):
+            _ = item.category.is_published
+        with self.assertNumQueries(1):
+            _ = item.category.slug
+        with self.assertNumQueries(1):
+            _ = item.category.weight
+
+    def test_on_main_loads_only_main_image_field(self):
+        item = Item.objects.on_main().first()
+        with self.assertNumQueries(0):
+            self.assertEqual(item.main_image.main_image, 'items/main.jpg')
+
+    def test_on_main_loads_only_tag_names(self):
+        item = Item.objects.on_main().first()
+        tags = list(item.tags.all())
+        for tag in tags:
+            with self.assertNumQueries(0):
+                self.assertIn(tag.name, ['Тег 1', 'Тег 2'])
+            with self.assertNumQueries(1):
+                _ = tag.is_published
+            with self.assertNumQueries(1):
+                _ = tag.slug
+
+    def test_on_main_does_not_load_images(self):
+        item = Item.objects.on_main().first()
+        with self.assertNumQueries(0):
+            self.assertEqual(item.main_image.main_image, 'items/main.jpg')
+        with self.assertNumQueries(1):
+            images = list(item.images.all())
+            self.assertEqual(len(images), 0)

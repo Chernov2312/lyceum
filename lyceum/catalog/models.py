@@ -26,7 +26,7 @@ def get_main_image_upload_path(instance, filename):
 
 
 class ItemManager(models.Manager):
-    def published_items(self):
+    def published(self):
         return (
             self.get_queryset()
             .select_related(
@@ -40,7 +40,7 @@ class ItemManager(models.Manager):
                     queryset=Image.objects.only('image'),
                 ),
             )
-            .order_by('category__name', 'name')
+            .order_by('name')
             .only('name', 'text', 'main_image__main_image', 'category__name')
             .filter(
                 is_published=True,
@@ -48,7 +48,7 @@ class ItemManager(models.Manager):
             )
         )
 
-    def main_items(self):
+    def on_main(self):
         return (
             self.get_queryset()
             .select_related(

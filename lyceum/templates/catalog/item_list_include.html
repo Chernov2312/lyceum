@@ -6,7 +6,7 @@
     </div>
 </div>
 
-{% regroup items by category.name as categories_list %}
+{% regroup items|dictsort:"category.id" by category.name as categories_list %}
 
 {% for category in categories_list %}
 <div class="row mb-4">
