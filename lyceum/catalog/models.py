@@ -315,10 +315,14 @@ class Item(PublishedBaseModel, NamedBaseModel):
     created_at = models.DateTimeField(
         auto_now_add=True,
         verbose_name='дата создания',
+        null=True,
+        blank=True,
     )
     updated_at = models.DateTimeField(
         auto_now=True,
         verbose_name='дата обновления',
+        null=True,
+        blank=True,
     )
 
     class Meta:
