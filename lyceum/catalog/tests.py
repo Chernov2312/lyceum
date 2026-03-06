@@ -1,3 +1,4 @@
+import datetime
 import http
 
 from django.core.exceptions import ValidationError
@@ -5,6 +6,7 @@ from django.db.models import QuerySet
 import django.test
 from django.test import override_settings
 from django.urls import reverse
+from django.utils import timezone
 from parameterized import parameterized
 
 from catalog.models import Category, Item, Tag
@@ -723,14 +725,12 @@ class ContextTests(django.test.TestCase):
             self.assertIn('tags', item._prefetched_objects_cache)
 
     def test_only_loaded_fields_are_present(self):
-        """нужные поля загружены"""
         item = Item.objects.published().first()
         self.assertTrue(hasattr(item, 'name'))
         self.assertTrue(hasattr(item, 'text'))
         self.assertTrue(hasattr(item, 'category_id'))
 
     def test_deferred_fields_are_not_loaded(self):
-        """поля из defer() не загружены"""
         item = Item.objects.published().first()
 
         self.assertNotIn('is_published', item.__dict__)
@@ -738,8 +738,273 @@ class ContextTests(django.test.TestCase):
         self.assertNotIn('normalized_name', item.__dict__)
 
     def test_access_to_deferred_field_loads_it(self):
-        """deferred поля догружаются при обращении"""
         item = Item.objects.published().first()
         self.assertNotIn('is_published', item.__dict__)
         _ = item.is_published
         self.assertIn('is_published', item.__dict__)
+
+
+class NewTests(django.test.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.category = Category.objects.create(
+            is_published=True,
+            name='new_test_category',
+            slug='new_test_category_slug',
+            weight=100,
+        )
+
+        now = timezone.now()
+        one_week_ago = now - datetime.timedelta(days=7)
+        eight_days_ago = now - datetime.timedelta(days=8)
+
+        cls.recent_item_1 = Item.objects.create(
+            name='Recent item 1',
+            category=cls.category,
+            text='превосходно!',
+            is_published=True,
+        )
+        Item.objects.filter(pk=cls.recent_item_1.pk).update(
+            created_at=one_week_ago + datetime.timedelta(hours=1),
+        )
+
+        cls.recent_item_2 = Item.objects.create(
+            name='Recent item 2',
+            category=cls.category,
+            text='превосходно!',
+            is_published=True,
+        )
+        Item.objects.filter(pk=cls.recent_item_2.pk).update(
+            created_at=one_week_ago + datetime.timedelta(hours=2),
+        )
+
+        cls.old_item = Item.objects.create(
+            name='Old item',
+            category=cls.category,
+            text='превосходно!',
+            is_published=True,
+        )
+        Item.objects.filter(pk=cls.old_item.pk).update(
+            created_at=eight_days_ago,
+        )
+
+    def test_new_page_returns_only_recent_items(self):
+        response = self.client.get(reverse('catalog:new'))
+        items = response.context['items']
+
+        self.assertIn(self.recent_item_1, items)
+        self.assertIn(self.recent_item_2, items)
+        self.assertNotIn(self.old_item, items)
+
+    def test_new_page_returns_max_five_items(self):
+        now = timezone.now()
+        one_week_ago = now - datetime.timedelta(days=7)
+
+        for i in range(5):
+            item = Item.objects.create(
+                name=f'Extra recent item {i}',
+                category=self.category,
+                text='превосходно!',
+                is_published=True,
+            )
+            Item.objects.filter(pk=item.pk).update(
+                created_at=one_week_ago + datetime.timedelta(hours=i),
+            )
+
+        response = self.client.get(reverse('catalog:new'))
+        items = response.context['items']
+        self.assertLessEqual(items.count(), 5)
+
+    def test_new_page_excludes_unpublished_items(self):
+        now = timezone.now()
+        one_week_ago = now - datetime.timedelta(days=7)
+
+        unpublished_recent = Item.objects.create(
+            name='Unpublished recent item',
+            category=self.category,
+            text='превосходно!',
+            is_published=False,
+        )
+        Item.objects.filter(pk=unpublished_recent.pk).update(
+            created_at=one_week_ago + datetime.timedelta(hours=3),
+        )
+
+        response = self.client.get(reverse('catalog:new'))
+        items = response.context['items']
+        self.assertNotIn(unpublished_recent, items)
+
+
+class FridayTests(django.test.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.category = Category.objects.create(
+            is_published=True,
+            name='friday_test_category',
+            slug='friday_test_category_slug',
+            weight=100,
+        )
+
+        now = timezone.now()
+        days_to_friday = (now.weekday() - 4) % 7
+        last_friday = now - datetime.timedelta(days=days_to_friday)
+        last_friday = last_friday.replace(
+            hour=12,
+            minute=0,
+            second=0,
+            microsecond=0,
+        )
+
+        cls.friday_item_recent = Item.objects.create(
+            name='Recent friday item',
+            category=cls.category,
+            text='превосходно!',
+            is_published=True,
+        )
+        Item.objects.filter(pk=cls.friday_item_recent.pk).update(
+            updated_at=last_friday,
+        )
+
+        cls.non_friday_item = Item.objects.create(
+            name='Non-friday item',
+            category=cls.category,
+            text='превосходно!',
+            is_published=True,
+        )
+        monday = last_friday + datetime.timedelta(days=3)
+        Item.objects.filter(pk=cls.non_friday_item.pk).update(
+            updated_at=monday,
+        )
+
+    def test_friday_page_shows_only_friday_items(self):
+        response = self.client.get(reverse('catalog:friday'))
+        items = response.context['items']
+
+        self.assertIn(self.friday_item_recent, items)
+        self.assertNotIn(self.non_friday_item, items)
+
+    def test_friday_page_returns_max_five_items(self):
+        now = timezone.now()
+        days_to_friday = (now.weekday() - 4) % 7
+        last_friday = now - datetime.timedelta(days=days_to_friday)
+        last_friday = last_friday.replace(
+            hour=12,
+            minute=0,
+            second=0,
+            microsecond=0,
+        )
+
+        for i in range(6):
+            item = Item.objects.create(
+                name=f'Extra friday item {i}',
+                category=self.category,
+                text='превосходно!',
+                is_published=True,
+            )
+            Item.objects.filter(pk=item.pk).update(
+                updated_at=last_friday - datetime.timedelta(days=i * 7),
+            )
+
+        response = self.client.get(reverse('catalog:friday'))
+        items = response.context['items']
+        self.assertLessEqual(items.count(), 5)
+
+    def test_friday_page_excludes_unpublished_items(self):
+        now = timezone.now()
+        days_to_friday = (now.weekday() - 4) % 7
+        last_friday = now - datetime.timedelta(days=days_to_friday)
+        last_friday = last_friday.replace(
+            hour=12,
+            minute=0,
+            second=0,
+            microsecond=0,
+        )
+
+        unpublished_friday = Item.objects.create(
+            name='Unpublished friday item',
+            category=self.category,
+            text='превосходно!',
+            is_published=False,
+        )
+        Item.objects.filter(pk=unpublished_friday.pk).update(
+            updated_at=last_friday,
+        )
+
+        response = self.client.get(reverse('catalog:friday'))
+        items = response.context['items']
+        self.assertNotIn(unpublished_friday, items)
+
+
+class UnverifiedTests(django.test.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.category = Category.objects.create(
+            is_published=True,
+            name='unverified_test_category',
+            slug='unverified_test_category_slug',
+            weight=100,
+        )
+
+        now = timezone.now()
+        ten_days_ago = now - datetime.timedelta(days=10)
+        five_days_ago = now - datetime.timedelta(days=5)
+
+        cls.unverified_item = Item.objects.create(
+            name='Unverified item',
+            category=cls.category,
+            text='превосходно!',
+            is_published=True,
+        )
+        Item.objects.filter(pk=cls.unverified_item.pk).update(
+            created_at=ten_days_ago,
+            updated_at=ten_days_ago,
+        )
+
+        cls.verified_item = Item.objects.create(
+            name='Verified item',
+            category=cls.category,
+            text='превосходно!',
+            is_published=True,
+        )
+        Item.objects.filter(pk=cls.verified_item.pk).update(
+            created_at=ten_days_ago,
+            updated_at=five_days_ago,
+        )
+
+    def test_unverified_page_shows_all_unverified_items(self):
+        response = self.client.get(reverse('catalog:unverified'))
+        items = response.context['items']
+
+        self.unverified_item.refresh_from_db()
+        self.verified_item.refresh_from_db()
+
+        self.assertIn(self.unverified_item, items)
+        self.assertNotIn(self.verified_item, items)
+
+    def test_unverified_page_count(self):
+        now = timezone.now()
+        ten_days_ago = now - datetime.timedelta(days=10)
+
+        for i in range(2):
+            item = Item.objects.create(
+                name=f'Unverified item {i}',
+                category=self.category,
+                text='превосходно!',
+                is_published=True,
+            )
+            Item.objects.filter(pk=item.pk).update(
+                created_at=ten_days_ago,
+                updated_at=ten_days_ago,
+            )
+
+        response = self.client.get(reverse('catalog:unverified'))
+        items = response.context['items']
+        self.assertEqual(items.count(), 3)
+
+    def test_unverified_page_context_structure(self):
+        response = self.client.get(reverse('catalog:unverified'))
+
+        self.assertIn('items', response.context)
+        self.assertIsNotNone(response.context['items'])

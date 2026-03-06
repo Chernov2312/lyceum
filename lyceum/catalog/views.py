@@ -6,6 +6,7 @@ from django.http import FileResponse, Http404
 from django.shortcuts import render
 
 import catalog.models
+
 __all__ = ['item_list', 'get_int_item_detail']
 
 

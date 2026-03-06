@@ -81,13 +81,13 @@ class ItemManager(models.Manager):
                     queryset=Image.objects.only('image'),
                 ),
             )
-            .order_by('name')
+            .order_by('?')
             .only('name', 'text', 'main_image__main_image', 'category__name')
             .filter(
                 is_published=True,
                 category__is_published=True,
                 created_at__gte=week_ago,
-            )
+            )[:5]
         )
 
     def friday(self):
@@ -104,14 +104,14 @@ class ItemManager(models.Manager):
                     queryset=Image.objects.only('image'),
                 ),
             )
-            .order_by('name')
+            .order_by('updated_at')
             .only('name', 'text', 'main_image__main_image', 'category__name')
             .filter(
                 is_published=True,
                 category__is_published=True,
-                created_at__week_day=6,
+                updated_at__week_day=6,
             )
-        )
+        )[:5]
 
     def unverified(self):
         delta = timedelta(minutes=1)
