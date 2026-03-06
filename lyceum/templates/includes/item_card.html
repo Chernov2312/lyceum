@@ -1,12 +1,12 @@
 {% load static %}
 <div class="card">
-    {{ item.main_image.image_tmb|safe }}
     {% if user.is_staff %}
-        {% with download_url=item.main_image.image.url|stringformat:"s"|cut:"/media/" %}
-            <a href="/download/{{ download_url }}" class="btn btn-primary" download>
-                Скачать изображение
-            </a>
-        {% endwith %}
+    {{ item.main_image.image_tmb|safe }}
+        <a href="{{ item.main_image.url }}" download class="download-link">
+            Скачать изображение
+        </a>
+    {% else %}
+    {{ item.main_image.image_tmb|safe }}
     {% endif %}
     <div class="card-body">
         {% if request.resolver_match.view_name == 'catalog:item_detail' %}

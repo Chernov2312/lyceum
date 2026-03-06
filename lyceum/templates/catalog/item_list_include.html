@@ -3,6 +3,20 @@
 <div class="row mb-4">
     <div class="col-12">
         <h1 class="text-center mb-4">{% trans "Наши товары" %}</h1>
+        
+        {% if request.resolver_match.view_name == 'catalog:new' %}
+            <h3>
+                {% trans "Новинки" %} 
+            </h3>
+        {% elif request.resolver_match.view_name == 'catalog:friday' %}
+            <h3>
+                {% trans "Пятница" %}
+            </h3>
+        {% elif request.resolver_match.view_name == 'catalog:unverified' %}
+            <h3>
+                {% trans "Непроверенное" %}
+            </h3>
+        {% endif %}
     </div>
 </div>
 
