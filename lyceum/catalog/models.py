@@ -312,8 +312,14 @@ class Item(PublishedBaseModel, NamedBaseModel):
         help_text='Выберите дополнительные изображения для галереи',
     )
 
-    created_at = models.DateTimeField(default=timezone.now)
-    updated_at = models.DateTimeField(default=timezone.now)
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='дата создания',
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        verbose_name='дата обновления',
+    )
 
     class Meta:
         verbose_name = 'товар'
@@ -341,7 +347,6 @@ class Item(PublishedBaseModel, NamedBaseModel):
 
     def save(self, *args, **kwargs):
         self.full_clean()
-        self.updated_at = timezone.now()
         super().save(*args, **kwargs)
 
     def __repr__(self):
