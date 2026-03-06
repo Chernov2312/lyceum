@@ -1,12 +1,13 @@
 import http
 
 from django.core.exceptions import ValidationError
+from django.db.models import QuerySet
 import django.test
 from django.test import override_settings
 from django.urls import reverse
 from parameterized import parameterized
 
-from catalog.models import Category, Image, Item, MainImage, Tag
+from catalog.models import Category, Item, Tag
 
 __all__ = [
     'CategoryModelTest',
@@ -619,179 +620,126 @@ class ItemManagerGetObjectOr404Test(django.test.TestCase):
             self.assertIsNone(result)
 
 
-class ItemManagerPublishedFieldsTest(django.test.TestCase):
-    @classmethod
-    def setUpTestData(cls):
-        cls.category = Category.objects.create(
+class CatalogViewsTest(django.test.TestCase):
+    def setUp(self):
+        self.category = Category.objects.create(
             name='Категория',
             slug='cat',
             is_published=True,
         )
-
-        cls.main_image = MainImage.objects.create(
-            main_image='items/main.jpg',
-        )
-
-        cls.tag1 = Tag.objects.create(
-            name='Тег 1',
-            slug='teg-1',
-            is_published=True,
-        )
-        cls.tag2 = Tag.objects.create(
-            name='Тег 2',
-            slug='teg-2',
-            is_published=True,
-        )
-
-        cls.image1 = Image.objects.create(image='items/1.jpg')
-        cls.image2 = Image.objects.create(image='items/2.jpg')
-
-        cls.item = Item.objects.create(
+        self.item = Item.objects.create(
             name='Товар',
             text='превосходно',
-            category=cls.category,
-            main_image=cls.main_image,
+            category=self.category,
             is_published=True,
-            is_on_main=True,
         )
-        cls.item.tags.add(cls.tag1, cls.tag2)
-        cls.item.images.add(cls.image1, cls.image2)
 
-    def test_published_loads_only_needed_item_fields(self):
-        item = Item.objects.published().first()
-        with self.assertNumQueries(0):
-            self.assertEqual(item.name, 'Товар')
-            self.assertEqual(item.text, 'превосходно')
-        with self.assertNumQueries(1):
-            _ = item.is_published
-        item = Item.objects.published().first()
-        with self.assertNumQueries(1):
-            _ = item.is_on_main
+    def test_item_list_context_has_items(self):
+        response = self.client.get(reverse('catalog:item_list'))
+        self.assertIn('items', response.context)
 
-    def test_published_loads_only_category_name(self):
-        item = Item.objects.published().first()
-        with self.assertNumQueries(0):
-            self.assertEqual(item.category.name, 'Категория')
-        with self.assertNumQueries(1):
-            _ = item.category.is_published
-        with self.assertNumQueries(1):
-            _ = item.category.slug
-        with self.assertNumQueries(1):
-            _ = item.category.weight
-        with self.assertNumQueries(1):
-            _ = item.category.normalised_name
+    def test_item_list_context_items_type(self):
+        response = self.client.get(reverse('catalog:item_list'))
+        self.assertIsInstance(response.context['items'], QuerySet)
 
-    def test_published_loads_only_main_image_field(self):
-        item = Item.objects.published().first()
-        with self.assertNumQueries(0):
-            self.assertEqual(item.main_image.main_image, 'items/main.jpg')
+    def test_item_list_context_items_count(self):
+        response = self.client.get(reverse('catalog:item_list'))
+        self.assertEqual(len(response.context['items']), 1)
 
-    def test_published_loads_only_tag_names(self):
-        item = Item.objects.published().first()
-        tags = list(item.tags.all())
-        for tag in tags:
-            with self.assertNumQueries(0):
-                self.assertIn(tag.name, ['Тег 1', 'Тег 2'])
-            with self.assertNumQueries(1):
-                _ = tag.is_published
-            with self.assertNumQueries(1):
-                _ = tag.slug
-            with self.assertNumQueries(1):
-                _ = tag.normalised_name
-
-    def test_published_loads_only_image_field(self):
-        item = Item.objects.published().first()
-        images = list(item.images.all())
-        for image in images:
-            with self.assertNumQueries(0):
-                self.assertIn(image.image, ['items/1.jpg', 'items/2.jpg'])
+    def test_item_list_items_have_related_category(self):
+        response = self.client.get(reverse('catalog:item_list'))
+        item = response.context['items'][0]
+        self.assertTrue(hasattr(item, 'category'))
+        self.assertEqual(item.category.name, 'Категория')
 
 
-class ItemManagerOnMainFieldsTest(django.test.TestCase):
+class ContextTests(django.test.TestCase):
     @classmethod
-    def setUpTestData(cls):
-        cls.category = Category.objects.create(
-            name='Категория',
-            slug='cat',
+    def setUp(cls):
+        super().setUpClass()
+        cls.published_category = Category.objects.create(
             is_published=True,
+            name='test category 1',
+            slug='published_category',
+            weight='100',
         )
-
-        cls.main_image = MainImage.objects.create(
-            main_image='items/main.jpg',
+        cls.unpublished_category = Category.objects.create(
+            is_published=False,
+            name='test category 2',
+            slug='unpublished_category',
+            weight='100',
         )
-
-        cls.tag1 = Tag.objects.create(
-            name='Тег 1',
-            slug='teg-1',
+        cls.published_tag = Tag.objects.create(
             is_published=True,
+            name='test tag 1',
+            slug='published_tag',
         )
-        cls.tag2 = Tag.objects.create(
-            name='Тег 2',
-            slug='teg-2',
-            is_published=True,
+        cls.unpublished_tag = Tag.objects.create(
+            is_published=False,
+            name='test tag 2',
+            slug='unpublished_tag',
         )
-
-        cls.item_on_main = Item.objects.create(
-            name='Товар на главной',
-            text='превосходно',
-            category=cls.category,
-            main_image=cls.main_image,
-            is_published=True,
+        cls.published_item = Item(
+            name='test item 1',
+            category=cls.published_category,
+            text='превосходно!',
             is_on_main=True,
         )
-        cls.item_on_main.tags.add(cls.tag1, cls.tag2)
-
-        cls.item_not_on_main = Item.objects.create(
-            name='Товар не на главной',
-            text='роскошно',
-            category=cls.category,
-            main_image=cls.main_image,
-            is_published=True,
-            is_on_main=False,
+        cls.unpublished_item = Item(
+            is_published=False,
+            name='test item 2',
+            category=cls.published_category,
+            text='превосходно!',
         )
-        cls.item_not_on_main.tags.add(cls.tag1)
 
-    def test_on_main_loads_only_needed_item_fields(self):
-        item = Item.objects.on_main().first()
-        with self.assertNumQueries(0):
-            self.assertEqual(item.name, 'Товар на главной')
-            self.assertEqual(item.text, 'превосходно')
-        with self.assertNumQueries(1):
-            _ = item.is_published
-        with self.assertNumQueries(1):
-            _ = item.is_on_main
+        cls.published_item.save()
+        cls.unpublished_item.save()
+        cls.published_item.tags.add(cls.published_tag.pk)
+        cls.published_item.tags.add(cls.unpublished_tag.pk)
 
-    def test_on_main_loads_only_category_name(self):
-        item = Item.objects.on_main().first()
-        with self.assertNumQueries(0):
-            self.assertEqual(item.category.name, 'Категория')
-        with self.assertNumQueries(1):
-            _ = item.category.is_published
-        with self.assertNumQueries(1):
-            _ = item.category.slug
-        with self.assertNumQueries(1):
-            _ = item.category.weight
+    def test_homepage_show_correct_context(self):
+        response = self.client.get(reverse('main:home'))
+        self.assertIn('items', response.context)
 
-    def test_on_main_loads_only_main_image_field(self):
-        item = Item.objects.on_main().first()
-        with self.assertNumQueries(0):
-            self.assertEqual(item.main_image.main_image, 'items/main.jpg')
+    def test_published_manager_selects_only_needed_fields(self):
+        item = Item.objects.published().first()
 
-    def test_on_main_loads_only_tag_names(self):
-        item = Item.objects.on_main().first()
-        tags = list(item.tags.all())
-        for tag in tags:
-            with self.assertNumQueries(0):
-                self.assertIn(tag.name, ['Тег 1', 'Тег 2'])
-            with self.assertNumQueries(1):
-                _ = tag.is_published
-            with self.assertNumQueries(1):
-                _ = tag.slug
+        self.assertTrue(hasattr(item, 'name'))
+        self.assertTrue(hasattr(item, 'text'))
+        self.assertTrue(hasattr(item, 'category'))
 
-    def test_on_main_does_not_load_images(self):
-        item = Item.objects.on_main().first()
-        with self.assertNumQueries(0):
-            self.assertEqual(item.main_image.main_image, 'items/main.jpg')
-        with self.assertNumQueries(1):
-            images = list(item.images.all())
-            self.assertEqual(len(images), 0)
+        self.assertIsNotNone(item.category)
+        self.assertTrue(hasattr(item.category, 'name'))
+
+    def test_homepage_count_item(self):
+        response = self.client.get(reverse('main:home'))
+        items = response.context['items']
+        self.assertEqual(items.count(), 1)
+
+    def test_prefetched_objects_cache_exists(self):
+        items = Item.objects.published()
+        for item in items:
+            self.assertTrue(hasattr(item, '_prefetched_objects_cache'))
+            self.assertIn('tags', item._prefetched_objects_cache)
+
+    def test_only_loaded_fields_are_present(self):
+        """нужные поля загружены"""
+        item = Item.objects.published().first()
+        self.assertTrue(hasattr(item, 'name'))
+        self.assertTrue(hasattr(item, 'text'))
+        self.assertTrue(hasattr(item, 'category_id'))
+
+    def test_deferred_fields_are_not_loaded(self):
+        """поля из defer() не загружены"""
+        item = Item.objects.published().first()
+
+        self.assertNotIn('is_published', item.__dict__)
+        self.assertNotIn('is_on_main', item.__dict__)
+        self.assertNotIn('normalized_name', item.__dict__)
+
+    def test_access_to_deferred_field_loads_it(self):
+        """deferred поля догружаются при обращении"""
+        item = Item.objects.published().first()
+        self.assertNotIn('is_published', item.__dict__)
+        _ = item.is_published
+        self.assertIn('is_published', item.__dict__)

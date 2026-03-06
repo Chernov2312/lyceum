@@ -6,26 +6,18 @@
     </div>
 </div>
 
-{% regroup items|dictsort:"category.id" by category.name as categories_list %}
+{% for item in items %}
+    {% ifchanged item.category.name %}
+        {% if not forloop.first %}</div>{% endif %}
+        <h2 class="mt-4 mb-3">{{ item.category.name }}</h2>
+        <div class="row">
+    {% endifchanged %}
 
-{% for category in categories_list %}
-<div class="row mb-4">
-    <div class="col-12">
-        <h2 class="mb-3">{{ category.grouper }}</h2>
-    </div>
-</div>
-
-<div class="row">
-    {% for item in category.list %}
-    <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
+    <div class="col-md-4 mb-4">
         {% include 'includes/item_card.html' with item=item %}
     </div>
-    {% endfor %}
-</div>
+
+    {% if forloop.last %}</div>{% endif %}
 {% empty %}
-<div class="row">
-    <div class="col-12">
-        <p class="text-center">{% trans "Товары не найдены" %}</p>
-    </div>
-</div>
+    <p>{% trans "Нет товаров" %}</p>
 {% endfor %}
