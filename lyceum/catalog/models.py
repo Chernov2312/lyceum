@@ -312,7 +312,7 @@ class Item(PublishedBaseModel, NamedBaseModel):
         help_text='Выберите дополнительные изображения для галереи',
     )
 
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:

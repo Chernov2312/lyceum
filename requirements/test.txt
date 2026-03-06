@@ -1,4 +1,5 @@
 -r dev.txt
+domdf_python_tools==3.10.0
 flake8==7.3.0
 flake8-absolute-import==1.0.0.3
 flake8-bugbear==25.11.29
