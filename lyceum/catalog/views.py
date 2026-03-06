@@ -1,10 +1,11 @@
 from http import HTTPStatus
-
-from django.shortcuts import render
-from django.conf import settings
-import catalog.models
-from django.http import FileResponse, Http404
 import os
+
+from django.conf import settings
+from django.http import FileResponse, Http404
+from django.shortcuts import render
+
+import catalog.models
 __all__ = ['item_list', 'get_int_item_detail']
 
 
@@ -60,6 +61,8 @@ def download(request, file_path):
     full_path = os.path.join(base_dir, file_path)
     if not os.path.exists(full_path):
         raise Http404('Файл не найден')
-    return FileResponse(open(full_path, 'rb'),
-                        as_attachment=True,
-                        filename=os.path.basename(file_path))
+    return FileResponse(
+        open(full_path, 'rb'),
+        as_attachment=True,
+        filename=os.path.basename(file_path),
+    )
