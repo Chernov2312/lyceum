@@ -12,6 +12,11 @@
     
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
+        <li>
+          {% if user.is_staff %}
+            <a class="nav-link text-white" href="/admin/">{% trans "Админ панель" %}</a>
+          {% endif %}
+        </li>
         <li class="nav-item">
           {% if request.resolver_match.view_name == 'main:home' %}
             <span class="nav-link active bg-secondary rounded-pill text-white">{% trans "На главную" %}</span>

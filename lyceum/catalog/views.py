@@ -28,3 +28,27 @@ def get_int_item_detail(request, item_id):
             status=HTTPStatus.NOT_FOUND,
         )
     return render(request=request, template_name=template, context=context)
+
+
+def new(request):
+    template = 'catalog/item_list.html'
+    context = {
+        'items': catalog.models.Item.objects.new(),
+    }
+    return render(request=request, template_name=template, context=context)
+
+
+def friday(request):
+    template = 'catalog/item_list.html'
+    context = {
+        'items': catalog.models.Item.objects.friday(),
+    }
+    return render(request=request, template_name=template, context=context)
+
+
+def unverified(request):
+    template = 'catalog/item_list.html'
+    context = {
+        'items': catalog.models.Item.objects.unverified(),
+    }
+    return render(request=request, template_name=template, context=context)

@@ -1,6 +1,9 @@
+from datetime import timedelta
+
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models import Prefetch
+from django.utils import timezone
 from django.utils.safestring import mark_safe
 from django_ckeditor_5.fields import CKEditor5Field
 
@@ -61,6 +64,77 @@ class ItemManager(models.Manager):
             .only('name', 'text', 'main_image__main_image', 'category__name')
             .order_by('name')
             .filter(is_on_main=True)
+        )
+
+    def new(self):
+        week_ago = timezone.now() - timezone.timedelta(days=7)
+        return (
+            self.get_queryset()
+            .select_related(
+                'category',
+                'main_image',
+            )
+            .prefetch_related(
+                Prefetch('tags', queryset=Tag.objects.only('name')),
+                Prefetch(
+                    'images',
+                    queryset=Image.objects.only('image'),
+                ),
+            )
+            .order_by('name')
+            .only('name', 'text', 'main_image__main_image', 'category__name')
+            .filter(
+                is_published=True,
+                category__is_published=True,
+                created_at__gte=week_ago,
+            )
+        )
+
+    def friday(self):
+        return (
+            self.get_queryset()
+            .select_related(
+                'category',
+                'main_image',
+            )
+            .prefetch_related(
+                Prefetch('tags', queryset=Tag.objects.only('name')),
+                Prefetch(
+                    'images',
+                    queryset=Image.objects.only('image'),
+                ),
+            )
+            .order_by('name')
+            .only('name', 'text', 'main_image__main_image', 'category__name')
+            .filter(
+                is_published=True,
+                category__is_published=True,
+                created_at__week_day=6,
+            )
+        )
+
+    def unverified(self):
+        delta = timedelta(minutes=1)
+        return (
+            self.get_queryset()
+            .select_related(
+                'category',
+                'main_image',
+            )
+            .prefetch_related(
+                Prefetch('tags', queryset=Tag.objects.only('name')),
+                Prefetch(
+                    'images',
+                    queryset=Image.objects.only('image'),
+                ),
+            )
+            .order_by('name')
+            .only('name', 'text', 'main_image__main_image', 'category__name')
+            .filter(
+                is_published=True,
+                category__is_published=True,
+                created_at__gte=models.F('updated_at') - delta,
+            )
         )
 
     def get_object_or_404(self, item_id):
@@ -237,6 +311,9 @@ class Item(PublishedBaseModel, NamedBaseModel):
         blank=True,
         help_text='Выберите дополнительные изображения для галереи',
     )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = 'товар'
