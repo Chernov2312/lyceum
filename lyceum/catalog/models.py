@@ -313,7 +313,7 @@ class Item(PublishedBaseModel, NamedBaseModel):
     )
 
     created_at = models.DateTimeField(default=timezone.now)
-    updated_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(default=timezone.now)
 
     class Meta:
         verbose_name = 'товар'
@@ -341,6 +341,7 @@ class Item(PublishedBaseModel, NamedBaseModel):
 
     def save(self, *args, **kwargs):
         self.full_clean()
+        self.updated_at = timezone.now()
         super().save(*args, **kwargs)
 
     def __repr__(self):
