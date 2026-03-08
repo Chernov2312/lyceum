@@ -7,10 +7,9 @@
 <div class="card">
     {{ item.main_image.image_tmb|safe }}
     {% if user.is_staff %}
-        <a href="{% url 'download:download' file_path=image_path %}" class="btn btn-primary" download>
+        <a href="{% url 'download:download' %}?file_path={{ image.url }}" class="btn btn-primary" download>
             Скачать изображение
         </a>
-        {% endwith %}
     {% endif %}
     <div class="card-body">
         <div class="images-section">
@@ -21,11 +20,9 @@
                     <div class="card">
                         {{ image.image_tmb|safe }}
                         {% if user.is_staff %}
-                            {% with download_url=image.url|stringformat:"s"|cut:"/media/" %}
-                                <a href="/download/{{ download_url }}" class="btn btn-primary" download>
-                                    Скачать изображение
-                                </a>
-                            {% endwith %}
+                        <a href="{% url 'download:download' %}?file_path={{ image.url }}" class="btn btn-primary" download>
+                            Скачать изображение
+                        </a>
                         {% endif %}
                     </div>
                 </div>

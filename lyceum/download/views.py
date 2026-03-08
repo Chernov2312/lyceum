@@ -6,7 +6,8 @@ from django.http import FileResponse, Http404
 __all__ = ['download']
 
 
-def download(request, file_path):
+def download(request):
+    file_path = request.GET.get('file_path')
     base_dir = Path(settings.MEDIA_ROOT)
     full_path = base_dir / file_path
 

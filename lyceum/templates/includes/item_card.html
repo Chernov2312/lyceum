@@ -2,7 +2,7 @@
 <div class="card">
     {% if user.is_staff %}
     {{ item.main_image.image_tmb|safe }}
-        <a href="{{ item.main_image.url }}" download class="download-link">
+        <a href="{% url 'download:download' %}?file_path={{ item.main_image.url }}" class="btn btn-primary" download>
             Скачать изображение
         </a>
     {% else %}
