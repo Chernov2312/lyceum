@@ -7,7 +7,7 @@
 <div class="card">
     {{ item.main_image.image_tmb|safe }}
     {% if user.is_staff %}
-        <a href="{% url 'download:download' %}?file_path={{ image.url }}" class="btn btn-primary" download>
+        <a href="{% url 'download:download' %}?file_path={{ image.get_image_300x300 }}" class="btn btn-primary" download>
             Скачать изображение
         </a>
     {% endif %}
@@ -20,7 +20,7 @@
                     <div class="card">
                         {{ image.image_tmb|safe }}
                         {% if user.is_staff %}
-                        <a href="{% url 'download:download' %}?file_path={{ image.url }}" class="btn btn-primary" download>
+                        <a href="{% url 'download:download' %}?file_path={{ image.get_image_300x300 }}" class="btn btn-primary" download>
                             Скачать изображение
                         </a>
                         {% endif %}
