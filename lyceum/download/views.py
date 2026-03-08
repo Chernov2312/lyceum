@@ -19,5 +19,5 @@ def download(request, file_path):
     return FileResponse(
         open(full_path, 'rb'),
         as_attachment=True,
-        filename=full_path.name,  # вместо os.path.basename
+        filename=full_path.name,
     )
