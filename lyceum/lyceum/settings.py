@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'homepage.apps.HomepageConfig',
     'download.apps.DownloadConfig',
+    'feedback.apps.FeedbackConfig'
     'sorl.thumbnail',
     'django_cleanup.apps.CleanupConfig',
     'django_ckeditor_5',
