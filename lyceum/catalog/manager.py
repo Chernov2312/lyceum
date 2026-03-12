@@ -1,29 +1,30 @@
 from datetime import timedelta
 
+from django.apps import apps
 from django.db import models
 from django.db.models import Prefetch
 from django.utils import timezone
-
-from catalog.models import Image, Tag
-
 
 __all__ = ['ItemManager']
 
 
 class ItemManager(models.Manager):
     def _base_queryset(self, include_images=True):
+        tag = apps.get_model('catalog', 'Tag')
+        image = apps.get_model('catalog', 'Image')
+
         queryset = (
             self.get_queryset()
             .select_related('category', 'main_image')
             .only('name', 'text', 'main_image__main_image', 'category__name')
         )
 
-        prefetch_tags = Prefetch('tags', queryset=Tag.objects.only('name'))
+        prefetch_tags = Prefetch('tags', queryset=tag.objects.only('name'))
         prefetch_list = [prefetch_tags]
 
         if include_images:
             prefetch_list.append(
-                Prefetch('images', queryset=Image.objects.only('image')),
+                Prefetch('images', queryset=image.objects.only('image')),
             )
 
         return queryset.prefetch_related(*prefetch_list)
