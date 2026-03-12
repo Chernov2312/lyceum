@@ -1,13 +1,9 @@
 {% load static %}
 <div class="card">
-    {% if user.is_staff %}
     {{ item.main_image.image_tmb|safe }}
-        <a href="{% url 'download:download' %}?file_path={{ item.main_image.url }}" class="btn btn-primary" download>
-            Скачать изображение
-        </a>
-    {% else %}
-    {{ item.main_image.image_tmb|safe }}
-    {% endif %}
+    <a href="{% url 'download:download' %}?file_path={{ item.main_image.url }}" class="btn btn-primary" download>
+        Скачать изображение
+    </a>
     <div class="card-body">
         {% if request.resolver_match.view_name == 'catalog:item_detail' %}
         <span class="nav-link active">

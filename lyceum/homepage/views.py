@@ -22,3 +22,11 @@ def coffee(request):
         content_type='text/html; charset=utf-8',
         status=HTTPStatus.IM_A_TEAPOT,
     )
+
+
+def echo(request):
+    return HttpResponse(
+        'Я чайник',
+        content_type='text/html; charset=utf-8',
+        status=HTTPStatus.IM_A_TEAPOT,
+    )

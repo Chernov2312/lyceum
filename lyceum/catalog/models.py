@@ -1,179 +1,27 @@
-from datetime import timedelta
-
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-from django.db.models import Prefetch
-from django.utils import timezone
 from django.utils.safestring import mark_safe
 from django_ckeditor_5.fields import CKEditor5Field
 
+from catalog.manager import ItemManager
+from catalog.utils import get_image_upload_path, get_main_image_upload_path
 from catalog.validators import ValidateMustContain
-from core.models import BaseImageModel, NamedBaseModel, PublishedBaseModel
-from core.unic_field import Normalise
+from core.models import (
+    ImageBaseModel,
+    NamedBaseModel,
+    NormiliseBaseModel,
+    PublishedBaseModel,
+)
 
 __all__ = ['Tag', 'Category', 'Item', 'Image', 'MainImage']
 
 
-def get_image_upload_path(instance, filename):
-    if hasattr(instance, 'items') and instance.items.exists():
-        item = instance.items.first()
-        return f'uploads/item_{item.id}/{filename}'
-    return f'uploads/temp/{filename}'
-
-
-def get_main_image_upload_path(instance, filename):
-    if hasattr(instance, 'main_item') and instance.main_item.exists():
-        item = instance.main_item.first()
-        return f'main/item_{item.id}/{filename}'
-    return f'main/temp/{filename}'
-
-
-class ItemManager(models.Manager):
-    def published(self):
-        return (
-            self.get_queryset()
-            .select_related(
-                'category',
-                'main_image',
-            )
-            .prefetch_related(
-                Prefetch('tags', queryset=Tag.objects.only('name')),
-                Prefetch(
-                    'images',
-                    queryset=Image.objects.only('image'),
-                ),
-            )
-            .order_by('name')
-            .only('name', 'text', 'main_image__main_image', 'category__name')
-            .filter(
-                is_published=True,
-                category__is_published=True,
-            )
-        )
-
-    def on_main(self):
-        return (
-            self.get_queryset()
-            .select_related(
-                'category',
-                'main_image',
-            )
-            .prefetch_related(
-                Prefetch('tags', queryset=Tag.objects.only('name')),
-            )
-            .only('name', 'text', 'main_image__main_image', 'category__name')
-            .order_by('name')
-            .filter(is_on_main=True)
-        )
-
-    def new(self):
-        week_ago = timezone.now() - timezone.timedelta(days=7)
-        return (
-            self.get_queryset()
-            .select_related(
-                'category',
-                'main_image',
-            )
-            .prefetch_related(
-                Prefetch('tags', queryset=Tag.objects.only('name')),
-                Prefetch(
-                    'images',
-                    queryset=Image.objects.only('image'),
-                ),
-            )
-            .order_by('?')
-            .only('name', 'text', 'main_image__main_image', 'category__name')
-            .filter(
-                is_published=True,
-                category__is_published=True,
-                created_at__gte=week_ago,
-            )[:5]
-        )
-
-    def friday(self):
-        return (
-            self.get_queryset()
-            .select_related(
-                'category',
-                'main_image',
-            )
-            .prefetch_related(
-                Prefetch('tags', queryset=Tag.objects.only('name')),
-                Prefetch(
-                    'images',
-                    queryset=Image.objects.only('image'),
-                ),
-            )
-            .order_by('updated_at')
-            .only('name', 'text', 'main_image__main_image', 'category__name')
-            .filter(
-                is_published=True,
-                category__is_published=True,
-                updated_at__week_day=6,
-            )
-        )[:5]
-
-    def unverified(self):
-        delta = timedelta(minutes=1)
-        return (
-            self.get_queryset()
-            .select_related(
-                'category',
-                'main_image',
-            )
-            .prefetch_related(
-                Prefetch('tags', queryset=Tag.objects.only('name')),
-                Prefetch(
-                    'images',
-                    queryset=Image.objects.only('image'),
-                ),
-            )
-            .order_by('name')
-            .only('name', 'text', 'main_image__main_image', 'category__name')
-            .filter(
-                is_published=True,
-                category__is_published=True,
-                created_at__gte=models.F('updated_at') - delta,
-            )
-        )
-
-    def get_object_or_404(self, item_id):
-        return (
-            self.get_queryset()
-            .select_related(
-                'main_image',
-                'category',
-            )
-            .prefetch_related(
-                Prefetch('tags', queryset=Tag.objects.only('name')),
-                Prefetch(
-                    'images',
-                    queryset=Image.objects.only('image'),
-                ),
-            )
-            .only('name', 'text', 'main_image__main_image', 'category__name')
-            .filter(
-                is_published=True,
-                category__is_published=True,
-            )
-            .filter(id=item_id)
-            .first()
-        )
-
-
-class Tag(NamedBaseModel, PublishedBaseModel):
+class Tag(NamedBaseModel, PublishedBaseModel, NormiliseBaseModel):
     slug = models.SlugField(
         verbose_name='слаг',
         max_length=200,
         unique=True,
         help_text='Только латиница, цифры, дефис и подчеркивание',
-    )
-    normalised_name = models.CharField(
-        max_length=150,
-        unique=True,
-        editable=False,
-        db_index=True,
-        verbose_name='нормализованное название',
     )
 
     class Meta:
@@ -184,20 +32,8 @@ class Tag(NamedBaseModel, PublishedBaseModel):
     def __str__(self):
         return self.name
 
-    def clean(self):
-        self.normalised_name = Normalise.normalise(self.name)
 
-    def save(self, *args, **kwargs):
-        self.normalised_name = Normalise.normalise(self.name)
-        self.full_clean()
-        super().save(*args, **kwargs)
-
-    def _save_table(self, *args, **kwargs):
-        self.normalised_name = Normalise.normalise(self.name)
-        return super()._save_table(*args, **kwargs)
-
-
-class Category(PublishedBaseModel, NamedBaseModel):
+class Category(PublishedBaseModel, NamedBaseModel, NormiliseBaseModel):
     slug = models.SlugField(
         verbose_name='слаг',
         max_length=200,
@@ -210,13 +46,6 @@ class Category(PublishedBaseModel, NamedBaseModel):
         verbose_name='вес',
         help_text='Вес категории от 1 до 32767',
     )
-    normalised_name = models.CharField(
-        max_length=150,
-        unique=True,
-        editable=False,
-        db_index=True,
-        verbose_name='нормализованное название',
-    )
 
     class Meta:
         verbose_name = 'категория'
@@ -226,20 +55,8 @@ class Category(PublishedBaseModel, NamedBaseModel):
     def __str__(self):
         return self.name
 
-    def clean(self):
-        self.normalised_name = Normalise.normalise(self.name)
 
-    def save(self, *args, **kwargs):
-        self.normalised_name = Normalise.normalise(self.name)
-        self.full_clean()
-        super().save(*args, **kwargs)
-
-    def _save_table(self, *args, **kwargs):
-        self.normalised_name = Normalise.normalise(self.name)
-        return super()._save_table(*args, **kwargs)
-
-
-class Image(BaseImageModel):
+class Image(ImageBaseModel):
     image = models.ImageField(
         upload_to=get_image_upload_path,
         verbose_name='изображение',
@@ -253,7 +70,7 @@ class Image(BaseImageModel):
         return f'Изображение #{self.id}'
 
 
-class MainImage(BaseImageModel):
+class MainImage(ImageBaseModel):
     main_image = models.ImageField(
         upload_to=get_main_image_upload_path,
         verbose_name='главное изображение',
@@ -330,7 +147,12 @@ class Item(PublishedBaseModel, NamedBaseModel):
         verbose_name_plural = 'товары'
         ordering = ['name']
 
-    def get_all_images_tmb(self):
+    def get_all_images_tmb(
+        self,
+    ):  # код для вывода доп картинок в каталоге конфликтует с тестами лмс
+        # которые требуют простого вызова all а не функции
+        # он тут так же как get_image_tmb в методе core
+        # только он вызывается только для item
         images = self.images.all()
         if images:
             html = '<div style="display: flex; flex-wrap: wrap; gap: 5px;">'
@@ -343,8 +165,6 @@ class Item(PublishedBaseModel, NamedBaseModel):
             html += '</div>'
             return mark_safe(html)
         return 'Нет дополнительных изображений'
-
-    get_all_images_tmb.short_description = 'Галерея'
 
     def __str__(self):
         return self.name

@@ -6,11 +6,9 @@
 {% block content %}
 <div class="card">
     {{ item.main_image.image_tmb|safe }}
-    {% if user.is_staff %}
-        <a href="{% url 'download:download' %}?file_path={{ image.get_image_300x300 }}" class="btn btn-primary" download>
-            Скачать изображение
-        </a>
-    {% endif %}
+    <a href="{% url 'download:download' %}?file_path={{ image.get_image_300x300 }}" class="btn btn-primary" download>
+        Скачать изображение
+    </a>
     <div class="card-body">
         <div class="images-section">
             <h4>Изображения</h4>
@@ -19,11 +17,9 @@
                 <div class="col-md-4 mb-3">
                     <div class="card">
                         {{ image.image_tmb|safe }}
-                        {% if user.is_staff %}
                         <a href="{% url 'download:download' %}?file_path={{ image.get_image_300x300 }}" class="btn btn-primary" download>
                             Скачать изображение
                         </a>
-                        {% endif %}
                     </div>
                 </div>
             {% endfor %}

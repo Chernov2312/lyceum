@@ -2,10 +2,13 @@ from django.db import models
 from django.utils.safestring import mark_safe
 from sorl.thumbnail import get_thumbnail
 
+from core.unic_field import Normalise
+
 __all__ = [
     'PublishedBaseModel',
     'NamedBaseModel',
-    'BaseImageModel',
+    'ImageBaseModel',
+    'NormiliseBaseModel',
 ]
 
 
@@ -33,7 +36,7 @@ class NamedBaseModel(models.Model):
         abstract = True
 
 
-class BaseImageModel(models.Model):
+class ImageBaseModel(models.Model):
     class Meta:
         abstract = True
 
@@ -73,5 +76,27 @@ class BaseImageModel(models.Model):
             return get_thumbnail(self.main_image, geometry_string, **options)
         return None
 
-    image_tmb.short_description = 'Превью'
-    image_tmb.allow_tags = True
+
+class NormiliseBaseModel(models.Model):
+    normalised_name = models.CharField(
+        max_length=150,
+        unique=True,
+        editable=False,
+        db_index=True,
+        verbose_name='нормализованное название',
+    )
+
+    def clean(self):
+        self.normalised_name = Normalise.normalise(self.name)
+
+    def save(self, *args, **kwargs):
+        self.normalised_name = Normalise.normalise(self.name)
+        self.full_clean()
+        super().save(*args, **kwargs)
+
+    def _save_table(self, *args, **kwargs):
+        self.normalised_name = Normalise.normalise(self.name)
+        return super()._save_table(*args, **kwargs)
+
+    class Meta:
+        abstract = True

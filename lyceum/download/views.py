@@ -8,7 +8,6 @@ __all__ = ['download']
 
 def download(request):
     file_path = request.GET.get('file_path')[7:]
-    print(file_path)
     base_dir = Path(settings.MEDIA_ROOT)
     full_path = base_dir / file_path
 

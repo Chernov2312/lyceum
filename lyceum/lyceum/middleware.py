@@ -30,6 +30,13 @@ class ReverseRussianMiddleware:
     def __call__(self, request):
         response = self.get_response(request)
 
+        if hasattr(response, 'streaming_content') or getattr(
+            response,
+            'streaming',
+            False,
+        ):
+            return response
+
         if settings.ALLOW_REVERSE:
             ReverseRussianMiddleware.counter += 1
             if (
