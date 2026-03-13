@@ -8,5 +8,14 @@
         <label for="{{ field.id_for_label }}" class="form-label">
             {{ field.label }}
         </label>
-    {% endfor %}
+        {{ field }}
+        {% if field.errors %}
+            <div class="alert alert-danger">
+                {{ field.errors }}
+            </div>
+        {% endif %}
+    </div>
+  {% endfor %}
+  <button type="submit" class="btn btn-primary">Отправить</button>
+</form>
 {% endblock content %}

@@ -4,8 +4,9 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 import catalog.models
+from homepage.forms import EchoForm
 
-__all__ = ['home', 'coffee']
+__all__ = ['home', 'coffee', 'echo', 'echo_submit']
 
 
 def home(request):
@@ -25,8 +26,15 @@ def coffee(request):
 
 
 def echo(request):
-    return HttpResponse(
-        'Я чайник',
-        content_type='text/html; charset=utf-8',
-        status=HTTPStatus.IM_A_TEAPOT,
-    )
+    temlate = 'homepage/echo.html'
+    context = {'form': EchoForm()}
+    return render(request=request, template_name=temlate, context=context)
+
+
+def echo_submit(request):
+    if request.method == 'POST':
+        return HttpResponse(
+            request.POST.get('text', ''),
+            content_type='text/plain; charset=utf-8',
+            status=HTTPStatus.OK,
+        )

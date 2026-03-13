@@ -1,10 +1,11 @@
 import django.forms
+
 from feedback.models import Feedback
 
 __all__ = ['FeedbackForm']
 
 
-class FeedbackForm(django.forms.Form):
+class FeedbackForm(django.forms.ModelForm):
     class Meta:
         model = Feedback
         fields = ['name', 'mail', 'text']
