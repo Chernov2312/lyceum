@@ -2,6 +2,8 @@ from http import HTTPStatus
 
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 
 import catalog.models
 from homepage.forms import EchoForm
@@ -31,10 +33,11 @@ def echo(request):
     return render(request=request, template_name=temlate, context=context)
 
 
+@require_POST
+@csrf_exempt
 def echo_submit(request):
-    if request.method == 'POST':
-        return HttpResponse(
-            request.POST.get('text', ''),
-            content_type='text/plain; charset=utf-8',
-            status=HTTPStatus.OK,
-        )
+    return HttpResponse(
+        request.POST.get('text', ''),
+        content_type='text/plain; charset=utf-8',
+        status=HTTPStatus.OK,
+    )

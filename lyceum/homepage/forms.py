@@ -11,6 +11,6 @@ class EchoForm(forms.Form):
                 'class': 'form-control',
                 'rows': 5,
                 'placeholder': 'Напишите что-нибудь',
-            }
+            },
         ),
     )
