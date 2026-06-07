@@ -41,6 +41,7 @@ class Normalise:
         }
         for old, new in replacements.items():
             value = value.replace(old, new)
+
         value = re.sub(r'[^\w\s]', '', value.lower())
         value = re.sub(r'\s+', '', value)
         value = re.sub(r'(.)\1+', r'\1', value)

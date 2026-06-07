@@ -164,6 +164,7 @@ class Item(PublishedBaseModel, NamedBaseModel):
                 )
             html += '</div>'
             return mark_safe(html)
+
         return 'Нет дополнительных изображений'
 
     def __str__(self):

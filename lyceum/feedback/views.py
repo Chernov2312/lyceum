@@ -22,4 +22,5 @@ def feedback(request):
                 fail_silently=False,
             )
             return HttpResponseRedirect(reverse('feedback:feedback'))
+
     return render(request=request, template_name=temlate, context=context)

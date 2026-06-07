@@ -83,12 +83,14 @@ class ItemAdmin(admin.ModelAdmin):
     def main_image_tmb(self, obj):
         if obj.main_image:
             return obj.main_image.image_tmb()
+
         return 'Нет изображения'
 
     @admin.display(description='Список изображений')
     def image_tmb(self, obj):
         if obj.image:
             return obj.image.image_tmb()
+
         return 'Нет изображения'
 
     @admin.display(description='Категория')
