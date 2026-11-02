@@ -1,7 +1,8 @@
 # Hello tutors!
 ## Lyceum Project
 ### Pipeline
-
+[![linter_test](https://github.com/Chernov2312/lyceum/actions/workflows/ci_python_test.yml/badge.svg)](https://github.com/Chernov2312/lyceum/actions/workflows/ci_python_test.yml)
+[![linter_test](https://github.com/Chernov2312/lyceum/actions/workflows/ci_linter_test.yml/badge.svg)](https://github.com/Chernov2312/lyceum/actions/workflows/ci_linter_test.yml)
 
 
 ### Это учебный проект для специализации по django 
