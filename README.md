@@ -1,11 +1,7 @@
 # Hello tutors!
 ## Lyceum Project
 ### Pipeline
-[![flake8](https://gitlab.crja72.ru/django/2026/spring/course/students/173126-m.chernov.tchernov-course-1585/badges/main/pipeline.svg?job=flake8&key_text=flake8)](https://gitlab.crja72.ru/django/2026/spring/course/students/173126-m.chernov.tchernov-course-1585/-/pipelines?scope=jobs&ref=main)
 
-[![black](https://gitlab.crja72.ru/django/2026/spring/course/students/173126-m.chernov.tchernov-course-1585/badges/main/pipeline.svg?job=black&key_text=black)](https://gitlab.crja72.ru/django/2026/spring/course/students/173126-m.chernov.tchernov-course-1585/-/pipelines?scope=jobs&ref=main)
-
-[![tests](https://gitlab.crja72.ru/django/2026/spring/course/students/173126-m.chernov.tchernov-course-1585/badges/main/pipeline.svg?job=django_test&key_text=tests)](https://gitlab.crja72.ru/django/2026/spring/course/students/173126-m.chernov.tchernov-course-1585/-/pipelines?scope=jobs&ref=main)
 
 
 ### Это учебный проект для специализации по django 
@@ -17,12 +13,12 @@ https://www.python.org/downloads/
 https://github.com/apps/desktop
 ### Скопировать git репозиторий
 ```bash
-git clone https://gitlab.crja72.ru/django/2026/spring/course/students/173126-m.chernov.tchernov-course-1585
+git clone git clone https://github.com/Chernov2312/lyceum
 ```
 
 ### Переход в скопированную директорию
 ```bash
-cd 173126-m.chernov.tchernov-course-1585
+cd lyceum
 ```
 ### Создание виртуального окружения
 + Linux/macOS
@@ -48,10 +44,8 @@ source venv/bin/activate
 venv\Scripts\activate
 ```
 
-### Скачивание библиотек
+### Скачивание библиотек для тестов + для разработки
 ```bash
-pip install -r requirements/dev.txt
-pip install -r requirements/prod.txt
 pip install -r requirements/test.txt
 ```
 ### Работа с .env
